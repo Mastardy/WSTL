@@ -4,3 +4,11 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
+
+*.tlog
+*.recipe
+*.idb
+*.pdb
+*.ilk
+*.obj
+*.exe
