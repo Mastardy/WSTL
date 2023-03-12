@@ -61,14 +61,13 @@ namespace WSTL
             return *this;
         }
 
-        T operator*() const
+        std::add_lvalue_reference_t<T> operator*() const
         {
             return *pValue;
         }
         
         /**
-         * \brief 
-         * \return Allows access to owned pointer through ->
+         * \brief Allows access to owned pointer through ->
          */
         T* operator->() const noexcept
         {

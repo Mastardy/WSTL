@@ -23,8 +23,9 @@ int main()
         std::cout << "ptr2: ";
         std::cout << (ptr2 ? "Not Null" : "Null") << '\n';
 
-        ptr2 = 3;
+        *ptr = 2;
         
+        std::cout << *ptr << '\n';
         std::cout << *ptr2;
     }
     
