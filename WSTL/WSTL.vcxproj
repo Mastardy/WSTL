@@ -156,6 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="memory\SharedPointer.hpp" />
     <ClInclude Include="memory\UniquePointer.hpp" />
     <ClInclude Include="WSTL.hpp" />
   </ItemGroup>

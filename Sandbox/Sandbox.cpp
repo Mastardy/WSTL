@@ -1,32 +1,27 @@
 #include <iostream>
-#include <WSTL.h>
+#include <WSTL.hpp>
 
 using namespace WSTL;
+
+struct Shape
+{
+    int width;
+    int height;
+};
 
 int main()
 {
     {
-        UniquePointer<int> ptr;
-        UniquePointer<int> ptr2;
+        const UniquePointer<Shape[]> ptr(new Shape[5]);
 
-        ptr = UniquePointer<int>(new int {101});
-        
-        std::cout << "ptr: ";
-        std::cout << (ptr ? "Not Null" : "Null") << '\n';
-        std::cout << "ptr2: ";
-        std::cout << (ptr2 ? "Not Null" : "Null") << '\n';
+        for(int i = 0; i < 5; i++)
+        {
+            std::cout << i << ": ";
+            ptr[i].width = i;
+            ptr[i].height = i * 3;
 
-        ptr2 = std::move(ptr);
-        
-        std::cout << "ptr: ";
-        std::cout << (ptr ? "Not Null" : "Null") << '\n';
-        std::cout << "ptr2: ";
-        std::cout << (ptr2 ? "Not Null" : "Null") << '\n';
-
-        *ptr = 2;
-        
-        std::cout << *ptr << '\n';
-        std::cout << *ptr2;
+            std::cout << ptr[i].width * ptr[i].height << "\n";
+        }
     }
     
     return 0;
