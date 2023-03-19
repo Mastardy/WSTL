@@ -136,48 +136,75 @@ namespace WSTL
     class UniquePointer<T[]>
     {
     public:
+        /**
+         * \brief Default Constructor
+         */
         constexpr UniquePointer()
         {
             pValue = nullptr;
         }
 
+        /**
+         * \brief Default Constructor for nullptr
+         */
         constexpr UniquePointer(decltype(nullptr))
         {
             pValue = nullptr;
         }
 
+        /**
+         * \brief Default Constructor for an initialized pointer
+         */
         explicit UniquePointer(T* pValue) noexcept
         {
             this->pValue = pValue;
         }
 
+        /**
+         * \brief Move Constructor
+         */
         UniquePointer(UniquePointer<T[]>&& other) noexcept
         {
             pValue = other.Release();
         }
 
+        /**
+         * \brief Destructor
+         */
         ~UniquePointer()
         {
             Reset();
         }
 
+        /**
+         * \brief Move Assignment
+         */
         UniquePointer<T[]>& operator=(UniquePointer<T[]>&& other) noexcept
         {
             Reset(other.Release());
             return *this;
         }
 
+        /**
+         * \brief Move Assignment for nullptr (Resets the UniquePointer)
+         */
         UniquePointer<T[]>& operator=(decltype(nullptr)) noexcept
         {
             Reset();
             return *this;
         }
 
+        /**
+         * \brief Array style operator for directly using contents of the pointer
+         */
         std::add_lvalue_reference_t<T> operator[](ptrdiff_t i) const
         {
             return pValue[i];
         }
 
+        /**
+         * \brief Resets the Unique pointer by deleting the existing pointer and replacing it by the provided one
+         */
         void Reset(T* pArray = new T[0]) noexcept
         {
             if(pArray == pValue) return;
@@ -185,13 +212,19 @@ namespace WSTL
             pValue = pArray;
         }
 
+        /**
+         * \brief Deletes the existing pointer
+         */
         T* Release()
         {
             T* const pTemp = pValue;
-            pValue = new T[];
+            pValue = new T[0];
             return pTemp;
         }
 
+        /**
+         * \brief Swaps pointer between this UniquePointer and the provided one
+         */
         void Swap(UniquePointer<T[]> other) noexcept
         {
             T* const pTemp = pValue;
@@ -199,6 +232,9 @@ namespace WSTL
             other.pValue = pTemp;
         }
 
+        /**
+         * \brief Gets the raw pointer
+         */
         T* Get() const noexcept
         {
            return pValue; 
