@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
-#include "../WSTL/memory/UniquePointer.hpp"
+#include <type_traits>
+#include "../WSTL/WSTL.hpp"
 
 using namespace WSTL;
 
@@ -79,5 +80,80 @@ TEST(UniquePointerTest, ArrayType) {
 
     for (int i = 0; i < 5; ++i) {
         EXPECT_EQ(ptr[i], i + 1);
+    }
+}
+
+struct B
+{
+    virtual ~B() = default;
+    virtual void Bar() { std::cout << "B::Bar" << std::endl; }
+};
+
+struct D : B
+{
+    D() { std::cout << "D::D" << std::endl; }
+    ~D() override { std::cout << "D::~D" << std::endl; }
+    
+    void Bar() override { std::cout << "D::Bar" << std::endl; }
+};
+
+UniquePointer<D> PassThrough(UniquePointer<D> p)
+{
+    p->Bar();
+    return p;
+}
+
+TEST(UniquePointerTest, UniqueOwnershipSemantics)
+{
+    UniquePointer<D> p = MakeUnique<D>();
+    UniquePointer<D> q = PassThrough(std::move(p));
+
+    EXPECT_EQ(p.Get(), nullptr);
+}
+
+TEST(UniquePointerTest, RuntimePolymorphism)
+{
+    const UniquePointer<B> p = MakeUnique<D>();
+    p->Bar();
+}
+
+TEST(UniquePointerTest, ArrayFromUniquePointer)
+{
+    const UniquePointer<D[]> p = MakeUnique<D[]>(3);
+}
+
+// TODO: REPLACE WITH SELF MADE LINKEDLIST
+
+struct List
+{
+    struct Node
+    {
+        int data;
+        UniquePointer<Node> next;
+    };
+
+    UniquePointer<Node> head;
+
+    ~List()
+    {
+        while(head)
+        {
+            auto next = std::move(head->next);
+            head = std::move(next);
+        }
+    }
+
+    void Push(int data)
+    {
+        head = UniquePointer<Node>(new Node {data, std::move(head)});
+    }
+};
+
+TEST(UniquePointerTest, LinkedList)
+{
+    List list;
+    for(int i = 0; i != 1'000'00; i++)
+    {
+        list.Push(i);
     }
 }

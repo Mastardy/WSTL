@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include <iostream>
+#include <type_traits>
 
 namespace WSTL
 {
@@ -60,6 +60,9 @@ namespace WSTL
             return *this;
         }
 
+        /**
+         * \brief Allows access to owned pointer through *
+         */
         std::add_lvalue_reference_t<T> operator*() const
         {
             return *pValue;
