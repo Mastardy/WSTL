@@ -12,3 +12,6 @@ riderModule.iml
 *.ilk
 *.obj
 *.exe
+*.CopyComplete
+
+UnitTestProject/x64/Debug/UnitTestProject.vcxproj.FileListAbsolute.txt

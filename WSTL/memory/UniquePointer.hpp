@@ -18,7 +18,7 @@ namespace WSTL
         /**
          * \brief Default Constructor
          */
-        constexpr UniquePointer(decltype(nullptr))
+        constexpr UniquePointer(decltype(nullptr)) 
         {
             pValue = nullptr;
         }
@@ -26,11 +26,11 @@ namespace WSTL
         /**
          * \brief Explicit constructor for creating an Unique Pointer
          */
-        explicit UniquePointer(T* pValue) noexcept
-        {
-            this->pValue = pValue;
-        }
+        explicit UniquePointer(T* pValue) noexcept : pValue(pValue) { }
 
+        template<typename U>
+        UniquePointer(UniquePointer<U>&& other) noexcept : pValue(other.Release()) { }
+        
         /**
          * \brief Move Constructor
          */
@@ -54,7 +54,7 @@ namespace WSTL
         UniquePointer& operator=(UniquePointer<T>&& other) noexcept
         {
             if(this == &other) return *this;
-
+            
             Reset(other.Release());
             
             return *this;
@@ -92,7 +92,7 @@ namespace WSTL
         /**
          * \brief Deletes the owned pointer and takes ownership of the passed pointer
          */
-        void Reset(T* pNewValue = new T()) noexcept
+        void Reset(T* pNewValue = nullptr) noexcept
         {
             if(pValue == pNewValue) return;
 
@@ -106,7 +106,7 @@ namespace WSTL
         T* Release() noexcept
         {
             T* const pTemp = pValue;
-            pValue = new T();
+            pValue = nullptr;
             return pTemp;
         }
 
@@ -128,7 +128,7 @@ namespace WSTL
     private:
         T* pValue;
     };
-
+    
     /**
      * \brief Specialization for unbounded arrays
      */
@@ -248,4 +248,23 @@ namespace WSTL
     private:
         T* pValue;
     };
+
+    /**
+     * \brief Makes an Unique Pointer
+     */
+    template<typename T, typename... Args>
+    inline std::enable_if_t<!std::is_array_v<T>, UniquePointer<T>> MakeUnique(Args&&... args)
+    {
+        return UniquePointer<T>(new T(std::forward<Args>(args)...));
+    }
+
+    /**
+     * \brief Makes an Unique Pointer for Unbounded Arrays
+     */
+    template<typename T, typename... Args>
+    inline std::enable_if_t<std::is_unbounded_array_v<T>, UniquePointer<T>> MakeUnique(size_t n)
+    {
+        typedef std::remove_extent_t<T> U; // Get the type without the array extent
+        return UniquePointer<T>(new U[n]);
+    }
 }
