@@ -8,7 +8,7 @@ namespace WSTL
     {
     public:
         /**
-         * \brief Default constructor
+         * \brief Default Constructor
          */
         constexpr UniquePointer()
         {
@@ -46,7 +46,6 @@ namespace WSTL
         {
             delete pValue;
         }
-
         
         /**
          * \brief Move assignment
