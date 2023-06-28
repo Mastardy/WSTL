@@ -156,7 +156,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="containers\Array.hpp" />
+    <ClInclude Include="containers\Containers.hpp" />
     <ClInclude Include="containers\Pair.hpp" />
+    <ClInclude Include="memory\Memory.hpp" />
     <ClInclude Include="memory\SharedPointer.hpp" />
     <ClInclude Include="memory\UniquePointer.hpp" />
     <ClInclude Include="WSTL.hpp" />
