@@ -48,12 +48,12 @@ namespace WSTL
 
         T& Back()
         {
-            return elements[Size - 1];
+            return elements[ArraySize - 1];
         }
 
         const T& Back() const
         {
-            return elements[Size - 1];
+            return elements[ArraySize - 1];
         }
 
         T* Data()
@@ -78,12 +78,12 @@ namespace WSTL
 
         T* rbegin()
         {
-            return &elements[ArraySize];
+            return &elements[ArraySize - 1];
         }
 
         const T* rbegin() const
         {
-            return &elements[ArraySize];
+            return &elements[ArraySize - 1];
         }
 
         T* rend()
@@ -98,27 +98,27 @@ namespace WSTL
 
         T* end()
         {
-            return &elements[ArraySize];
+            return &elements[ArraySize - 1];
         }
 
         const T* end() const
         {
-            return &elements[ArraySize];
+            return &elements[ArraySize - 1];
         }
 
-        constexpr size_t Size() const
+        static constexpr size_t Size()
         {
             return ArraySize;
         }
 
-        constexpr bool Empty() const
+        static constexpr bool Empty()
         {
-            return Size == 0;
+            return ArraySize == 0;
         }
 
         void Fill(const T& value)
         {
-            for(size_t i = 0; i < Size; i++)
+            for(size_t i = 0; i < ArraySize; i++)
             {
                 elements[i] = value;
             }
@@ -133,7 +133,7 @@ namespace WSTL
 
         bool operator==(const Array& other) const
         {
-            for(size_t i = 0; i < Size; i++)
+            for(size_t i = 0; i < ArraySize; i++)
             {
                 if(elements[i] != other.elements[i]) return false;
             }
