@@ -12,47 +12,27 @@ namespace WSTL
         /**
          * \brief Default Constructor
          */
-        Pair()
-        {
-            first = T1();
-            second = T2();
-        }
+        Pair() : first(T1()), second(T2()) { }
 
         /**
          * \brief Default Constructor
          */
-        Pair(T1 first)
-        {
-            this->first = first;
-            second = T2();
-        }
+        Pair(T1 first) : first(first), second(T2()) { }
 
         /**
          * \brief Default Constructor
          */
-        Pair(T2 second)
-        {
-            first = T1();
-            this->second = second;
-        }
+        Pair(T2 second) : first(T1()), second(second) { }
     
         /**
          * \brief Default Constructor
          */
-        Pair(T1 first, T2 second)
-        {
-            this->first = first;
-            this->second = second;
-        }
+        Pair(T1 first, T2 second) : first(first), second(second) { }
 
         /**
          * \brief Copy Constructor
          */
-        Pair(Pair<T1, T2>& other)
-        {
-            first = other.first;
-            second = other.second;
-        }
+        Pair(Pair<T1, T2>& other) : first(other.first), second(other.second) { }
 
         /**
          * \brief Copy Assignment
@@ -63,6 +43,7 @@ namespace WSTL
         
             first = other.first;
             second = other.second;
+            
             return *this;
         }
 
@@ -77,5 +58,9 @@ namespace WSTL
         }
     
         auto operator<=>(const Pair& p2) const = default;
+
+        Pair(Pair<T1, T2>&& other) = delete;
+        Pair& operator=(const Pair<T1, T2>&& other) = delete;
+        ~Pair() = default;
     };
 }

@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <stdexcept>
 
 namespace WSTL
 {
@@ -111,7 +112,7 @@ namespace WSTL
             return ArraySize;
         }
 
-        static constexpr bool Empty()
+        static constexpr bool IsEmpty()
         {
             return ArraySize == 0;
         }
