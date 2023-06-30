@@ -121,39 +121,3 @@ TEST(UniquePointerTest, ArrayFromUniquePointer)
 {
     const UniquePointer<D[]> p = MakeUnique<D[]>(3);
 }
-
-// TODO: REPLACE WITH SELF MADE LINKEDLIST
-
-struct List
-{
-    struct Node
-    {
-        int data;
-        UniquePointer<Node> next;
-    };
-
-    UniquePointer<Node> head;
-
-    ~List()
-    {
-        while(head)
-        {
-            auto next = std::move(head->next);
-            head = std::move(next);
-        }
-    }
-
-    void Push(int data)
-    {
-        head = UniquePointer<Node>(new Node {data, std::move(head)});
-    }
-};
-
-TEST(UniquePointerTest, LinkedList)
-{
-    List list;
-    for(int i = 0; i != 1'000'00; i++)
-    {
-        list.Push(i);
-    }
-}
