@@ -64,6 +64,85 @@ namespace WSTL
             this->pNext = pFirst;
         }
     };
+
+    template <typename T>
+    struct ListIterator
+    {
+    public:
+        ListNode<T>* pNode;
+
+        ListIterator() noexcept : pNode(nullptr) {}
+        ListIterator(const ListNode<T>* pNode) noexcept : pNode(const_cast<ListNode<T>*>(pNode)) {} 
+        ListIterator(const ListIterator& other) noexcept : pNode(const_cast<ListNode<T>*>(other.pNode)) {}
+
+        ListIterator<T>& operator=(const ListIterator<T>& other) noexcept
+        {
+            if(this == &other) return *this;
+            
+            pNode = other.pNode;
+            return *this;
+        }
+
+        ListIterator(const ListIterator<T>&& other) = delete;
+        ListIterator<T>& operator=(const ListIterator<T>&& other) = delete;
+        ~ListIterator() = default;
+        
+        ListIterator<T> next() const noexcept
+        {
+            return ListIterator<T>(pNode->pNext);
+        }
+
+        ListIterator<T> prev() const noexcept
+        {
+            return ListIterator<T>(pNode->pPrev);
+        }
+
+        T& operator*() const noexcept
+        {
+            return pNode->value;
+        }
+
+        T* operator->() const noexcept
+        {
+            return &pNode->value;
+        }
+
+        ListIterator<T>& operator++() noexcept
+        {
+            pNode = pNode->pNext;
+            return *this;
+        }
+
+        ListIterator<T> operator++(int) noexcept
+        {
+            ListIterator<T> temp = *this;
+            pNode = pNode->pNext;
+            return temp;
+        }
+        
+        ListIterator<T>& operator--() noexcept
+        {
+            pNode = pNode->pPrev;
+            return *this;
+        }
+
+        ListIterator<T> operator--(int) noexcept
+        {
+            ListIterator<T> temp = *this;
+            pNode = pNode->pPrev;
+            return temp;
+        }
+
+        bool operator==(const ListIterator<T>& other) const noexcept
+        {
+            return pNode == other.pNode;
+        }
+
+        bool operator!=(const ListIterator<T>& other) const noexcept
+        {
+            return pNode != other.pNode;
+        }
+    };
     
     template<typename T>
     class List
@@ -331,6 +410,16 @@ namespace WSTL
             return size;
         }
 
+        ListIterator<T> begin()
+        {
+            return ListIterator<T>(pHead);
+        }
+
+        ListIterator<T> end()
+        {
+            return ListIterator<T>(nullptr);
+        }
+        
         void Debug() const
         {
             std::cout << "List: ";
