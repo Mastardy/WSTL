@@ -1,17 +1,14 @@
-#include <iostream>
 #include <WSTL.hpp>
 
 using namespace WSTL;
 
 int main()
 {
-    Array<char, 3> array = {'a', 'b', 'c'};
-        
-    std::cout << array[2];
+    List<int> a(10, 5);
 
-    for(const auto element : array)
+    for(size_t i = 0; i < a.Size(); i++)
     {
-        std::cout << element;
+        std::cout << a[i] << std::endl;
     }
     
     return 0;

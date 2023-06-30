@@ -15,3 +15,5 @@ riderModule.iml
 *.CopyComplete
 
 UnitTestProject/x64/Debug/UnitTestProject.vcxproj.FileListAbsolute.txt
+
+UnitTestProject/x64/Debug/UnitTestProject.Build.CppClean.log
