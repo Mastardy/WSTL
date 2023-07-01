@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <iostream>
 #include <stdexcept>
 
@@ -33,8 +33,19 @@ namespace WSTL
          */
         void Remove()
         {
-            if(pNext != nullptr) pNext->pPrev = pPrev;
-            if(pPrev != nullptr) pPrev->pNext = pNext;
+            if(pNext != nullptr && pPrev != nullptr)
+            {
+                pNext->pPrev = pPrev;
+                pPrev->pNext = pNext;
+            }
+            else if(pNext != nullptr)
+            {
+                pNext->pPrev = nullptr;
+            }
+            else if(pPrev != nullptr)
+            {
+                pPrev->pNext = nullptr;
+            }
             delete this;
         }
 
@@ -309,6 +320,17 @@ namespace WSTL
          */
         void PopBack()
         {
+            if(IsEmpty()) return;
+
+            if(size == 1)
+            {
+                delete pHead;
+                pHead = nullptr;
+                pTail = nullptr;
+                size--;
+                return;
+            }
+            
             pTail = pTail->pPrev;
             delete pTail->pNext;
             pTail->pNext = nullptr;
@@ -320,6 +342,17 @@ namespace WSTL
          */
         void PopFront()
         {
+            if(IsEmpty()) return;
+
+            if(size == 1)
+            {
+                delete pTail;
+                pHead = nullptr;
+                pTail = nullptr;
+                size--;
+                return;
+            }
+            
             pHead = pHead->pNext;
             delete pHead->pPrev;
             pHead->pPrev = nullptr;
