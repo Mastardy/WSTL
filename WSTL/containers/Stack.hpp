@@ -20,9 +20,7 @@ namespace WSTL
         T Pop()
         {
             T value = container.Back();
-            std::cout << value << std::endl;
             container.PopBack();
-            std::cout << value << std::endl;
             return value;
         }
 
