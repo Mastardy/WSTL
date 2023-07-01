@@ -204,56 +204,6 @@ namespace WSTL
         }
 
         /**
-         * \brief Square Bracket Operator
-         */
-        T& operator[](size_t index)
-        {
-            if(index >= size) throw std::out_of_range("Index out of range");
-
-            auto pCurrent = pHead;
-            
-            for(size_t i = 0; i < index; i++)
-            {
-                pCurrent = pCurrent->pNext;
-            }
-
-            return pCurrent->value;
-        }
-
-        /**
-         * \brief Constant Square Bracket Operator
-         */
-        const T& operator[](size_t index) const
-        {
-            if(index >= size) throw std::out_of_range("Index out of range");
-
-            auto pCurrent = pHead;
-            
-            for(size_t i = 0; i < index; i++)
-            {
-                pCurrent = pCurrent->pNext;
-            }
-
-            return pCurrent->value;
-        }
-
-        /**
-         * \brief Get the value at the specified index
-         */
-        T& At(size_t index)
-        {
-            return this->operator[](index);
-        }
-
-        /**
-         * \brief Get the value at the specified index
-         */
-        const T& At(size_t index) const
-        {
-            return this->operator[](index);
-        }
-
-        /**
          * \brief Default Destructor
          */
         ~List()
