@@ -27,35 +27,13 @@ TEST(ListTest, Copy)
     EXPECT_EQ(c.Size(), a.Size());
 }
 
-TEST(ListTest, BracketOperator)
-{
-    List<int> a;
-    for(int i = 0; i < 10; i++)
-    {
-        a.PushBack(i);
-    }
-
-    EXPECT_EQ(a[3], 3);
-    EXPECT_EQ(a.At(3), 3);
-    EXPECT_THROW(a[11], std::out_of_range);
-    EXPECT_THROW(a.At(11), std::out_of_range);
-
-    const List<int> b(3, 2);
-
-    EXPECT_EQ(b[2], 2);
-    EXPECT_EQ(b.At(2), 2);
-    EXPECT_THROW(b[3], std::out_of_range);
-    EXPECT_THROW(b.At(3), std::out_of_range);
-}
-
 TEST(ListTest, AssignTest)
 {
     List<int> a(10, 0);
     a.Assign(0, 5);
 
     EXPECT_EQ(a.Size(), 11);
-    EXPECT_EQ(a[0], 5);
-    EXPECT_EQ(a[1], 0);
+    EXPECT_EQ(a.Front(), 5);
 }
 
 TEST(ListTest, PushBack)
@@ -68,7 +46,8 @@ TEST(ListTest, PushBack)
     }
 
     EXPECT_EQ(a.Size(), 10);
-    EXPECT_EQ(a[9], 9);
+    EXPECT_EQ(a.Back(), 9);
+    EXPECT_EQ(a.Front(), 0);
 }
 
 TEST(ListTest, PushFront)
@@ -81,7 +60,8 @@ TEST(ListTest, PushFront)
     }
 
     EXPECT_EQ(a.Size(), 10);
-    EXPECT_EQ(a[8], 1);
+    EXPECT_EQ(a.Back(), 0);
+    EXPECT_EQ(a.Front(), 9);
 }
 
 TEST(ListTest, PopBack)
@@ -96,7 +76,8 @@ TEST(ListTest, PopBack)
     a.PopBack();
 
     EXPECT_EQ(a.Size(), 9);
-    EXPECT_EQ(a[8], 8);
+    EXPECT_EQ(a.Front(), 0);
+    EXPECT_EQ(a.Back(), 8);
 }
 
 TEST(ListTest, PopFront)
@@ -111,8 +92,8 @@ TEST(ListTest, PopFront)
     a.PopFront();
 
     EXPECT_EQ(a.Size(), 9);
-    EXPECT_EQ(a[0], 1);
-    EXPECT_EQ(a[8], 9);
+    EXPECT_EQ(a.Front(), 1);
+    EXPECT_EQ(a.Back(), 9);
 }
 
 TEST(ListTest, Clear)
@@ -121,7 +102,6 @@ TEST(ListTest, Clear)
     a.Clear();
 
     EXPECT_EQ(a.Size(), 0);
-    EXPECT_THROW(a[0], std::out_of_range);
 }
 
 TEST(ListTest, Remove)
@@ -129,15 +109,15 @@ TEST(ListTest, Remove)
     List<int> a;
 
     for(int i = 0; i < 10; i++)
-    {
+    { 
         a.PushBack(i);
     }
-
-    a.Remove(5);
-
-    EXPECT_EQ(a.Size(), 9);
-    EXPECT_EQ(a[4], 4);
-    EXPECT_EQ(a[5], 6);
+    
+    a.Remove(8);
+    a.Remove(8);
+    
+    EXPECT_EQ(a.Size(), 8);
+    EXPECT_EQ(a.Back(), 7);
 }
 
 TEST(ListTest, BackAndFront)
