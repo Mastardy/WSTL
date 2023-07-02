@@ -160,6 +160,7 @@
     <ClInclude Include="containers\Containers.hpp" />
     <ClInclude Include="containers\List.hpp" />
     <ClInclude Include="containers\Pair.hpp" />
+    <ClInclude Include="containers\Queue.hpp" />
     <ClInclude Include="containers\Stack.hpp" />
     <ClInclude Include="memory\Memory.hpp" />
     <ClInclude Include="memory\SharedPointer.hpp" />

@@ -4,3 +4,4 @@
 #include "Pair.hpp"
 #include "List.hpp"
 #include "Stack.hpp"
+#include "Queue.hpp"
