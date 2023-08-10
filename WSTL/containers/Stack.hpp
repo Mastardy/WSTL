@@ -18,10 +18,7 @@ namespace WSTL
         /**
          * \brief Copy Constructor
          */
-        void Push(const T& value)
-        {
-            container.PushBack(value);
-        }
+        Stack(const Stack<T>& other) : container(other.container) { }
 
         /**
          * \brief Copy Assignment
@@ -33,6 +30,14 @@ namespace WSTL
             container = other.container;
 
             return *this;
+        }
+        
+        /**
+        * \brief Adds a value to the top of the queue
+        */
+        void Push(const T& value)
+        {
+            container.PushBack(value);
         }
 
         /**
