@@ -56,7 +56,10 @@ namespace WSTL
             other = *this;
             *this = temp;
         }
-    
+     
+        /**
+         * \brief Spaceship Operator
+         */
         auto operator<=>(const Pair& p2) const = default;
 
         Pair(Pair<T1, T2>&& other) = delete;

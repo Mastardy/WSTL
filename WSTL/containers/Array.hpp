@@ -25,98 +25,155 @@ namespace WSTL
             return elements[index];
         }
 
+        /**
+         * \brief Returns element at specified index
+         */
         T& At(size_t index)
         {
             if(index < 0 || index >= ArraySize) throw std::out_of_range("Index out of range");
             return elements[index];
         }
 
+        /**
+         * \brief Returns const element at specified index
+         */
         const T& At(size_t index) const
         {
             if(index < 0 || index >= ArraySize) throw std::out_of_range("Index out of range");
             return elements[index];
         }
 
+        /**
+         * \brief Returns first element
+         */
         T& Front()
         {
             return elements[0];
         }
 
+        /**
+         * \brief Returns first element as a const
+         */
         const T& Front() const
         {
             return elements[0];
         }
 
+        /**
+         * \brief Returns last element
+         */
         T& Back()
         {
             return elements[ArraySize - 1];
         }
 
+        /**
+         * \brief Returns last element as a const
+         */
         const T& Back() const
         {
             return elements[ArraySize - 1];
         }
 
+        /**
+         * \brief Returns pointer to the underlying array
+         */
         T* Data()
         {
             return elements;
         }
 
+        /**
+         * \brief Returns const pointer to the underlying array
+         */
         const T* Data() const
         {
             return elements;
         }
 
+        /**
+         * \brief Returns iterator to the beginning of the array
+         */
         T* begin()
         {
             return &elements[0];
         }
 
+        /**
+         * \brief Returns const iterator to the beginning of the array
+         */
         const T* begin() const
         {
             return &elements[0];
         }
 
-        T* rbegin()
-        {
-            return &elements[ArraySize - 1];
-        }
-
-        const T* rbegin() const
-        {
-            return &elements[ArraySize - 1];
-        }
-
-        T* rend()
-        {
-            return &elements[0];
-        }
-
-        const T* rend() const
-        {
-            return &elements[0];
-        }
-
+        /**
+         * \brief Returns iterator to the end of the array
+         */
         T* end()
         {
             return &elements[ArraySize - 1];
         }
 
+        /**
+         * \brief Returns const iterator to the end of the array
+         */
         const T* end() const
         {
             return &elements[ArraySize - 1];
         }
 
+        /**
+         * \brief Returns reversed iterator to the end of the array
+         */
+        T* rbegin()
+        {
+            return &elements[ArraySize - 1];
+        }
+
+        /**
+         * \brief Returns reversed const iterator to the end of the array
+         */
+        const T* rbegin() const
+        {
+            return &elements[ArraySize - 1];
+        }
+
+        /**
+         * \brief Returns reversed iterator to the end of the array
+         */
+        T* rend()
+        {
+            return &elements[0];
+        }
+
+        /**
+         * \brief Returns reversed const iterator to the end of the array
+         */
+        const T* rend() const
+        {
+            return &elements[0];
+        }
+
+        /**
+         * \brief Returns size of the array
+         */
         static constexpr size_t Size()
         {
             return ArraySize;
         }
 
+        /**
+         * \brief Checks if array is empty
+         */
         static constexpr bool IsEmpty()
         {
             return ArraySize == 0;
         }
 
+        /**
+         * \brief Fills array with specified value
+         */
         void Fill(const T& value)
         {
             for(size_t i = 0; i < ArraySize; i++)
@@ -125,6 +182,9 @@ namespace WSTL
             }
         }
 
+        /**
+         * \brief Swaps contents of two arrays
+         */
         void Swap(Array& other)
         {
             Array temp = other;
@@ -132,6 +192,9 @@ namespace WSTL
             *this = temp;
         }
 
+        /**
+         * \brief Checks if two arrays are equal
+         */
         bool operator==(const Array& other) const
         {
             for(size_t i = 0; i < ArraySize; i++)
@@ -142,11 +205,15 @@ namespace WSTL
             return true;
         }
 
+        /**
+         * \brief Checks if two arrays are not equal
+         */
         bool operator!=(const Array& other) const
         {
             return !(*this == other);
         }
-        
+
+    private:
         T elements[ArraySize];
     };
 }

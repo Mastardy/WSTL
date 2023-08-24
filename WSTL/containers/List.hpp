@@ -398,22 +398,33 @@ namespace WSTL
             return size;
         }
 
+        /**
+         * \brief Returns iterator begin
+         */
         ListIterator<T, T*, T&> begin()
         {
             return ListIterator<T, T*, T&>(pHead);
         }
 
-        // Constant begin
+        /**
+         * \brief Returns const iterator begin
+         */
         ListIterator<T, const T*, const T&> begin() const
         {
             return ListIterator<T, const T*, const T&>(pHead);
         }
 
+        /**
+         * \brief Returns iterator end
+         */
         ListIterator<T, T*, T&> end()
         {
             return ListIterator<T, T*, T&>(nullptr);
         }
-        
+
+        /**
+         * \brief Returns const iterator end
+         */
         ListIterator<T, const T*, const T&> end() const
         {
             return ListIterator<T, const T*, const T&>(nullptr);
