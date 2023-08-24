@@ -213,7 +213,6 @@ namespace WSTL
             return !(*this == other);
         }
 
-    private:
         T elements[ArraySize];
     };
 }
