@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 #include <stdexcept>
 
 namespace WSTL
@@ -428,17 +427,6 @@ namespace WSTL
         ListIterator<T, const T*, const T&> end() const
         {
             return ListIterator<T, const T*, const T&>(nullptr);
-        }
-        
-        void Debug() const
-        {
-            std::cout << "List: ";
-            ListNode<T>* pCurrent = pHead;
-            while(pCurrent != nullptr)
-            {
-                std::cout << pCurrent->value << " ";
-                pCurrent = pCurrent->pNext;
-            }
         }
 
         List& operator=(List&& other) = delete;
