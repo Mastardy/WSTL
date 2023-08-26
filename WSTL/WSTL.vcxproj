@@ -162,8 +162,10 @@
     <ClInclude Include="containers\Pair.hpp" />
     <ClInclude Include="containers\Queue.hpp" />
     <ClInclude Include="containers\Stack.hpp" />
+    <ClInclude Include="containers\Vector.hpp" />
     <ClInclude Include="memory\Memory.hpp" />
     <ClInclude Include="memory\SharedPointer.hpp" />
+    <ClInclude Include="memory\SmartPointers.hpp" />
     <ClInclude Include="memory\UniquePointer.hpp" />
     <ClInclude Include="WSTL.hpp" />
   </ItemGroup>

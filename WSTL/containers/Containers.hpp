@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "Array.hpp"
+#include "Vector.hpp"
 #include "Pair.hpp"
 #include "List.hpp"
 #include "Stack.hpp"
