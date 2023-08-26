@@ -52,9 +52,8 @@ namespace WSTL
          */
         void Swap(Pair& other)
         {
-            Pair temp = other;
-            other = *this;
-            *this = temp;
+            std::swap(first, other.first);
+            std::swap(second, other.second);
         }
      
         /**
