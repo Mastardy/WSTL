@@ -7,7 +7,7 @@ namespace WSTL
     class Queue
     {
     protected:
-        List<T> container; // TODO: Replace List<T> with a Vector<T>
+        List<T> container;
 
     public:
         /**
