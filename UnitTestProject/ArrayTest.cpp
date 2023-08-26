@@ -14,7 +14,7 @@ TEST(ArrayTest, ConstructionAndElementAccess)
 
 TEST(ArrayTest, Size)
 {
-    const Array<int, 3> array = {1, 2, 3};
+    constexpr Array<int, 3> array = {1, 2, 3};
 
     EXPECT_EQ(array.Size(), 3);
 }
@@ -37,7 +37,7 @@ TEST(ArrayTest, Iterators)
 
 TEST(ArrayTest, ConstIterators)
 {
-    const Array<int, 3> array = {1, 2, 3};
+    constexpr Array<int, 3> array = {1, 2, 3};
 
     EXPECT_EQ(*array.begin(), 1);
     EXPECT_EQ(*array.end(), 3);
@@ -79,9 +79,9 @@ TEST(ArrayTest, Swap)
 
 TEST(ArrayTest, Comparison)
 {
-    const Array<int, 3> array1 = {1, 2, 3};
-    const Array<int, 3> array2 = {1, 2, 3};
-    const Array<int, 3> array3 = {4, 5, 6};
+    constexpr Array<int, 3> array1 = {1, 2, 3};
+    constexpr Array<int, 3> array2 = {1, 2, 3};
+    constexpr Array<int, 3> array3 = {4, 5, 6};
 
     EXPECT_TRUE(array1 == array2);
     EXPECT_FALSE(array1 == array3);
@@ -135,7 +135,7 @@ TEST(ArrayTest, At)
 
 TEST(ArrayTest, ConstAt)
 {
-    const Array<int, 3> array = {1, 2, 3};
+    constexpr Array<int, 3> array = {1, 2, 3};
 
     EXPECT_EQ(array.At(0), 1);
     EXPECT_EQ(array.At(1), 2);

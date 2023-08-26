@@ -86,15 +86,15 @@ TEST(UniquePointerTest, ArrayType) {
 struct B
 {
     virtual ~B() = default;
-    virtual void Bar() { std::cout << "B::Bar" << std::endl; }
+    virtual void Bar() { }
 };
 
 struct D : B
 {
-    D() { std::cout << "D::D" << std::endl; }
-    ~D() override { std::cout << "D::~D" << std::endl; }
+    D() { }
+    ~D() override { }
     
-    void Bar() override { std::cout << "D::Bar" << std::endl; }
+    void Bar() override { }
 };
 
 UniquePointer<D> PassThrough(UniquePointer<D> p)
