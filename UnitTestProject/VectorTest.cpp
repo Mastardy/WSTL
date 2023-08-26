@@ -75,7 +75,6 @@ TEST(VectorTest, MoveAssignment)
 {
     Vector<int> a(10, 5);
     Vector<int> b = std::move(a);
-
     EXPECT_TRUE(a.IsEmpty());
     EXPECT_EQ(b.Size(), 10);
     EXPECT_EQ(b.Capacity(), 10);
@@ -225,4 +224,73 @@ TEST(VectorTest, Erase)
     EXPECT_EQ(a.Size(), 2); 
     EXPECT_EQ(a[0], 1);
     EXPECT_EQ(a[1], 5); 
+}
+
+TEST(VectorTest, Clear)
+{
+    Vector<int> a = {1, 2, 3, 4, 5};
+    a.Clear();
+    EXPECT_EQ(a.Size(), 0);
+    EXPECT_EQ(a.Capacity(), 0);
+}
+
+TEST(VectorTest, Swap)
+{
+    Vector<int> a = {1, 2, 3, 4, 5};
+    Vector<int> b = {6, 7, 8, 9, 10};
+    a.Swap(b);
+    EXPECT_EQ(a.Size(), 5);
+    EXPECT_EQ(b.Size(), 5);
+    for(int i = 0; i < 5; i++)
+    {
+        EXPECT_EQ(a[i], i + 6);
+        EXPECT_EQ(b[i], i + 1);
+    }
+}
+
+TEST(VectorTest, Resize)
+{
+    Vector<int> a = {1, 2, 3, 4, 5};
+    a.Resize(10);
+    EXPECT_EQ(a.Size(), 10);
+    for(int i = 0; i < 5; i++)
+    {
+        EXPECT_EQ(a[i], i + 1);
+    }
+    for(int i = 5; i < 10; i++)
+    {
+        EXPECT_EQ(a[i], 0);
+    }
+
+    Vector<int> b = {1, 2, 3, 4, 5};
+    b.Resize(10, 10);
+    EXPECT_EQ(b.Size(), 10);
+    for(int i = 0; i < 5; i++)
+    {
+        EXPECT_EQ(b[i], i + 1);
+    }
+    for(int i = 5; i < 10; i++)
+    {
+        EXPECT_EQ(b[i], 10);
+    }
+}
+
+TEST(VectorTest, SetCapacity)
+{
+    Vector<int> a = {1, 2, 3, 4, 5};
+    a.SetCapacity(10);
+    EXPECT_EQ(a.Size(), 5);
+    EXPECT_EQ(a.Capacity(), 10);
+    for(int i = 0; i < 5; i++)
+    {
+        EXPECT_EQ(a[i], i + 1);
+    }
+}
+
+TEST(VectorTest, ShrinkToFit)
+{
+    Vector<int> a = {1, 2, 3, 4, 5};
+    a.SetCapacity(10);
+    a.ShrinkToFit();
+    EXPECT_EQ(a.Capacity(), 5);
 }
