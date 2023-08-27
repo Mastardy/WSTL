@@ -219,7 +219,7 @@ namespace WSTL
         /**
          * \brief Checks if specified index is out of range 
          */
-        static void CheckIndexOutOfRange(size_t index)
+        static inline void CheckIndexOutOfRange(size_t index)
         {
             if(index < 0 || index >= ArraySize) throw std::out_of_range("Index out of range");
         }
