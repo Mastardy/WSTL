@@ -12,7 +12,7 @@ namespace WSTL
          */
         T& operator[](size_t index)
         {
-            if(index < 0 || index >= ArraySize) throw std::out_of_range("Index out of range");
+            CheckIndexOutOfRange(index);
             return elements[index];
         }
 
@@ -21,7 +21,7 @@ namespace WSTL
          */
         const T& operator[](size_t index) const
         {
-            if(index < 0 || index >= ArraySize) throw std::out_of_range("Index out of range");
+            CheckIndexOutOfRange(index);
             return elements[index];
         }
 
@@ -30,7 +30,7 @@ namespace WSTL
          */
         T& At(size_t index)
         {
-            if(index < 0 || index >= ArraySize) throw std::out_of_range("Index out of range");
+            CheckIndexOutOfRange(index);
             return elements[index];
         }
 
@@ -39,7 +39,7 @@ namespace WSTL
          */
         const T& At(size_t index) const
         {
-            if(index < 0 || index >= ArraySize) throw std::out_of_range("Index out of range");
+            CheckIndexOutOfRange(index);
             return elements[index];
         }
 
@@ -212,7 +212,16 @@ namespace WSTL
         {
             return !(*this == other);
         }
-
-        T elements[ArraySize];
+        
+        T elements[ArraySize]; // Has to stay public
+        
+    protected:
+        /**
+         * \brief Checks if specified index is out of range 
+         */
+        static void CheckIndexOutOfRange(size_t index)
+        {
+            if(index < 0 || index >= ArraySize) throw std::out_of_range("Index out of range");
+        }
     };
 }
