@@ -10,7 +10,7 @@ namespace WSTL
         /**
          * \brief Default Constructor
          */
-        Vector() : pBegin(nullptr), pEnd(nullptr), capacity(0) { }
+        Vector() : Vector(0) { }
 
         /**
          * \brief Constructor with a start size
@@ -339,6 +339,7 @@ namespace WSTL
 
             auto insertPos = pBegin + index;
             MoveContentsForward(insertPos);
+            ++pEnd;
             *insertPos = value;
             return insertPos;            
         }
@@ -353,6 +354,7 @@ namespace WSTL
 
             auto insertPos = pBegin + index;
             MoveContentsForward(insertPos);
+            ++pEnd;
             *insertPos = std::move(value);
             return insertPos;
         }
@@ -367,6 +369,7 @@ namespace WSTL
 
             auto insertPos = pBegin + index;
             MoveContentsForward(insertPos, count);
+            pEnd += count;
             for(; insertPos != pBegin + index + count; ++insertPos)
             {
                 *insertPos = value;
@@ -386,6 +389,7 @@ namespace WSTL
 
             auto insertPos = pBegin + index;
             MoveContentsForward(insertPos, count);
+            pEnd += count;
             for(size_t i = 0; i < count; i++)
             {
                 *insertPos = *(init.begin() + i);
@@ -582,6 +586,7 @@ namespace WSTL
                 pBegin = nullptr;
                 pEnd = nullptr;
                 capacity = 0;
+                return;
             }
             
             pBegin = new T[count]();
@@ -631,11 +636,13 @@ namespace WSTL
             if(first > last) throw std::invalid_argument("`first` is greater than `last`");
             if(first < pBegin || first > pEnd || last > pEnd ) throw std::out_of_range("Index out of Range");
         }
-        
+
+        /**
+         * \brief Moves the contents of the vector backward, starting from the specified position
+         */
         void MoveContentsBackward(const T* pos, size_t count = 1)
         {
-            int i = pos - pBegin;
-            for(T* mover = pBegin + i; mover != pEnd - count; ++mover)
+            for(T* mover = pBegin + (pos - pBegin); mover != pEnd - count; ++mover)
             {
                 *mover = *(mover + count);
             }
@@ -650,7 +657,6 @@ namespace WSTL
             {
                 *mover = *(mover - count);
             }
-            pEnd += count;
         }
 
     private:
