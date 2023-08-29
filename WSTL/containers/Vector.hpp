@@ -10,12 +10,7 @@ namespace WSTL
         /**
          * \brief Default Constructor
          */
-        Vector() : Vector(0) { }
-
-        /**
-         * \brief Constructor with a start size
-         */
-        explicit Vector(size_t count)
+        explicit Vector(size_t count = 0)
         {
             Initialize(count);
         }
