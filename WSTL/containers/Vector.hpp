@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "memory/Memory.hpp"
 
 namespace WSTL
@@ -100,7 +100,16 @@ namespace WSTL
         {
             if(this == &other) return *this;
 
-            Swap(other);
+            Destruct(pBegin, pEnd);
+            Destroy();
+
+            pBegin = other.pBegin;
+            pEnd = other.pEnd;
+            capacity = other.capacity;
+
+            other.pBegin = nullptr;
+            other.pEnd = nullptr;
+            other.capacity = 0;
 
             return *this;
         }
