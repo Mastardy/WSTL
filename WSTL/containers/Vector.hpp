@@ -148,7 +148,7 @@ namespace WSTL
          */
         void Assign(T* first, T* last, const T& value)
         {
-            CheckIndexOutOfRange(first, last);
+            CheckRangeOutOfRange(first, last);
             if(first == last) return;
 
             while(first != last && first != pEnd)
@@ -193,7 +193,7 @@ namespace WSTL
          */
         T& operator[](size_t index)
         {
-            if(index < 0 || index >= Size()) throw std::out_of_range("Index Out Of Range");
+            CheckIndexOutOfRange(index);
 
             return pBegin[index];
         }
@@ -213,7 +213,7 @@ namespace WSTL
          */
         T& At(size_t index)
         {
-            return (*this)[index];
+            return operator[](index);
         }
 
         /**
@@ -221,7 +221,7 @@ namespace WSTL
          */
         const T& At(size_t index) const
         {
-            return (*this)[index];
+            return operator[](index);
         }
 
         /**
@@ -229,7 +229,7 @@ namespace WSTL
          */
         inline T& Front()
         {
-            return (*this)[0];
+            return operator[](0);
         }
 
         /**
@@ -237,7 +237,7 @@ namespace WSTL
          */
         inline const T& Front() const
         {
-            return (*this)[0];
+            return operator[](0);
         }
 
         /**
@@ -245,7 +245,7 @@ namespace WSTL
          */
         inline T& Back()
         {
-            return (*this)[Size() - 1];
+            return operator[](Size() - 1);
         }
 
         /**
@@ -253,7 +253,7 @@ namespace WSTL
          */
         inline const T& Back() const
         {
-            return (*this)[Size() - 1];
+            return operator[](Size() - 1);
         }
 
         /**
@@ -274,9 +274,8 @@ namespace WSTL
         {
             CheckForCapacity();
 
-            auto& value = *pEnd;
             ++pEnd;
-            return value;
+            return Back();
         }
 
         /**
@@ -335,6 +334,7 @@ namespace WSTL
             auto emplacePos = pBegin + index;
             MoveContentsForward(emplacePos);
             *emplacePos = T(std::forward<Args>(args)...);
+            ++pEnd;
             return emplacePos;
         }
 
@@ -348,8 +348,8 @@ namespace WSTL
 
             auto insertPos = pBegin + index;
             MoveContentsForward(insertPos);
-            ++pEnd;
             *insertPos = value;
+            ++pEnd;
             return insertPos;            
         }
 
@@ -425,7 +425,7 @@ namespace WSTL
          */
         T* Erase(const T* first, const T* last)
         {
-            CheckIndexOutOfRange(first, last);
+            CheckRangeOutOfRange(first, last);
 
             size_t count = last - first;
                         
@@ -640,7 +640,7 @@ namespace WSTL
         /**
          * \brief Checks if the specified range is out of vector range
          */
-        inline void CheckIndexOutOfRange(const T* first, const T* last) const
+        inline void CheckRangeOutOfRange(const T* first, const T* last) const
         {
             if(first > last) throw std::invalid_argument("`first` is greater than `last`");
             if(first < pBegin || first > pEnd || last > pEnd ) throw std::out_of_range("Index out of Range");
