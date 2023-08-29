@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Array.hpp"
 #include "Vector.hpp"
@@ -6,3 +6,4 @@
 #include "List.hpp"
 #include "Stack.hpp"
 #include "Queue.hpp"
+#include "fixed/FixedVector.hpp"
