@@ -6,8 +6,6 @@
 #include "memory/Memory.hpp"
 #include "Types.hpp"
 
-// TODO: Add comments
-
 namespace WSTL
 {
     template <typename T, Size FixedSize>
@@ -35,6 +33,9 @@ namespace WSTL
             }
         }
 
+        /**
+         * \brief Copy Construcor
+         */
         FixedVector(const FixedVector<T, FixedSize>& other) : FixedVector()
         {
             for(::Size i = 0; i < FixedSize; i++)
@@ -43,6 +44,9 @@ namespace WSTL
             }
         }
 
+        /**
+         * \brief Move Constructor
+         */
         FixedVector(FixedVector<T, FixedSize>&& other) noexcept : FixedVector()
         {
             if(this == &other) return;
@@ -54,6 +58,9 @@ namespace WSTL
             other.pEnd = nullptr;
         }
 
+        /**
+         * \brief Constructor with initializer list
+         */
         FixedVector(std::initializer_list<T> init) : FixedVector()
         {
             if(init.size() > FixedSize) throw std::out_of_range("Initializer List Size Out Of Range.");
@@ -65,11 +72,17 @@ namespace WSTL
             }
         }
 
+        /**
+         * \brief Destructor
+         */
         ~FixedVector()
         {
             Destroy();
         }
 
+        /**
+         * \brief Copy Assignment Operator
+         */
         FixedVector<T, FixedSize>& operator=(const FixedVector<T, FixedSize>& other)
         {
             if(this == &other) return *this;
@@ -82,6 +95,9 @@ namespace WSTL
             return *this;
         }
 
+        /**
+         * \brief Move Assignment Operator
+         */
         FixedVector<T, FixedSize>& operator=(FixedVector<T, FixedSize>&& other) noexcept
         {
             if(this == &other) return *this;
@@ -97,6 +113,9 @@ namespace WSTL
             return *this;
         }
 
+        /**
+         * \brief Assignment Operator with initializer list
+         */
         FixedVector<T, FixedSize>& operator=(std::initializer_list<T> init)
         {
             if(init.size() > FixedSize) throw std::out_of_range("Initializer List Size Out Of Range.");
@@ -110,33 +129,52 @@ namespace WSTL
             return *this;
         }
 
+        /**
+         * \brief Returns the underlying array
+         */
         inline T* Data() noexcept
         {
             return pBegin;
         }
 
+        
+        /**
+         * \brief Returns the underlying array as const
+         */
         inline const T* Data() const noexcept
         {
             return pBegin;
         }
 
+        /**
+         * \brief Returns the element at the specified index
+         */
         inline T& operator[](Size index)
         {
             CheckIndexOutOfRange(index);
             return pBegin[index];
         }
 
+        /**
+         * \brief Returns the element at the specified index as const
+         */
         inline const T& operator[](Size index) const
         {
             CheckIndexOutOfRange(index);
             return pBegin[index];
         }
 
+        /**
+         * \brief Returns the element at the specified index
+         */
         inline T& At(Size index)
         {
             return operator[](index);
         }
 
+        /**
+         * \brief Returns the element at the specified index as const
+         */
         inline const T& At(Size index) const
         {
             return operator[](index);
@@ -174,6 +212,9 @@ namespace WSTL
             return operator[](Size() - 1);
         }
 
+        /**
+         * \brief Adds an element to the end of the vector with the specified value
+         */
         void PushBack(const T& value)
         {
             CheckForCapacity();
@@ -182,6 +223,9 @@ namespace WSTL
             ++pEnd;
         }
 
+        /**
+         * \brief Adds an element to the end of the vector
+         */
         T& PushBack()
         {
             CheckForCapacity();
@@ -190,6 +234,9 @@ namespace WSTL
             return Back();
         }
 
+        /**
+         * \brief Adds an uninitialized element to the end of the vector
+         */
         void* PushBackUninitialized()
         {
             CheckForCapacity();
@@ -197,6 +244,9 @@ namespace WSTL
             return pEnd++;
         }
 
+        /**
+         * \brief Adds an element to the end of the vector by moving the specified value
+         */
         void PushBack(T&& value)
         {
             CheckForCapacity();
@@ -205,12 +255,18 @@ namespace WSTL
             ++pEnd;
         }
 
+        /**
+         * \brief Removes the last element of the vector
+         */
         void PopBack()
         {
             if(pEnd == pBegin) return;
             Destruct(pEnd--);
         }
 
+        /**
+         * \brief Constructs an element in-place at the end of the vector using the specified arguments 
+         */
         template<class... Args>
         T& EmplaceBack(Args&&... args)
         {
@@ -221,6 +277,9 @@ namespace WSTL
             return Back();
         }
 
+        /**
+         * \brief Constructs an element in-place at the specified position of the vector using the specified arguments 
+         */
         template<class... Args>
         T* Emplace(Size index, Args&&... args)
         {
@@ -234,6 +293,9 @@ namespace WSTL
             return pEmplace;
         }
 
+        /**
+         * \brief Inserts an element at the specified position of the vector
+         */
         T* Insert(Size index, const T& value)
         {
             CheckIndexOutOfRange(index);
@@ -246,6 +308,9 @@ namespace WSTL
             return pInsert;
         }
 
+        /**
+         * \brief Inserts an element at the specified position of the vector by moving the specified value
+         */
         T* Insert(Size index, T&& value)
         {
             CheckIndexOutOfRange(index);
@@ -258,6 +323,9 @@ namespace WSTL
             return pInsert;
         }
 
+        /**
+         * \brief Inserts count elements with the specified value at the specified position of the vector
+         */
         T* Insert(Size index, Size count, const T& value)
         {
             CheckIndexOutOfRange(index);
@@ -294,6 +362,9 @@ namespace WSTL
             return pBegin + index;
         }
 
+        /**
+         * \brief Removes the element at the specified position of the vector
+         */
         T* Erase(Size index)
         {
             CheckIndexOutOfRange(index);
@@ -304,6 +375,9 @@ namespace WSTL
             return pBegin + index;
         }
 
+        /**
+         * \brief Removes the elements in the specified range of the vector
+         */
         T* Erase(const T* first, const T* last)
         {
             CheckRangeOutOfRange(first, last);
@@ -317,12 +391,18 @@ namespace WSTL
             return const_cast<T*>(first);
         }
 
+        /**
+         * \brief Removes all elements from the vector
+         */
         void Clear() noexcept
         {
             Destroy();
             Initialize();
         }
 
+        /**
+         * \brief Swaps the contents of the vector with the specified vector
+         */
         void Swap(FixedVector<T, FixedSize>& other) noexcept
         {
             std::swap(pBegin, other.pBegin);
@@ -378,17 +458,26 @@ namespace WSTL
         }
         
     protected:
+        /**
+         * \brief Initializes the underlying array
+         */
         void Initialize()
         {
             pBegin = new T[FixedSize];            
             pEnd = pBegin;
         }
 
+        /**
+         * \brief Deletes underlying array
+         */
         void Destroy()
         {
             FreeArray(pBegin);
         }
 
+        /**
+         * \brief Checks if the specified index is out of vector range
+         */
         static void CheckIndexOutOfRange(::Size index)
         {
             if(index < 0 || index >= FixedSize) throw std::out_of_range("Index Out Of Range.");
@@ -402,7 +491,10 @@ namespace WSTL
             if(first > last) throw std::invalid_argument("`first` is greater than `last`");
             if(first < pBegin || first > pEnd || last > pEnd ) throw std::out_of_range("Index out of Range");
         }
-        
+
+        /**
+         * \brief Checks if the vector has enough capacity to add the specified number of elements
+         */
         static void CheckForCapacity(::Size count = 1)
         {
             if(Size() + count > FixedSize) throw std::out_of_range("Vector is Full.");
