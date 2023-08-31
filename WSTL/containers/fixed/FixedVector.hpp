@@ -416,6 +416,14 @@ namespace WSTL
         {
             return Size() == 0;
         }
+
+        /**
+         * \brief Returns wether the vector is full
+         */
+        inline bool IsFull() const noexcept
+        {
+            return Size() == FixedSize;
+        }
         
         /**
          * \brief Returns the number of elements in the vector
