@@ -511,7 +511,7 @@ namespace WSTL
         /**
          * \brief Moves the contents of the vector backward, starting from the specified position
          */
-        void MoveContentsBackward(const T* pos, Size count = 1)
+        void MoveContentsBackward(const T* pos, ::Size count = 1)
         {
             for(T* mover = pBegin + (pos - pBegin); mover != pEnd - count; ++mover)
             {
@@ -522,7 +522,7 @@ namespace WSTL
         /**
          * \brief Moves the contents of the vector forward, starting from the specified position
          */
-        void MoveContentsForward(const T* pos, Size count = 1)
+        void MoveContentsForward(const T* pos, ::Size count = 1)
         {
             for(auto mover = pEnd + count - 1; mover != pos; --mover)
             {
