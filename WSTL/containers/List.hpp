@@ -168,7 +168,7 @@ namespace WSTL
          */
         List(Size amount, const T& value) : size(0), pHead(nullptr), pTail(nullptr)
         {
-            for(Size i = 0; i < amount; i++)
+            for(::Size i = 0; i < amount; i++)
             {
                 PushBack(value);
             }
@@ -194,7 +194,7 @@ namespace WSTL
             
             Clear();
             
-            for(Size i = 0; i < other.Size(); i++)
+            for(::Size i = 0; i < other.Size(); i++)
             {
                 PushBack(other[i]);
             }
@@ -436,13 +436,13 @@ namespace WSTL
         /**
          * \brief Get Node at the specified index
          */
-        ListNode<T>* NodeAt(Size index)
+        ListNode<T>* NodeAt(::Size index)
         {
             if(index >= size) throw std::out_of_range("Index out of range");
             
             auto pCurrent = pHead;
 
-            for(Size i = 0; i < index; i++)
+            for(::Size i = 0; i < index; i++)
             {
                 pCurrent = pCurrent->pNext;
             }
@@ -451,7 +451,7 @@ namespace WSTL
         }
         
     private:
-        Size size;
+        ::Size size;
         ListNode<T>* pHead;
         ListNode<T>* pTail;
     };

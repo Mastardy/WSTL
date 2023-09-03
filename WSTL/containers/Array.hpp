@@ -180,7 +180,7 @@ namespace WSTL
          */
         void Fill(const T& value)
         {
-            for(Size i = 0; i < ArraySize; i++)
+            for(::Size i = 0; i < ArraySize; i++)
             {
                 elements[i] = value;
             }
@@ -201,7 +201,7 @@ namespace WSTL
          */
         bool operator==(const Array& other) const
         {
-            for(Size i = 0; i < ArraySize; i++)
+            for(::Size i = 0; i < ArraySize; i++)
             {
                 if(elements[i] != other.elements[i]) return false;
             }
@@ -223,7 +223,7 @@ namespace WSTL
         /**
          * \brief Checks if specified index is out of range 
          */
-        static inline void CheckIndexOutOfRange(Size index)
+        static inline void CheckIndexOutOfRange(::Size index)
         {
             if(index < 0 || index >= ArraySize) throw std::out_of_range("Index out of range");
         }
