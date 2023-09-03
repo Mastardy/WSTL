@@ -78,14 +78,17 @@ namespace WSTL
     template <typename T, typename Pointer, typename Reference>
     struct ListIterator
     {
+        typedef ListNode<T> Node;
+        typedef ListIterator<T, Pointer, Reference> Self;
+        
     public:
-        ListNode<T>* pNode;
+        Node* pNode;
 
         ListIterator() noexcept : pNode(nullptr) {}
-        ListIterator(const ListNode<T>* pNode) noexcept : pNode(const_cast<ListNode<T>*>(pNode)) {} 
-        ListIterator(const ListIterator& other) noexcept : pNode(const_cast<ListNode<T>*>(other.pNode)) {}
+        ListIterator(const Node* pNode) noexcept : pNode(const_cast<Node*>(pNode)) {} 
+        ListIterator(const ListIterator& other) noexcept : pNode(const_cast<Node*>(other.pNode)) {}
 
-        ListIterator<T, Pointer, Reference>& operator=(const ListIterator<T, Pointer, Reference>& other) noexcept
+        Self& operator=(const Self& other) noexcept
         {
             if(this == &other) return *this;
             
@@ -93,18 +96,18 @@ namespace WSTL
             return *this;
         }
 
-        ListIterator(const ListIterator<T, Pointer, Reference>&& other) = delete;
-        ListIterator<T, Pointer, Reference>& operator=(const ListIterator<T, Pointer, Reference>&& other) = delete;
+        ListIterator(const Self&& other) = delete;
+        Self& operator=(const Self&& other) = delete;
         ~ListIterator() = default;
         
-        ListIterator<T, Pointer, Reference> next() const noexcept
+        Self next() const noexcept
         {
-            return ListIterator<T, Pointer, Reference>(pNode->pNext);
+            return Self(pNode->pNext);
         }
 
-        ListIterator<T, Pointer, Reference> prev() const noexcept
+        Self prev() const noexcept
         {
-            return ListIterator<T, Pointer, Reference>(pNode->pPrev);
+            return Self(pNode->pPrev);
         }
 
         Reference operator*() const noexcept
@@ -117,38 +120,38 @@ namespace WSTL
             return &pNode->value;
         }
 
-        ListIterator<T, Pointer, Reference>& operator++() noexcept
+        Self& operator++() noexcept
         {
             pNode = pNode->pNext;
             return *this;
         }
 
-        ListIterator<T, Pointer, Reference> operator++(int) noexcept
+        Self operator++(int) noexcept
         {
-            ListIterator<T, Pointer, Reference> temp = *this;
+            Self temp = *this;
             pNode = pNode->pNext;
             return temp;
         }
         
-        ListIterator<T, Pointer, Reference>& operator--() noexcept
+        Self& operator--() noexcept
         {
             pNode = pNode->pPrev;
             return *this;
         }
 
-        ListIterator<T, Pointer, Reference> operator--(int) noexcept
+        Self operator--(int) noexcept
         {
-            ListIterator<T, Pointer, Reference> temp = *this;
+            Self temp = *this;
             pNode = pNode->pPrev;
             return temp;
         }
 
-        bool operator==(const ListIterator<T, Pointer, Reference>& other) const noexcept
+        bool operator==(const Self& other) const noexcept
         {
             return pNode == other.pNode;
         }
 
-        bool operator!=(const ListIterator<T, Pointer, Reference>& other) const noexcept
+        bool operator!=(const Self& other) const noexcept
         {
             return pNode != other.pNode;
         }
@@ -157,6 +160,10 @@ namespace WSTL
     template<typename T>
     class List
     {
+        typedef ListNode<T> Node;
+        typedef ListIterator<T, T*, T&> Iterator;
+        typedef ListIterator<T, const T*, const T&> ConstIterator;
+        
     public:
         /**
          * \brief Default Constructor
@@ -218,7 +225,7 @@ namespace WSTL
             if(index > size || index < 0) throw std::out_of_range("Index out of range");
             else if(index == size) PushBack(value);
             else if(index == 0) PushFront(value);
-            else NodeAt(index)->Insert(new ListNode<T>(value));
+            else NodeAt(index)->Insert(new Node(value));
         }
 
         /**
@@ -226,7 +233,7 @@ namespace WSTL
          */
         void PushBack(const T& value)
         {
-            auto pNewNode = new ListNode<T>(value);
+            auto pNewNode = new Node(value);
 
             if(IsEmpty())
             {
@@ -248,7 +255,7 @@ namespace WSTL
          */
         void PushFront(const T& value)
         {
-            auto pNewNode = new ListNode<T>(value);
+            auto pNewNode = new Node(value);
 
             if(IsEmpty())
             {
@@ -315,11 +322,11 @@ namespace WSTL
         {
             if(IsEmpty()) return;
             
-            ListNode<T>* pCurrent = pHead;
+            Node* pCurrent = pHead;
 
             while(pCurrent != nullptr)
             {
-                ListNode<T>* pNext = pCurrent->pNext;
+                Node* pNext = pCurrent->pNext;
                 pCurrent->Remove();
                 pCurrent = pNext;
             }
@@ -400,33 +407,33 @@ namespace WSTL
         /**
          * \brief Returns iterator begin
          */
-        ListIterator<T, T*, T&> begin()
+        Iterator begin()
         {
-            return ListIterator<T, T*, T&>(pHead);
+            return Iterator(pHead);
         }
 
         /**
          * \brief Returns const iterator begin
          */
-        ListIterator<T, const T*, const T&> begin() const
+        ConstIterator begin() const
         {
-            return ListIterator<T, const T*, const T&>(pHead);
+            return ConstIterator(pHead);
         }
 
         /**
          * \brief Returns iterator end
          */
-        ListIterator<T, T*, T&> end()
+        Iterator end()
         {
-            return ListIterator<T, T*, T&>(nullptr);
+            return Iterator(nullptr);
         }
 
         /**
          * \brief Returns const iterator end
          */
-        ListIterator<T, const T*, const T&> end() const
+        ConstIterator end() const
         {
-            return ListIterator<T, const T*, const T&>(nullptr);
+            return ConstIterator(nullptr);
         }
 
         List& operator=(List&& other) = delete;
@@ -436,7 +443,7 @@ namespace WSTL
         /**
          * \brief Get Node at the specified index
          */
-        ListNode<T>* NodeAt(::Size index)
+        Node* NodeAt(::Size index)
         {
             if(index >= size) throw std::out_of_range("Index out of range");
             
@@ -452,7 +459,7 @@ namespace WSTL
         
     private:
         ::Size size;
-        ListNode<T>* pHead;
-        ListNode<T>* pTail;
+        Node* pHead;
+        Node* pTail;
     };
 }
