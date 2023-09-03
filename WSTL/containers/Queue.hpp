@@ -92,7 +92,7 @@ namespace WSTL
         /**
          * \brief Returns the size of the queue
          */
-        size_t Size() const noexcept
+        Size Size() const noexcept
         {
             return container.Size();
         }

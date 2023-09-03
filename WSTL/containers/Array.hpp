@@ -3,14 +3,14 @@
 
 namespace WSTL
 {
-    template<typename T, size_t ArraySize>
+    template<typename T, Size ArraySize>
     class Array
     {
     public:    
         /**
          * \brief Element Access through []
          */
-        T& operator[](size_t index)
+        T& operator[](Size index)
         {
 #if defined(_DEBUG)
             CheckIndexOutOfRange(index);
@@ -21,7 +21,7 @@ namespace WSTL
         /**
          * \brief Element Access through []
          */
-        const T& operator[](size_t index) const
+        const T& operator[](Size index) const
         {
 #if defined(_DEBUG)
             CheckIndexOutOfRange(index);
@@ -32,7 +32,7 @@ namespace WSTL
         /**
          * \brief Returns element at specified index
          */
-        T& At(size_t index)
+        T& At(Size index)
         {
             CheckIndexOutOfRange(index);
             return elements[index];
@@ -41,7 +41,7 @@ namespace WSTL
         /**
          * \brief Returns const element at specified index
          */
-        const T& At(size_t index) const
+        const T& At(Size index) const
         {
             CheckIndexOutOfRange(index);
             return elements[index];
@@ -162,7 +162,7 @@ namespace WSTL
         /**
          * \brief Returns size of the array
          */
-        static constexpr size_t Size()
+        static constexpr Size Size()
         {
             return ArraySize;
         }
@@ -180,7 +180,7 @@ namespace WSTL
          */
         void Fill(const T& value)
         {
-            for(size_t i = 0; i < ArraySize; i++)
+            for(Size i = 0; i < ArraySize; i++)
             {
                 elements[i] = value;
             }
@@ -201,7 +201,7 @@ namespace WSTL
          */
         bool operator==(const Array& other) const
         {
-            for(size_t i = 0; i < ArraySize; i++)
+            for(Size i = 0; i < ArraySize; i++)
             {
                 if(elements[i] != other.elements[i]) return false;
             }
@@ -223,7 +223,7 @@ namespace WSTL
         /**
          * \brief Checks if specified index is out of range 
          */
-        static inline void CheckIndexOutOfRange(size_t index)
+        static inline void CheckIndexOutOfRange(Size index)
         {
             if(index < 0 || index >= ArraySize) throw std::out_of_range("Index out of range");
         }

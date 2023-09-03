@@ -10,7 +10,7 @@ namespace WSTL
         /**
          * \brief Default Constructor
          */
-        explicit Vector(size_t count = 0)
+        explicit Vector(Size count = 0)
         {
             Initialize(count);
         }
@@ -18,9 +18,9 @@ namespace WSTL
         /**
          * \brief Constructor with a start size and default value
          */
-        Vector(size_t count, const T& value) : Vector(count)
+        Vector(Size count, const T& value) : Vector(count)
         {
-            for (size_t i = 0; i < count; i++)
+            for (Size i = 0; i < count; i++)
             {
                 pBegin[i] = value;
             }
@@ -31,7 +31,7 @@ namespace WSTL
          */
         Vector(const Vector<T>& other) : Vector(other.Size())
         {
-            for (size_t i = 0; i < other.Size(); i++)
+            for (Size i = 0; i < other.Size(); i++)
             {
                 pBegin[i] = other[i];
             }
@@ -56,7 +56,7 @@ namespace WSTL
          */
         Vector(std::initializer_list<T> init) : Vector(init.size())
         {
-            for(size_t i = 0; i < init.size(); i++)
+            for(Size i = 0; i < init.size(); i++)
             {
                 pBegin[i] = *(init.begin() + i);
             }
@@ -80,7 +80,7 @@ namespace WSTL
             Destroy();            
             Initialize(other.Size());
 
-            for(size_t i = 0; i < other.Size(); i++)
+            for(Size i = 0; i < other.Size(); i++)
             {
                 pBegin[i] = other[i];
             }
@@ -117,7 +117,7 @@ namespace WSTL
             Destroy();
             Initialize(init.size());
 
-            for(size_t i = 0; i < init.size(); i++)
+            for(Size i = 0; i < init.size(); i++)
             {
                 pBegin[i] = *(init.begin() + i);
             }
@@ -128,11 +128,11 @@ namespace WSTL
         /**
          * \brief Assigns a new size to the vector, replacing its current contents
          */
-        void Assign(size_t count, const T& value)
+        void Assign(Size count, const T& value)
         {
             Destroy();
             Initialize(count);
-            for(size_t i = 0; i < count; i++)
+            for(Size i = 0; i < count; i++)
             {
                 pBegin[i] = value;
             }
@@ -161,7 +161,7 @@ namespace WSTL
             Destroy();
             Initialize(init.size());
 
-            for(size_t i = 0; i < init.size(); i++)
+            for(Size i = 0; i < init.size(); i++)
             {
                 pBegin[i] = *(init.begin() + i);
             }
@@ -186,7 +186,7 @@ namespace WSTL
         /**
          * \brief Returns the element at the specified index
          */
-        T& operator[](size_t index)
+        T& operator[](Size index)
         {
             CheckIndexOutOfRange(index);
 
@@ -196,7 +196,7 @@ namespace WSTL
         /**
          * \brief Returns the element as const at the specified index
          */
-        const T& operator[](size_t index) const
+        const T& operator[](Size index) const
         {
             CheckIndexOutOfRange(index);
 
@@ -206,7 +206,7 @@ namespace WSTL
         /**
          * \brief Returns the element at the specified index
          */
-        T& At(size_t index)
+        T& At(Size index)
         {
             return operator[](index);
         }
@@ -214,7 +214,7 @@ namespace WSTL
         /**
          * \brief Returns the element as const at the specified index
          */
-        const T& At(size_t index) const
+        const T& At(Size index) const
         {
             return operator[](index);
         }
@@ -321,7 +321,7 @@ namespace WSTL
          * provided arguments
          */
         template<class... Args>
-        T* Emplace(size_t index, Args&&... args)
+        T* Emplace(Size index, Args&&... args)
         {
             CheckIndexOutOfRange(index);
             CheckForCapacity();
@@ -336,7 +336,7 @@ namespace WSTL
         /**
          * \brief Inserts a new element at the specified position of the vector by copying value
          */
-        T* Insert(size_t index, const T& value)
+        T* Insert(Size index, const T& value)
         {
             CheckIndexOutOfRange(index);
             CheckForCapacity();
@@ -351,7 +351,7 @@ namespace WSTL
         /**
          * \brief Inserts a new element at the specified position of the vector by moving the given value
          */
-        T* Insert(size_t index, T&& value)
+        T* Insert(Size index, T&& value)
         {
             CheckIndexOutOfRange(index);
             CheckForCapacity();
@@ -366,7 +366,7 @@ namespace WSTL
         /**
          * \brief Inserts the specified number of elements at the specified position of the vector by copying value
          */
-        T* Insert(size_t index, size_t count, const T& value)
+        T* Insert(Size index, Size count, const T& value)
         {
             CheckIndexOutOfRange(index);
             CheckForCapacity(count);
@@ -384,9 +384,9 @@ namespace WSTL
         /**
          * \brief Inserts the elements of the initializer list at the specified position of the vector
          */
-        T* Insert(size_t index, std::initializer_list<T> init)
+        T* Insert(Size index, std::initializer_list<T> init)
         {
-            size_t count = init.size();
+            Size count = init.size();
             
             CheckIndexOutOfRange(index);
             CheckForCapacity(count);
@@ -394,7 +394,7 @@ namespace WSTL
             auto insertPos = pBegin + index;
             MoveContentsForward(insertPos, count);
             pEnd += count;
-            for(size_t i = 0; i < count; i++)
+            for(Size i = 0; i < count; i++)
             {
                 *insertPos = *(init.begin() + i);
                 ++insertPos;
@@ -405,7 +405,7 @@ namespace WSTL
         /**
          * \brief Erases the element at the specified position of the vector
          */
-        T* Erase(size_t index)
+        T* Erase(Size index)
         {
             CheckIndexOutOfRange(index);
 
@@ -422,7 +422,7 @@ namespace WSTL
         {
             CheckRangeOutOfRange(first, last);
 
-            size_t count = last - first;
+            Size count = last - first;
                         
             MoveContentsBackward(first, count);
             Destruct(pEnd - count, pEnd);
@@ -453,7 +453,7 @@ namespace WSTL
         /**
          * \brief Resizes the vector to the specified size
          */
-        void Resize(size_t count)
+        void Resize(Size count)
         {
             if(count == Size()) return;
             else if(count < Size())
@@ -464,7 +464,7 @@ namespace WSTL
             else
             {
                 CheckForCapacity(count);
-                for(size_t i = Size(); i < count; ++i)
+                for(Size i = Size(); i < count; ++i)
                 {
                     pBegin[i] = T();
                 }
@@ -475,7 +475,7 @@ namespace WSTL
         /**
          * \brief Resizes the vector to the specified size and fills the new elements with the specified value
          */
-        void Resize(size_t count, const T& value)
+        void Resize(Size count, const T& value)
         {
             if(count == Size()) return;
             else if(count < Size())
@@ -486,7 +486,7 @@ namespace WSTL
             else
             {
                 CheckForCapacity(count);
-                for(size_t i = Size(); i < count; ++i)
+                for(Size i = Size(); i < count; ++i)
                 {
                     pBegin[i] = value; 
                 }
@@ -497,12 +497,12 @@ namespace WSTL
         /**
          * \brief Increases the capacity of the vector to accommodate at least the specified number of elements.
          */
-        void SetCapacity(size_t count)
+        void SetCapacity(Size count)
         {
             T* const newBegin = new T[count];
             T* newEnd = newBegin + Size();
 
-            for(size_t i = 0; i < Size(); i++)
+            for(Size i = 0; i < Size(); i++)
             {
                 newBegin[i] = pBegin[i];
             }
@@ -534,7 +534,7 @@ namespace WSTL
         /**
          * \brief Returns the number of elements in the vector
          */
-        inline size_t Size() const noexcept
+        inline Size Size() const noexcept
         {
             return pEnd - pBegin;
         }
@@ -542,7 +542,7 @@ namespace WSTL
         /**
          * \brief Returns the current capacity of the vector
          */
-        inline size_t Capacity() const noexcept
+        inline Size Capacity() const noexcept
         {
             return capacity;
         }
@@ -583,7 +583,7 @@ namespace WSTL
         /**
          * \brief Initializes the vector members with the specified size
          */
-        void Initialize(size_t count = 0)
+        void Initialize(Size count = 0)
         {
             if(count == 0)
             {
@@ -612,7 +612,7 @@ namespace WSTL
         /**
          * \brief Checks if the vector has enough capacity to add a new element
          */
-        void CheckForCapacity(size_t count = 1)
+        void CheckForCapacity(Size count = 1)
         {
             if(capacity == 0)
             {
@@ -627,7 +627,7 @@ namespace WSTL
         /**
          * \brief Checks if the specified index is out of range
          */
-        inline void CheckIndexOutOfRange(size_t index) const
+        inline void CheckIndexOutOfRange(Size index) const
         {
             if(index < 0 || index >= Size()) throw std::out_of_range("Index out of Range");
         }
@@ -644,7 +644,7 @@ namespace WSTL
         /**
          * \brief Moves the contents of the vector backward, starting from the specified position
          */
-        void MoveContentsBackward(const T* pos, size_t count = 1)
+        void MoveContentsBackward(const T* pos, Size count = 1)
         {
             for(T* mover = pBegin + (pos - pBegin); mover != pEnd - count; ++mover)
             {
@@ -655,7 +655,7 @@ namespace WSTL
         /**
          * \brief Moves the contents of the vector forward, starting from the specified position
          */
-        void MoveContentsForward(const T* pos, size_t count = 1)
+        void MoveContentsForward(const T* pos, Size count = 1)
         {
             for(auto mover = pEnd + count - 1; mover != pos; --mover)
             {
@@ -666,6 +666,6 @@ namespace WSTL
     private:
         T* pBegin;
         T* pEnd;
-        size_t capacity;
+        Size capacity;
     };
 }

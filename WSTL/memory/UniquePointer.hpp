@@ -276,7 +276,7 @@ namespace WSTL
      * \brief Makes an Unique Pointer for Unbounded Arrays
      */
     template<typename T, typename... Args>
-    inline std::enable_if_t<std::is_unbounded_array_v<T>, UniquePointer<T>> MakeUnique(size_t n)
+    inline std::enable_if_t<std::is_unbounded_array_v<T>, UniquePointer<T>> MakeUnique(Size n)
     {
         typedef std::remove_extent_t<T> U; // Get the type without the array extent
         return UniquePointer<T>(new U[n]);

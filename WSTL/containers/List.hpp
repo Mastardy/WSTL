@@ -166,9 +166,9 @@ namespace WSTL
         /**
          * \brief Default Fill Constructor
          */
-        List(size_t amount, const T& value) : size(0), pHead(nullptr), pTail(nullptr)
+        List(Size amount, const T& value) : size(0), pHead(nullptr), pTail(nullptr)
         {
-            for(size_t i = 0; i < amount; i++)
+            for(Size i = 0; i < amount; i++)
             {
                 PushBack(value);
             }
@@ -194,7 +194,7 @@ namespace WSTL
             
             Clear();
             
-            for(size_t i = 0; i < other.Size(); i++)
+            for(Size i = 0; i < other.Size(); i++)
             {
                 PushBack(other[i]);
             }
@@ -213,7 +213,7 @@ namespace WSTL
         /**
          * \brief Assigns a value to the element at the specified index
          */
-        void Assign(size_t index, const T& value)
+        void Assign(Size index, const T& value)
         {
             if(index > size || index < 0) throw std::out_of_range("Index out of range");
             else if(index == size) PushBack(value);
@@ -333,7 +333,7 @@ namespace WSTL
         /**
          * \brief Deletes the element at the specified index
          */
-        void Remove(size_t index)
+        void Remove(Size index)
         {
             if(index >= size || index < 0) throw std::out_of_range("Index out of range");
             if(index == 0) PopFront();
@@ -392,7 +392,7 @@ namespace WSTL
         /**
          * \brief Returns the size of the list
          */
-        size_t Size() const
+        Size Size() const
         {
             return size;
         }
@@ -436,13 +436,13 @@ namespace WSTL
         /**
          * \brief Get Node at the specified index
          */
-        ListNode<T>* NodeAt(size_t index)
+        ListNode<T>* NodeAt(Size index)
         {
             if(index >= size) throw std::out_of_range("Index out of range");
             
             auto pCurrent = pHead;
 
-            for(size_t i = 0; i < index; i++)
+            for(Size i = 0; i < index; i++)
             {
                 pCurrent = pCurrent->pNext;
             }
@@ -451,7 +451,7 @@ namespace WSTL
         }
         
     private:
-        size_t size;
+        Size size;
         ListNode<T>* pHead;
         ListNode<T>* pTail;
     };
