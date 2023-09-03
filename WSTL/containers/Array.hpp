@@ -12,7 +12,9 @@ namespace WSTL
          */
         T& operator[](size_t index)
         {
+#if defined(_DEBUG)
             CheckIndexOutOfRange(index);
+#endif
             return elements[index];
         }
 
@@ -21,7 +23,9 @@ namespace WSTL
          */
         const T& operator[](size_t index) const
         {
+#if defined(_DEBUG)
             CheckIndexOutOfRange(index);
+#endif
             return elements[index];
         }
 
@@ -128,7 +132,7 @@ namespace WSTL
          */
         T* rbegin()
         {
-            return &elements[ArraySize - 1];
+            return end();
         }
 
         /**
@@ -136,7 +140,7 @@ namespace WSTL
          */
         const T* rbegin() const
         {
-            return &elements[ArraySize - 1];
+            return end();
         }
 
         /**
@@ -144,7 +148,7 @@ namespace WSTL
          */
         T* rend()
         {
-            return &elements[0];
+            return begin();
         }
 
         /**
@@ -152,7 +156,7 @@ namespace WSTL
          */
         const T* rend() const
         {
-            return &elements[0];
+            return begin();
         }
 
         /**
@@ -168,7 +172,7 @@ namespace WSTL
          */
         static constexpr bool IsEmpty()
         {
-            return ArraySize == 0;
+            return false; // Array can't be empty
         }
 
         /**

@@ -42,9 +42,9 @@ namespace WSTL
          */
         Vector(Vector<T>&& other) noexcept
         {
-            pBegin = other.pBegin;
-            pEnd = other.pEnd;
-            capacity = other.capacity;
+            pBegin = std::move(other.pBegin);
+            pEnd = std::move(other.pEnd);
+            capacity = std::move(other.capacity);
 
             other.pBegin = nullptr;
             other.pEnd = nullptr;

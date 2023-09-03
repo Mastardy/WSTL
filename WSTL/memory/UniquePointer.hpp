@@ -28,6 +28,9 @@ namespace WSTL
          */
         explicit UniquePointer(T* pValue) noexcept : pValue(pValue) { }
 
+        /**
+         * \brief Move Constructor for converting an UniquePointer of a derived class to an UniquePointer of a base class 
+         */
         template<typename U>
         UniquePointer(UniquePointer<U>&& other) noexcept : pValue(other.Release()) { }
         
@@ -52,13 +55,22 @@ namespace WSTL
          */
         UniquePointer& operator=(UniquePointer<T>&& other) noexcept
         {
-            if(this == &other) return *this;
+            if(*this == other) return *this;
             
             Reset(other.Release());
             
             return *this;
         }
 
+        /**
+         * \brief Move Assignment for nullptr (Resets the UniquePointer)
+         */
+        UniquePointer<T>& operator=(decltype(nullptr)) noexcept
+        {
+            Reset();
+            return *this;
+        }
+        
         /**
          * \brief Allows access to owned pointer through *
          */

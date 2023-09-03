@@ -215,7 +215,7 @@ namespace WSTL
          */
         void Assign(size_t index, const T& value)
         {
-            if(index > size) throw std::out_of_range("Index out of range");
+            if(index > size || index < 0) throw std::out_of_range("Index out of range");
             else if(index == size) PushBack(value);
             else if(index == 0) PushFront(value);
             else NodeAt(index)->Insert(new ListNode<T>(value));
@@ -335,7 +335,7 @@ namespace WSTL
          */
         void Remove(size_t index)
         {
-            if(index >= size) throw std::out_of_range("Index out of range");
+            if(index >= size || index < 0) throw std::out_of_range("Index out of range");
             if(index == 0) PopFront();
             else if(index == size - 1) PopBack();
             else

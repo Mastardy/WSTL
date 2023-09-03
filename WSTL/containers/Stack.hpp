@@ -7,7 +7,7 @@ namespace WSTL
     class Stack
     {
     protected:
-        List<T> container; // TODO: Replace List<T> with a Vector<T>
+        List<T> container;
         
     public:
         /**
@@ -28,6 +28,26 @@ namespace WSTL
             if(this == &other) return *this;
 
             container = other.container;
+
+            return *this;
+        }
+
+        /**
+         * \brief Move Constructor
+         */
+        Stack(Stack<T>&& other) noexcept
+        {
+            container = std::move(other.container);
+        }
+
+        /**
+         * \brief Move Assignment Operator
+         */
+        Stack<T>& operator=(Stack<T>&& other) noexcept
+        {
+            if(*this == other) return *this;
+
+            container = std::move(other.container);
 
             return *this;
         }
@@ -73,5 +93,7 @@ namespace WSTL
         {
             return container.Size();
         }
+
+        ~Stack() = default;
     };
 }

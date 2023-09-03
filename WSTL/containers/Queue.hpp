@@ -18,17 +18,40 @@ namespace WSTL
         /**
          * \brief Copy Constructor
          */
-        Queue(const Queue<T>& other) : container(other.container) { }
+        Queue(const Queue<T>& other)
+        {
+            container = other.container;
+        }
 
         /**
          * \brief Copy Assignment
          */
         Queue<T>& operator=(const Queue<T>& other)
         {
-            if(other == *this) return *this;
+            if(*this == other) return *this;
 
             container = other.container;
 
+            return *this;
+        }
+
+        /**
+         * \brief Move Constructor
+         */
+        Queue(Queue<T>&& other) noexcept
+        {
+            container = std::move(other.container);
+        }
+
+        /**
+         * \brief Move Assignment Operator
+         */
+        Queue<T>& operator=(Queue<T>&& other) noexcept
+        {
+            if(*this == other) return *this;
+
+            container = std::move(other.container);
+            
             return *this;
         }
         
@@ -74,9 +97,6 @@ namespace WSTL
             return container.Size();
         }
 
-        // Delete move operations
-        Queue<T>& operator=(Queue<T>&& other) = delete;
-        Queue(Queue<T>&& other) = delete;
         ~Queue() = default;
     };
 }
