@@ -480,7 +480,7 @@ namespace WSTL
          */
         void Destroy()
         {
-            FreeArray(pBegin);
+            FreeArray(&pBegin);
         }
 
         /**

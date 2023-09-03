@@ -26,22 +26,22 @@ namespace WSTL
     }
 
     template<typename T>
-    inline void Free(T* ptr)
+    inline void Free(T** ptr)
     {
-        if(ptr != nullptr)
+        if(*ptr != nullptr)
         {
-            delete ptr;
-            ptr = nullptr;
+            delete *ptr;
+            *ptr = nullptr;
         }
     }
 
     template<typename T>
-    inline void FreeArray(T* ptr)
+    inline void FreeArray(T** ptr)
     {
-        if(ptr != nullptr)
+        if(*ptr != nullptr)
         {
-            delete[] ptr;
-            ptr = nullptr;
+            delete[] *ptr;
+            *ptr = nullptr;
         }
     }
 }

@@ -508,7 +508,7 @@ namespace WSTL
             }
 
             Destruct(pBegin, pEnd);
-            FreeArray(pBegin);
+            FreeArray(&pBegin);
 
             pBegin = newBegin;
             pEnd = newEnd;
@@ -604,7 +604,7 @@ namespace WSTL
         void Destroy()
         {
             Destruct(pBegin, pEnd);
-            FreeArray(pBegin);
+            FreeArray(&pBegin);
             pEnd = nullptr;
             capacity = 0;
         }
