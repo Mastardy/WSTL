@@ -159,22 +159,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="containers\Array.hpp" />
-    <ClInclude Include="containers\BSTree.hpp" />
-    <ClInclude Include="containers\BTree.hpp" />
     <ClInclude Include="containers\Containers.hpp" />
     <ClInclude Include="containers\fixed\FixedVector.hpp" />
     <ClInclude Include="containers\List.hpp" />
     <ClInclude Include="containers\Map.hpp" />
     <ClInclude Include="containers\Pair.hpp" />
     <ClInclude Include="containers\Queue.hpp" />
-    <ClInclude Include="containers\RBTree.hpp" />
     <ClInclude Include="containers\Stack.hpp" />
+    <ClInclude Include="containers\trees\BSTree.hpp" />
+    <ClInclude Include="containers\trees\BTree.hpp" />
+    <ClInclude Include="containers\trees\RBTree.hpp" />
     <ClInclude Include="containers\Vector.hpp" />
     <ClInclude Include="memory\Memory.hpp" />
     <ClInclude Include="memory\SharedPointer.hpp" />
     <ClInclude Include="memory\SmartPointers.hpp" />
     <ClInclude Include="memory\UniquePointer.hpp" />
     <ClInclude Include="Types.hpp" />
+    <ClInclude Include="Utility.hpp" />
     <ClInclude Include="WSTL.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

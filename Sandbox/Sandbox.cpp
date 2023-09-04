@@ -1,25 +1,23 @@
-#include <WSTL.hpp>
-#include <chrono>
-#include <iostream>
+#include <string>
 
-#include "containers/BTree.hpp"
-
-using namespace WSTL;
+#include "containers/trees/BSTree.hpp"
 
 int main()
 {
-    BTree<int> tree;
+    WSTL::BSTree<unsigned int, std::string> tree;
 
-    for(int i = 0; i < 100; ++i)
-    {
-        tree.Insert(i); 
-    }
-
-    std::cout << tree.Size() << std::endl;
-    tree.Delete(42);
-    std::cout << tree.Size() << std::endl;
-    std::cout << tree.Size() << std::endl;
-
+    tree.Insert(15, "A");
+    tree.Insert(24, "A");
+    tree.Insert(19, "A");
+    tree.Insert(28, "A");
+    tree.Insert(25, "A");
+    tree.Insert(8, "A");
+    tree.Insert(5, "A");
+    tree.Insert(2, "A");
+    tree.Insert(6, "A");
+    tree.Insert(11, "A");
+    tree.Insert(13, "A");
+    tree.Insert(12, "A");
     
     return 0;
 }

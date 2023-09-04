@@ -1,5 +1,6 @@
 ﻿#pragma once
-#include "Queue.hpp"
+#include "Types.hpp"
+#include "Utility.hpp"
 
 namespace WSTL
 {
@@ -62,7 +63,7 @@ namespace WSTL
             Iterator itLast = InternalGetLast(pRoot, Height());
             if(itLast.pNode == nullptr) return;
 
-            std::swap(pSearch->data, itLast.pNode->data);
+            Swap(pSearch->data, itLast.pNode->data);
 
             if(itLast.isLeft)
             {
@@ -82,6 +83,11 @@ namespace WSTL
         inline Node* Search(T value)
         {
             return InternalSearch(pRoot, value);
+        }
+
+        inline Node* SearchLast(T value)
+        {
+            return InternalSearchLast(pRoot, value);
         }
 
         /**
@@ -134,6 +140,22 @@ namespace WSTL
             if(pLeft != nullptr) return pLeft;
             Node* pRight = InternalSearch(pTemp->pRight, value);
             if(pRight != nullptr) return pRight;
+            return nullptr;
+        }
+
+        /**
+         * \brief Internal search function
+         */
+        Node* InternalSearchLast(Node* pTemp, T value)
+        {
+            if(pTemp == nullptr) return nullptr;
+            if(pTemp->data == value) return pTemp;
+
+            Node* pRight = InternalSearchLast(pTemp->pRight, value);
+            if(pRight != nullptr) return pRight;
+            Node* pLeft = InternalSearchLast(pTemp->pLeft, value);
+            if(pLeft != nullptr) return pLeft;
+            
             return nullptr;
         }
 
