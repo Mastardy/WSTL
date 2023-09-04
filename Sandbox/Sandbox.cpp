@@ -15,9 +15,10 @@ int main()
     tree.Insert(5, "A");
     tree.Insert(2, "A");
     tree.Insert(6, "A");
-    tree.Insert(11, "A");
     tree.Insert(13, "A");
-    tree.Insert(12, "A");
+    tree.Insert(12, "A"); 
+
+    tree.Delete(24);
     
     return 0;
 }

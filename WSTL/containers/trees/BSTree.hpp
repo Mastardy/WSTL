@@ -99,6 +99,7 @@ namespace WSTL
                 if(pSearch.isLeft) pSearch.pParent->pLeft = pTemp;
                 else pSearch.pParent->pRight = pTemp;
                 pTemp->pLeft = pSearch.pNode->pLeft;
+                pTemp->pRight = pSearch.pNode->pRight;
 
                 pTempParent->pLeft = nullptr;
                 
@@ -147,10 +148,10 @@ namespace WSTL
             if (pTemp == nullptr) return { nullptr, nullptr, false };
             if (pTemp->key == key) return { pTemp, pParent, isLeft };
 
-            Iterator pLeft = InternalSearch(pTemp->pLeft, key, pTemp);
-            if (pLeft != nullptr) return pLeft;
-            Iterator pRight = InternalSearch(pTemp->pRight, key, pTemp, true);
-            if (pRight != nullptr) return pRight;
+            Iterator pLeft = InternalSearch(pTemp->pLeft, key, pTemp, true);
+            if (pLeft.pNode != nullptr) return pLeft;
+            Iterator pRight = InternalSearch(pTemp->pRight, key, pTemp);
+            if (pRight.pNode != nullptr) return pRight;
             return { nullptr, nullptr, false };
         }
 
