@@ -5,25 +5,9 @@
 
 namespace WSTL
 {
-    template<typename Key, typename Value>
-    struct MapEntry
-    {
-        Key key;
-        Value value;
-
-        MapEntry() : key(), value() {}
-        MapEntry(const Key& key, Value value) : key(key), value(std::move(value)) {}
-        MapEntry(const MapEntry& other) : key(other.key), value(other.value) {}
-        MapEntry(MapEntry&& other) noexcept : key(std::move(other.key)), value(std::move(other.value)) {}
-        MapEntry& operator=(const MapEntry& other) = delete;
-        MapEntry& operator=(MapEntry&& other) = delete;
-        ~MapEntry() = default;
-    };
-    
-    template<typename Key, typename Value>
+        template<typename Key, typename Value>
     class Map
     {
-        typedef MapEntry<const Key, Value> Entry;
         typedef Map<Key, Value> Self;
         
     public:
@@ -69,31 +53,13 @@ namespace WSTL
         Self& operator=(Self&& other) noexcept
         {
             if(this == &other) return *this;
-            tree = std::move(other.tree);
+            tree = other.tree;
+            other.tree = RBTree<Key, Value>();
             return *this;
         }
-
-        /**
-         * \brief Equality operator
-         */
-        bool operator==(const Self& other) const
-        {
-            return tree == other.tree;
-        }
-
-        /**
-         * \brief Inequality operator
-         */
-        bool operator!=(const Self& other) const
-        {
-            return !(*this == other);
-        }
-
+            
         // Delete comparison operators because they don't have a purpose for this container
-        bool operator<(const Self& other) const = delete;
-        bool operator>(const Self& other) const = delete;
-        bool operator<=(const Self& other) const = delete;
-        bool operator>=(const Self& other) const = delete;
+        bool operator<=>(const Self& other) const = delete;
 
         /**
          * \brief Returns the size of the container
@@ -117,8 +83,8 @@ namespace WSTL
         Value& operator[](const Key& key)
         {
             auto pTemp = tree.Search(key);
-            if(pTemp != nullptr) return pTemp->value.value;
-            return tree.Insert(key)->value.value;
+            if(pTemp != nullptr) return pTemp->value;
+            return tree.Insert(key)->value;
         }
 
         /**
@@ -142,7 +108,7 @@ namespace WSTL
          */
         void Insert(const Key& key, const Value& value)
         {
-            tree.Insert(key, Entry(key, value));
+            tree.Insert(key, value);
         }
 
         /**
@@ -181,7 +147,7 @@ namespace WSTL
         /**
          * \brief Returns the entry associated with the given key
          */
-        Entry* Find(const Key& key)
+        Value* Find(const Key& key)
         {
             return tree.Search(key)->value;
         }
@@ -189,7 +155,7 @@ namespace WSTL
         /**
          * \brief Returns the entry associated with the given key as const
          */
-        const Entry* Find(const Key& key) const
+        const Value* Find(const Key& key) const
         {
             return tree.Search(key)->value;
         }
@@ -211,6 +177,6 @@ namespace WSTL
         }
 
     private:
-        RBTree<Key, MapEntry<const Key, Value>> tree;
+        RBTree<Key, Value> tree;
     };
 }
