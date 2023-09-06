@@ -2,6 +2,7 @@
 #include <algorithm>
 
 #include "containers/Pair.hpp"
+#include "containers/Vector.hpp"
 #include "memory/Memory.hpp"
 
 namespace WSTL
@@ -25,25 +26,26 @@ namespace WSTL
     class RBTree
     {
         typedef RBTNode<Key, Value> Node;
+        typedef RBTree<Key, Value> Self;
 
     public:
         RBTree() : pRoot(nullptr) { }
 
-        RBTree(const RBTree& other) : pRoot(nullptr)
+        RBTree(const Self& other) : pRoot(nullptr)
         {
             if(other.pRoot == nullptr) return;
             pRoot = new Node(other.pRoot->key, other.pRoot->value, other.pRoot->isBlack);
             InternalCopy(other.pRoot);
         }
 
-        RBTree(RBTree&& other) noexcept
+        RBTree(Self&& other) noexcept
         {
             if(other.pRoot == nullptr) return;
             pRoot = other.pRoot;
             other.pRoot = nullptr;
         }
 
-        RBTree& operator=(const RBTree& other) 
+        Self& operator=(const Self& other) 
         {
             if(this == &other) return *this;
 
@@ -53,11 +55,13 @@ namespace WSTL
                 return *this;
             }
             
+            Clear();
             InternalCopy(other.pRoot);
+            
             return *this;
         }
 
-        RBTree& operator=(RBTree&& other) noexcept
+        Self& operator=(Self&& other) noexcept
         {
             if(this == &other) return *this;
 
@@ -78,14 +82,16 @@ namespace WSTL
             return GetValue(key);
         }
         
-        void Insert(const Key& key, const Value& value)
+        Node* Insert(const Key& key, const Value& value = Value())
         {
             if(pRoot == nullptr)
             {
                 pRoot = new Node(key, value);
-                return;
+                return pRoot;
             }
-            InternalCheckViolation(InternalInsert(pRoot, key, value));
+            auto pTemp = InternalInsert(pRoot, key, value);
+            InternalCheckViolation(pTemp);
+            return pTemp;
         }
 
         inline Value Get(const Key& key)
@@ -104,6 +110,11 @@ namespace WSTL
         {
             Node* pTemp = InternalSearch(pRoot, key);
             return pTemp == nullptr ? Value() : pTemp->value;
+        }
+
+        Node* Search(const Key& key)
+        {
+            return InternalSearch(pRoot, key);
         }
 
         void Delete(const Key& key)
@@ -164,6 +175,20 @@ namespace WSTL
         {
             InternalClear(pRoot);
             pRoot = nullptr;
+        }
+
+        Vector<Key> GetKeys() const
+        {
+            Vector<Key> keys;
+            InternalGetKeys(pRoot, keys);
+            return keys;
+        }
+
+        Vector<Value> GetValues() const
+        {
+            Vector<Value> values;
+            InternalGetValues(pRoot, values);
+            return values;
         }
         
     protected:
@@ -430,6 +455,22 @@ namespace WSTL
             if(pTemp->pLeft != nullptr) InternalClear(pTemp->pLeft);
             if(pTemp->pRight != nullptr) InternalClear(pTemp->pRight);
             Free(&pTemp);
+        }
+
+        void InternalGetKeys(Node* pTemp, Vector<Key>& keys) const
+        {
+            if(pTemp == nullptr) return;
+            if(pTemp->pLeft != nullptr) InternalGetKeys(pTemp->pLeft, keys);
+            keys.PushBack(pTemp->key);
+            if(pTemp->pRight != nullptr) InternalGetKeys(pTemp->pRight, keys);
+        }
+
+        void InternalGetValues(Node* pTemp, Vector<Value>& values) const
+        {
+            if(pTemp == nullptr) return;
+            if(pTemp->pLeft != nullptr) values.PushBack(InternalGetValues(pTemp->pLeft, values));
+            values.PushBack(pTemp->value);
+            if(pTemp->pRight != nullptr) values.PushBack(InternalGetValues(pTemp->pRight, values));
         }
         
     private:
