@@ -123,8 +123,7 @@ namespace WSTL
         {
             Insert(key, std::move(value));
         }
-            
-            
+
         /**
          * \brief Removes an entry from the container
         */
@@ -180,24 +179,16 @@ namespace WSTL
 
         /**
          * \brief Returns the entry associated with the given key
-         */
-        Value& Find(const Key& key)
+        */
+        Value& Get(const Key& key)
         {
             auto pTemp = tree.Search(key);
             if(pTemp == nullptr) throw std::out_of_range("Key not found");
             return pTemp->value;
         }
-        Value& FindKey(const Key& key)
-        {
-            return Find(key);
-        }
-        Value& Get(const Key& key)
-        {
-            return Find(key);
-        }
         Value& GetValue(const Key& key)
         {
-            return Find(key);
+            return Get(key);
         }
 
         /**

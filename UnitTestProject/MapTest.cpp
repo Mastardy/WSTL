@@ -137,16 +137,16 @@ TEST(MapTest, Contains)
     EXPECT_EQ(a.Contains(4), false);
 }
 
-TEST(MapTest, Find)
+TEST(MapTest, Get)
 {
     MapType a;
     a.Insert(1, 'a');
     a.Insert(2, 'b');
     a.Insert(3, 'c');
-    EXPECT_EQ(a.Find(1), 'a');
-    EXPECT_EQ(a.Find(2), 'b');
-    EXPECT_EQ(a.Find(3), 'c');
-    EXPECT_THROW(a.Find(4) == '\0', std::out_of_range);
+    EXPECT_EQ(a.Get(1), 'a');
+    EXPECT_EQ(a.Get(2), 'b');
+    EXPECT_EQ(a.Get(3), 'c');
+    EXPECT_THROW(a.Get(4) == '\0', std::out_of_range);
 }
 
 TEST(MapTest, GetKeys)
