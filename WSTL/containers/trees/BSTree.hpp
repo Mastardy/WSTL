@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include <algorithm>
+
 #include "memory/Memory.hpp"
 
 namespace WSTL
@@ -13,7 +15,7 @@ namespace WSTL
         Node* pLeft;
         Node* pRight;
 
-        BSTNode(Key k, Value v) : key(k), value(v), pLeft(nullptr), pRight(nullptr) { }
+        BSTNode(Key k, Value v) : key(k), value(std::move(v)), pLeft(nullptr), pRight(nullptr) { }
     };
 
     template <typename Key, typename Value>
@@ -119,7 +121,7 @@ namespace WSTL
             {
                 if (pTemp->pLeft != nullptr)
                 {
-                    InternalInsert(pTemp->pLeft, key, value);
+                    return InternalInsert(pTemp->pLeft, key, value);
                 }
                 else
                 {
@@ -131,7 +133,7 @@ namespace WSTL
             {
                 if (pTemp->pRight != nullptr)
                 {
-                    InternalInsert(pTemp->pRight, key, value);
+                    return InternalInsert(pTemp->pRight, key, value);
                 }
                 else
                 {
