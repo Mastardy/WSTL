@@ -68,6 +68,7 @@ namespace WSTL
             }
             
             Clear();
+            pRoot = new Node(other.pRoot->key, other.pRoot->value, other.pRoot->isBlack);
             InternalCopy(other.pRoot);
             
             return *this;
