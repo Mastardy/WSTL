@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Vector.hpp"
 #include "trees/RBTree.hpp"
@@ -84,7 +84,8 @@ namespace WSTL
         {
             auto pTemp = tree.Search(key);
             if(pTemp != nullptr) return pTemp->value;
-            return tree.Insert(key)->value;
+            auto pNew = tree.Insert(key);
+            return pNew->value;
         }
 
         /**
@@ -110,13 +111,34 @@ namespace WSTL
         {
             tree.Insert(key, value);
         }
-
+        void Insert(const Key& key, Value&& value)
+        {
+            tree.Insert(key, std::move(value));
+        }
+        void Add(const Key& key, const Value& value)
+        {
+            Insert(key, value);
+        }
+        void Add(const Key& key, Value&& value)
+        {
+            Insert(key, std::move(value));
+        }
+            
+            
         /**
          * \brief Removes an entry from the container
-         */
-        void Erase(const Key& key)
+        */
+        void Delete(const Key& key)
         {
             tree.Delete(key);
+        }
+        void Erase(const Key& key)
+        {
+            Delete(key);
+        }
+        void Remove(const Key& key)
+        {
+            Delete(key);
         }
 
         /**
@@ -139,25 +161,63 @@ namespace WSTL
         /**
          * \brief Returns whether the container contains the given key
          */
-        bool Contains(const Key& key) const
+        bool Contains(const Key& key)
         {
             return tree.Search(key) != nullptr;
+        }
+        bool ContainsKey(const Key& key)
+        {
+            return Contains(key);
+        }
+        bool Has(const Key& key)
+        {
+            return Contains(key);
+        }
+        bool HasKey(const Key& key)
+        {
+            return Contains(key);
         }
 
         /**
          * \brief Returns the entry associated with the given key
          */
-        Value* Find(const Key& key)
+        Value& Find(const Key& key)
         {
-            return tree.Search(key)->value;
+            auto pTemp = tree.Search(key);
+            if(pTemp == nullptr) throw std::out_of_range("Key not found");
+            return pTemp->value;
+        }
+        Value& FindKey(const Key& key)
+        {
+            return Find(key);
+        }
+        Value& Get(const Key& key)
+        {
+            return Find(key);
+        }
+        Value& GetValue(const Key& key)
+        {
+            return Find(key);
         }
 
         /**
          * \brief Returns the entry associated with the given key as const
          */
-        const Value* Find(const Key& key) const
+        const Value& Find(const Key& key) const
         {
             return tree.Search(key)->value;
+        }
+        const Value& FindKey(const Key& key) const
+        {
+            return Find(key);
+        }
+        const Value& Get(const Key& key) const
+        {
+            return Find(key);
+        }
+        const Value& GetValue(const Key& key) const
+        {
+            return Find(key);
         }
 
         /**

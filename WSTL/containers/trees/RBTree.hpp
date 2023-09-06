@@ -115,6 +115,7 @@ namespace WSTL
                 return pRoot;
             }
             auto pTemp = InternalInsert(pRoot, key, value);
+            if(pTemp == nullptr) return nullptr;
             InternalCheckViolation(pTemp);
             return pTemp;
         }
