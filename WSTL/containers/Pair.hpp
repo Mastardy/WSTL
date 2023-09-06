@@ -24,7 +24,7 @@ namespace WSTL
          */
         Pair& operator=(const Pair<T1, T2>& other)
         {
-            if(*this == other) return *this;
+            if(this == &other) return *this;
         
             first = other.first;
             second = other.second;
@@ -46,7 +46,7 @@ namespace WSTL
          */
         Pair& operator=(Pair<T1, T2>&& other) noexcept
         {
-            if(*this == other) return *this;
+            if(this == &other) return *this;
 
             first = std::move(other.first);
             second = std::move(other.second);

@@ -45,7 +45,7 @@ namespace WSTL
          */
         Stack<T>& operator=(Stack<T>&& other) noexcept
         {
-            if(*this == other) return *this;
+            if(this == &other) return *this;
 
             container = std::move(other.container);
 

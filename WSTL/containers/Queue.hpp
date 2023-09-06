@@ -28,7 +28,7 @@ namespace WSTL
          */
         Queue<T>& operator=(const Queue<T>& other)
         {
-            if(*this == other) return *this;
+            if(this == &other) return *this;
 
             container = other.container;
 
@@ -48,7 +48,7 @@ namespace WSTL
          */
         Queue<T>& operator=(Queue<T>&& other) noexcept
         {
-            if(*this == other) return *this;
+            if(this == &other) return *this;
 
             container = std::move(other.container);
             

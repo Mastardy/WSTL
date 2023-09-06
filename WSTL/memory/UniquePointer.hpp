@@ -55,7 +55,7 @@ namespace WSTL
          */
         UniquePointer& operator=(UniquePointer<T>&& other) noexcept
         {
-            if(*this == other) return *this;
+            if(this == &other) return *this;
             
             Reset(other.Release());
             
