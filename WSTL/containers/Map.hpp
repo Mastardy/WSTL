@@ -1,11 +1,11 @@
-﻿#pragma once
+#pragma once
 
 #include "Vector.hpp"
 #include "trees/RBTree.hpp"
 
 namespace WSTL
 {
-        template<typename Key, typename Value>
+    template<typename Key, typename Value>
     class Map
     {
         typedef Map<Key, Value> Self;
@@ -92,7 +92,7 @@ namespace WSTL
          */
         Value& At(const Key& key)
         {
-            return *this->operator[](key);
+            return (*this)[key];
         }
 
         /**
@@ -100,7 +100,7 @@ namespace WSTL
          */
         const Value& At(const Key& key) const
         {
-            return *this->operator[](key);
+            return (*this)[key];
         }
 
         /**
