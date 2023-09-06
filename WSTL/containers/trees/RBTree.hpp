@@ -29,8 +29,14 @@ namespace WSTL
         typedef RBTree<Key, Value> Self;
 
     public:
+        /**
+         * \brief Default constructor
+         */
         RBTree() : pRoot(nullptr) { }
 
+        /**
+         * \brief Copy constructor
+         */
         RBTree(const Self& other) : pRoot(nullptr)
         {
             if(other.pRoot == nullptr) return;
@@ -38,6 +44,9 @@ namespace WSTL
             InternalCopy(other.pRoot);
         }
 
+        /**
+         * \brief Move constructor
+         */
         RBTree(Self&& other) noexcept
         {
             if(other.pRoot == nullptr) return;
@@ -45,6 +54,9 @@ namespace WSTL
             other.pRoot = nullptr;
         }
 
+        /**
+         * \brief Copy assignment operator
+         */
         Self& operator=(const Self& other) 
         {
             if(this == &other) return *this;
@@ -61,6 +73,9 @@ namespace WSTL
             return *this;
         }
 
+        /**
+         * \brief Move assignment operator
+         */
         Self& operator=(Self&& other) noexcept
         {
             if(this == &other) return *this;
@@ -72,16 +87,25 @@ namespace WSTL
             return *this;
         }
 
+        /**
+         * \brief Destructor
+         */
         ~RBTree()
         {
             Clear();
         }
 
+        /**
+         * \brief Get the value associated with the given key
+         */
         Value operator[](const Key& key)
         {
             return GetValue(key);
         }
-        
+
+        /**
+         * \brief Insert a new key-value pair
+         */
         Node* Insert(const Key& key, const Value& value = Value())
         {
             if(pRoot == nullptr)
@@ -94,29 +118,44 @@ namespace WSTL
             return pTemp;
         }
 
+        /**
+         * \brief Get the value associated with the given key
+         */
         inline Value Get(const Key& key)
         {
             return GetValue(key);
         }
-        
-        Pair<Key, Value> GetPair(const Key& key)
+
+        /**
+         * \brief Get a pair associated with the given key
+         */
+        Pair<const Key, Value> GetPair(const Key& key)
         {
             Node* pTemp = InternalSearch(pRoot, key);
             if(pTemp == nullptr) return Pair<Key, Value>(key, Value());
             return Pair<Key, Value>(key, InternalSearch(pRoot, key)->value);
         }
 
+        /**
+         * \brief Gets the value associated with the given key
+         */
         Value GetValue(const Key& key)
         {
             Node* pTemp = InternalSearch(pRoot, key);
             return pTemp == nullptr ? Value() : pTemp->value;
         }
 
+        /**
+         * \brief Gets the Node associated with the given key
+         */
         Node* Search(const Key& key)
         {
             return InternalSearch(pRoot, key);
         }
 
+        /**
+         * \brief Delete the key-value pair associated with the given key
+         */
         void Delete(const Key& key)
         {
             auto pDelete = InternalSearch(pRoot, key);
@@ -161,22 +200,34 @@ namespace WSTL
             Free(&pDelete);
         }
 
+        /**
+         * \brief Returns whether the container is empty
+         */
         inline bool IsEmpty() const
         {
             return pRoot == nullptr;
         }
 
+        /**
+         * \brief Returns the size of the container
+         */
         inline Size Size() const
         {
             return InternalSize(pRoot);
         }
-        
+
+        /**
+         * \brief Clears the container
+         */
         inline void Clear()
         {
             InternalClear(pRoot);
             pRoot = nullptr;
         }
 
+        /**
+         * \brief Gets all the keys in the container
+         */
         Vector<Key> GetKeys() const
         {
             Vector<Key> keys;
@@ -184,6 +235,9 @@ namespace WSTL
             return keys;
         }
 
+        /**
+         * \brief Gets all the values in the container
+         */
         Vector<Value> GetValues() const
         {
             Vector<Value> values;
@@ -192,6 +246,9 @@ namespace WSTL
         }
         
     protected:
+        /**
+         * \brief Inserts a new entry into the container following the rules of the Red-Black Tree
+         */
         Node* InternalInsert(Node* pTemp, const Key& key, const Value& value)
         {
             if(pTemp == nullptr) return nullptr;
@@ -216,6 +273,9 @@ namespace WSTL
             return nullptr;
         }
 
+        /**
+         * \brief Searches for the given key in the container
+         */
         Node* InternalSearch(Node* pTemp, const Key& key)
         {
             if(pTemp == nullptr) return nullptr;
@@ -237,6 +297,9 @@ namespace WSTL
             return nullptr;
         }
 
+        /**
+         * \brief Finds the minimum key in the subtree
+         */
         Node* InternalFindMin(Node* pTemp) const
         {
             if(pTemp == nullptr) return nullptr;
@@ -244,6 +307,9 @@ namespace WSTL
             return InternalFindMin(pTemp->pLeft);
         }
 
+        /**
+         * \brief Finds the maximum key in the subtree
+         */
         Node* InternalFindMax(Node* pTemp) const
         {
             if(pTemp == nullptr) return nullptr;
@@ -251,12 +317,18 @@ namespace WSTL
             return InternalFindMax(pTemp->pRight);
         }
 
+        /**
+         * \brief Returns the size of the subtree
+         */
         ::Size InternalSize(Node* pTemp) const
         {
             if(pTemp == nullptr) return 0;
             return InternalSize(pTemp->pLeft) + InternalSize(pTemp->pRight) + 1;
         }
-        
+
+        /**
+         * \brief Checks if the Red-Black Tree rules are being violated and fixes them
+         */
         void InternalCheckViolation(Node* pTemp)
         {            
             while(!pTemp->pParent->isBlack)
@@ -314,6 +386,9 @@ namespace WSTL
             pRoot->isBlack = true;
         }
 
+        /**
+         * \brief Checks if the Red-Black Tree rules are being violated and fixes them after a deletion 
+         */
         void InternalCheckViolationDelete(Node* pTemp, bool isBlack)
         {
             if(pTemp == nullptr) return;
@@ -356,7 +431,10 @@ namespace WSTL
 
             pTemp->isBlack = true;
         }
-        
+
+        /**
+         * \brief Transplants the source node with the target node
+         */
         void InternalTransplant(Node* pTarget, Node* pSource)
         {
             if(pTarget == nullptr) return;
@@ -377,6 +455,9 @@ namespace WSTL
             if(pSource != nullptr) pSource->pParent = pTarget->pParent;
         }
 
+        /**
+         * \brief Rotates the subtree left
+         */
         void InternalRotateLeft(Node* pParent)
         {
             if(pParent == nullptr) return;
@@ -404,6 +485,9 @@ namespace WSTL
             pParent->pParent = pChild;
         }
 
+        /**
+         * \brief Rotates the subtree right
+         */
         void InternalRotateRight(Node* pParent)
         {
             if(pParent == nullptr) return;
@@ -431,6 +515,9 @@ namespace WSTL
             pParent->pParent = pChild;
         }
 
+        /**
+         * \brief Copies the given tree into this tree
+         */
         void InternalCopy(Node* pOther)
         {
             if(pOther == nullptr) return;
@@ -448,7 +535,10 @@ namespace WSTL
                 InternalCopy(pOther->pRight);
             }
         }
-        
+
+        /**
+         * \brief Clears the given tree by deleting all the nodes
+         */
         void InternalClear(Node* pTemp)
         {
             if(pTemp == nullptr) return;
@@ -457,6 +547,9 @@ namespace WSTL
             Free(&pTemp);
         }
 
+        /**
+         * \brief Gets all the keys in the container
+         */
         void InternalGetKeys(Node* pTemp, Vector<Key>& keys) const
         {
             if(pTemp == nullptr) return;
@@ -465,6 +558,9 @@ namespace WSTL
             if(pTemp->pRight != nullptr) InternalGetKeys(pTemp->pRight, keys);
         }
 
+        /**
+         * \brief Gets all the values in the container 
+         */
         void InternalGetValues(Node* pTemp, Vector<Value>& values) const
         {
             if(pTemp == nullptr) return;
