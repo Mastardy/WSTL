@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Types.hpp"
+#include <type_traits>
 
 namespace WSTL
 {
