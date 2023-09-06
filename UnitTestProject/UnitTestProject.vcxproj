@@ -42,6 +42,7 @@
     <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\WSTL\</ExternalIncludePath>
   </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="MapTest.cpp" />
     <ClCompile Include="RBTreeTest.cpp" />
     <ClCompile Include="StackTest.cpp" />
     <ClCompile Include="UniquePointerTest.cpp" />
