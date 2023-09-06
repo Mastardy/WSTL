@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <algorithm>
 
 #include "containers/Pair.hpp"
@@ -129,7 +129,7 @@ namespace WSTL
         /**
          * \brief Get a pair associated with the given key
          */
-        Pair<const Key, Value> GetPair(const Key& key)
+        Pair<Key, Value> GetPair(const Key& key)
         {
             Node* pTemp = InternalSearch(pRoot, key);
             if(pTemp == nullptr) return Pair<Key, Value>(key, Value());
@@ -564,9 +564,9 @@ namespace WSTL
         void InternalGetValues(Node* pTemp, Vector<Value>& values) const
         {
             if(pTemp == nullptr) return;
-            if(pTemp->pLeft != nullptr) values.PushBack(InternalGetValues(pTemp->pLeft, values));
+            if(pTemp->pLeft != nullptr) InternalGetValues(pTemp->pLeft, values);
             values.PushBack(pTemp->value);
-            if(pTemp->pRight != nullptr) values.PushBack(InternalGetValues(pTemp->pRight, values));
+            if(pTemp->pRight != nullptr) InternalGetValues(pTemp->pRight, values);
         }
         
     private:
