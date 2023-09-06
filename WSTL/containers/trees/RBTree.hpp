@@ -32,6 +32,7 @@ namespace WSTL
         RBTree(const RBTree& other) : pRoot(nullptr)
         {
             if(other.pRoot == nullptr) return;
+            pRoot = new Node(other.pRoot->key, other.pRoot->value, other.pRoot->isBlack);
             InternalCopy(other.pRoot);
         }
 
@@ -72,6 +73,11 @@ namespace WSTL
             Clear();
         }
 
+        Value operator[](const Key& key)
+        {
+            return GetValue(key);
+        }
+        
         void Insert(const Key& key, const Value& value)
         {
             if(pRoot == nullptr)
@@ -89,17 +95,15 @@ namespace WSTL
         
         Pair<Key, Value> GetPair(const Key& key)
         {
+            Node* pTemp = InternalSearch(pRoot, key);
+            if(pTemp == nullptr) return Pair<Key, Value>(key, Value());
             return Pair<Key, Value>(key, InternalSearch(pRoot, key)->value);
-        }
-
-        Node* GetNode(const Key& key)
-        {
-            return InternalSearch(pRoot, key);
         }
 
         Value GetValue(const Key& key)
         {
-            return InternalSearch(pRoot, key)->value;
+            Node* pTemp = InternalSearch(pRoot, key);
+            return pTemp == nullptr ? Value() : pTemp->value;
         }
 
         void Delete(const Key& key)
@@ -134,11 +138,16 @@ namespace WSTL
             }
             else
             {
+                if(pDelete->pParent == nullptr)
+                {
+                    Free(&pDelete);
+                    pRoot = nullptr;
+                    return;
+                }
                 if(pDelete->pParent->pRight == pDelete) pDelete->pParent->pRight = nullptr;
                 else pDelete->pParent->pLeft = nullptr;
             }
-
-            Free(pDelete);
+            Free(&pDelete);
         }
 
         inline bool IsEmpty() const
@@ -154,6 +163,7 @@ namespace WSTL
         inline void Clear()
         {
             InternalClear(pRoot);
+            pRoot = nullptr;
         }
         
     protected:
@@ -202,21 +212,21 @@ namespace WSTL
             return nullptr;
         }
 
-        Node* InternalFindMin(Node* pTemp)
+        Node* InternalFindMin(Node* pTemp) const
         {
             if(pTemp == nullptr) return nullptr;
             if(pTemp->pLeft == nullptr) return pTemp;
             return InternalFindMin(pTemp->pLeft);
         }
 
-        Node* InternalFindMax(Node* pTemp)
+        Node* InternalFindMax(Node* pTemp) const
         {
             if(pTemp == nullptr) return nullptr;
             if(pTemp->pRight == nullptr) return pTemp;
             return InternalFindMax(pTemp->pRight);
         }
 
-        ::Size InternalSize(Node* pTemp)
+        ::Size InternalSize(Node* pTemp) const
         {
             if(pTemp == nullptr) return 0;
             return InternalSize(pTemp->pLeft) + InternalSize(pTemp->pRight) + 1;
@@ -305,7 +315,7 @@ namespace WSTL
                     {
                         if(pBrother->pRight->isBlack)
                         {
-                            pBrother->pLeft->isColor = true;
+                            pBrother->pLeft->isBlack = true;
                             pBrother->isBlack = false;
                             InternalRotateRight(pBrother);
                             pBrother = pTemp->pParent->pRight;
@@ -396,12 +406,30 @@ namespace WSTL
             pParent->pParent = pChild;
         }
 
+        void InternalCopy(Node* pOther)
+        {
+            if(pOther == nullptr) return;
+            Node* pTemp = InternalSearch(pRoot, pOther->key);
+            if(pOther->pLeft != nullptr)
+            {
+                pTemp->pLeft = new Node(pOther->pLeft->key, pOther->pLeft->value, pOther->pLeft->isBlack);
+                pTemp->pLeft->pParent = pTemp;
+                InternalCopy(pOther->pLeft);
+            }
+            if(pOther->pRight != nullptr)
+            {
+                pTemp->pRight = new Node(pOther->pRight->key, pOther->pRight->value, pOther->pRight->isBlack);
+                pTemp->pRight->pParent = pTemp;
+                InternalCopy(pOther->pRight);
+            }
+        }
+        
         void InternalClear(Node* pTemp)
         {
             if(pTemp == nullptr) return;
             if(pTemp->pLeft != nullptr) InternalClear(pTemp->pLeft);
             if(pTemp->pRight != nullptr) InternalClear(pTemp->pRight);
-            Free(pTemp);
+            Free(&pTemp);
         }
         
     private:
@@ -409,5 +437,5 @@ namespace WSTL
     };
 
     template<typename Key, typename Value>
-    typedef RBTree<Key, Value> RedBlackTree;
+    using RedBlackTree = RBTree<Key, Value>;
 }
