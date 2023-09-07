@@ -64,7 +64,7 @@ namespace WSTL
         /**
          * \brief Returns the size of the container
          */
-        inline Size Size() const
+         Size Size() const
         {
             return tree.Size();
         }
@@ -72,7 +72,7 @@ namespace WSTL
         /**
          * \brief Returns whether the container is empty
          */
-        inline bool IsEmpty() const
+         bool IsEmpty() const
         {
             return tree.IsEmpty();
         }
@@ -165,14 +165,6 @@ namespace WSTL
             return tree.Search(key) != nullptr;
         }
         bool ContainsKey(const Key& key)
-        {
-            return Contains(key);
-        }
-        bool Has(const Key& key)
-        {
-            return Contains(key);
-        }
-        bool HasKey(const Key& key)
         {
             return Contains(key);
         }

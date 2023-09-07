@@ -223,7 +223,7 @@ namespace WSTL
         /**
          * \brief Returns the first element of the vector
          */
-        inline T& Front()
+         T& Front()
         {
             return operator[](0);
         }
@@ -231,7 +231,7 @@ namespace WSTL
         /**
          * \brief Returns the first element of the vector as const
          */
-        inline const T& Front() const
+         const T& Front() const
         {
             return operator[](0);
         }
@@ -239,7 +239,7 @@ namespace WSTL
         /**
          * \brief Returns the last element of the vector
          */
-        inline T& Back()
+         T& Back()
         {
             return operator[](Size() - 1);
         }
@@ -247,7 +247,7 @@ namespace WSTL
         /**
          * \brief Returns the last element of the vector as const
          */
-        inline const T& Back() const
+         const T& Back() const
         {
             return operator[](Size() - 1);
         }
@@ -527,7 +527,7 @@ namespace WSTL
         /**
          * \brief Returns whether the vector is empty
          */
-        inline bool IsEmpty() const noexcept
+         bool IsEmpty() const noexcept
         {
             return Size() == 0;
         }
@@ -535,7 +535,7 @@ namespace WSTL
         /**
          * \brief Returns the number of elements in the vector
          */
-        inline Size Size() const noexcept
+         Size Size() const noexcept
         {
             return pEnd - pBegin;
         }
@@ -543,7 +543,7 @@ namespace WSTL
         /**
          * \brief Returns the current capacity of the vector
          */
-        inline ::Size Capacity() const noexcept
+         ::Size Capacity() const noexcept
         {
             return capacity;
         }
@@ -628,7 +628,7 @@ namespace WSTL
         /**
          * \brief Checks if the specified index is out of range
          */
-        inline void CheckIndexOutOfRange(::Size index) const
+         void CheckIndexOutOfRange(::Size index) const
         {
             if(index < 0 || index >= Size()) throw std::out_of_range("Index out of Range");
         }
@@ -636,7 +636,7 @@ namespace WSTL
         /**
          * \brief Checks if the specified range is out of vector range
          */
-        inline void CheckRangeOutOfRange(const T* first, const T* last) const
+         void CheckRangeOutOfRange(const T* first, const T* last) const
         {
             if(first > last) throw std::invalid_argument("`first` is greater than `last`");
             if(first < pBegin || first > pEnd || last > pEnd ) throw std::out_of_range("Index out of Range");

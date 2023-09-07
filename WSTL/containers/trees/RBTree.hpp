@@ -123,7 +123,7 @@ namespace WSTL
         /**
          * \brief Get the value associated with the given key
          */
-        inline Value Get(const Key& key)
+         Value Get(const Key& key)
         {
             return GetValue(key);
         }
@@ -205,7 +205,7 @@ namespace WSTL
         /**
          * \brief Returns whether the container is empty
          */
-        inline bool IsEmpty() const
+         bool IsEmpty() const
         {
             return pRoot == nullptr;
         }
@@ -213,7 +213,7 @@ namespace WSTL
         /**
          * \brief Returns the size of the container
          */
-        inline Size Size() const
+         Size Size() const
         {
             return InternalSize(pRoot);
         }
@@ -221,7 +221,7 @@ namespace WSTL
         /**
          * \brief Clears the container
          */
-        inline void Clear()
+         void Clear()
         {
             InternalClear(pRoot);
             pRoot = nullptr;

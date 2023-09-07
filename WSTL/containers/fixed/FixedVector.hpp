@@ -132,7 +132,7 @@ namespace WSTL
         /**
          * \brief Returns the underlying array
          */
-        inline T* Data() noexcept
+         T* Data() noexcept
         {
             return pBegin;
         }
@@ -141,7 +141,7 @@ namespace WSTL
         /**
          * \brief Returns the underlying array as const
          */
-        inline const T* Data() const noexcept
+         const T* Data() const noexcept
         {
             return pBegin;
         }
@@ -149,7 +149,7 @@ namespace WSTL
         /**
          * \brief Returns the element at the specified index
          */
-        inline T& operator[](Size index)
+         T& operator[](Size index)
         {
             CheckIndexOutOfRange(index);
             return pBegin[index];
@@ -158,7 +158,7 @@ namespace WSTL
         /**
          * \brief Returns the element at the specified index as const
          */
-        inline const T& operator[](Size index) const
+         const T& operator[](Size index) const
         {
             CheckIndexOutOfRange(index);
             return pBegin[index];
@@ -167,7 +167,7 @@ namespace WSTL
         /**
          * \brief Returns the element at the specified index
          */
-        inline T& At(Size index)
+         T& At(Size index)
         {
             return operator[](index);
         }
@@ -175,7 +175,7 @@ namespace WSTL
         /**
          * \brief Returns the element at the specified index as const
          */
-        inline const T& At(Size index) const
+         const T& At(Size index) const
         {
             return operator[](index);
         }
@@ -183,7 +183,7 @@ namespace WSTL
         /**
          * \brief Returns the first element of the vector
          */
-        inline T& Front()
+         T& Front()
         {
             return operator[](0);
         }
@@ -191,7 +191,7 @@ namespace WSTL
         /**
          * \brief Returns the first element of the vector as const
          */
-        inline const T& Front() const
+         const T& Front() const
         {
             return operator[](0);
         }
@@ -199,7 +199,7 @@ namespace WSTL
         /**
          * \brief Returns the last element of the vector
          */
-        inline T& Back()
+         T& Back()
         {
             return operator[](Size() - 1);
         }
@@ -207,7 +207,7 @@ namespace WSTL
         /**
          * \brief Returns the last element of the vector as const
          */
-        inline const T& Back() const
+         const T& Back() const
         {
             return operator[](Size() - 1);
         }
@@ -412,7 +412,7 @@ namespace WSTL
         /**
          * \brief Returns whether the vector is empty
          */
-        inline bool IsEmpty() const noexcept
+         bool IsEmpty() const noexcept
         {
             return Size() == 0;
         }
@@ -420,7 +420,7 @@ namespace WSTL
         /**
          * \brief Returns wether the vector is full
          */
-        inline bool IsFull() const noexcept
+         bool IsFull() const noexcept
         {
             return Size() == FixedSize;
         }
@@ -428,7 +428,7 @@ namespace WSTL
         /**
          * \brief Returns the number of elements in the vector
          */      
-        inline Size Size() const noexcept
+         Size Size() const noexcept
         {
             return pEnd - pBegin;
         }
@@ -494,7 +494,7 @@ namespace WSTL
         /**
          * \brief Checks if the specified range is out of vector range
          */
-        inline void CheckRangeOutOfRange(const T* first, const T* last) const
+         void CheckRangeOutOfRange(const T* first, const T* last) const
         {
             if(first > last) throw std::invalid_argument("`first` is greater than `last`");
             if(first < pBegin || first > pEnd || last > pEnd ) throw std::out_of_range("Index out of Range");
