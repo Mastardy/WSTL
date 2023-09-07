@@ -177,7 +177,7 @@ namespace WSTL
          * \brief Checks if set contains specified value
          */
         [[nodiscard]]
-        bool Contains(const Value& value) const
+        bool Contains(const Value& value)
         {
             return tree.Search(value) != nullptr;
         }
@@ -186,7 +186,7 @@ namespace WSTL
          * \brief Returns the minimum value in the set
          */
         [[nodiscard]]
-        const Value& Min() const
+        const Value& Min()
         {
             return tree.Min()->key;
         }
@@ -195,9 +195,9 @@ namespace WSTL
          * \brief Returns the maximum value in the set
          */
         [[nodiscard]]
-        const Value& Max() const
+        const Value& Max()
         {
-            return tree.Max()->key;
+            return  tree.Max()->key;
         }
 
         /**
@@ -210,7 +210,7 @@ namespace WSTL
             Vector<Value> vec(size);
             for(::Size i = 0; i < size; i++)
             {
-                vec.PushBack(At(i));
+                vec[i] = At(i);
             }
             return vec;
         }
