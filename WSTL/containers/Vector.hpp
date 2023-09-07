@@ -456,9 +456,9 @@ namespace WSTL
          */
         void Resize(Size count)
         {
-            auto oldSize = Size();
-            if(count == oldSize()) return;
-            else if(count < oldSize())
+            const auto oldSize = Size();
+            if(count == oldSize) return;
+            else if(count < oldSize)
             {
                 Destruct(pBegin + count, pEnd);
                 pEnd = pBegin + count;
@@ -597,7 +597,7 @@ namespace WSTL
             }
             
             pBegin = new T[count]();
-            pEnd = pBegin;
+            pEnd = pBegin + count;
             capacity = count;
         }
 
@@ -622,7 +622,7 @@ namespace WSTL
             {
                 SetCapacity(1);
             }
-            else if(oldSize + count > capacity)
+            else if(oldSize + count - 1 >= capacity)
             {
                 SetCapacity(oldSize * 2 + count);
             }
