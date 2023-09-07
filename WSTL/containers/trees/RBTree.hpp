@@ -246,6 +246,22 @@ namespace WSTL
             InternalGetValues(pRoot, values);
             return values;
         }
+
+        Node* LeftToRight(::Size index)
+        {
+            ::Size current = 0;
+            return InternalLeftToRight(pRoot, index, current);
+        }
+
+        Node* Min()
+        {
+            return InternalFindMin(pRoot);
+        }
+
+        Node* Max()
+        {
+            return InternalFindMax(pRoot);
+        }
         
     protected:
         /**
@@ -569,6 +585,24 @@ namespace WSTL
             if(pTemp->pLeft != nullptr) InternalGetValues(pTemp->pLeft, values);
             values.PushBack(pTemp->value);
             if(pTemp->pRight != nullptr) InternalGetValues(pTemp->pRight, values);
+        }
+
+        Node* InternalLeftToRight(Node* pTemp, ::Size index, ::Size& current)
+        {
+            if(pTemp == nullptr) return nullptr;
+            if(pTemp->pLeft != nullptr)
+            {
+                auto pResult = InternalLeftToRight(pTemp->pLeft, index, current);
+                if(pResult != nullptr) return pResult;
+            }
+            if(current == index) return pTemp;
+            current++;
+            if(pTemp->pRight != nullptr)
+            {
+                auto pResult = InternalLeftToRight(pTemp->pRight, index, current);
+                if(pResult != nullptr) return pResult;
+            }
+            return nullptr;
         }
         
     private:

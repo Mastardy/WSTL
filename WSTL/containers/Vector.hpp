@@ -456,8 +456,9 @@ namespace WSTL
          */
         void Resize(Size count)
         {
-            if(count == Size()) return;
-            else if(count < Size())
+            auto oldSize = Size();
+            if(count == oldSize()) return;
+            else if(count < oldSize())
             {
                 Destruct(pBegin + count, pEnd);
                 pEnd = pBegin + count;
@@ -465,7 +466,7 @@ namespace WSTL
             else
             {
                 CheckForCapacity(count);
-                for(::Size i = Size(); i < count; ++i)
+                for(::Size i = oldSize; i < count; ++i)
                 {
                     pBegin[i] = T();
                 }
@@ -478,8 +479,9 @@ namespace WSTL
          */
         void Resize(Size count, const T& value)
         {
-            if(count == Size()) return;
-            else if(count < Size())
+            auto oldSize = Size();
+            if(count == oldSize) return;
+            else if(count < oldSize)
             {
                 Destruct(pBegin + count, pEnd);
                 pEnd = pBegin + count;
@@ -487,7 +489,7 @@ namespace WSTL
             else
             {
                 CheckForCapacity(count);
-                for(::Size i = Size(); i < count; ++i)
+                for(::Size i = oldSize; i < count; ++i)
                 {
                     pBegin[i] = value; 
                 }
@@ -595,7 +597,7 @@ namespace WSTL
             }
             
             pBegin = new T[count]();
-            pEnd = pBegin + count;
+            pEnd = pBegin;
             capacity = count;
         }
 
@@ -615,13 +617,14 @@ namespace WSTL
          */
         void CheckForCapacity(::Size count = 1)
         {
+            const auto oldSize = Size();
             if(capacity == 0)
             {
                 SetCapacity(1);
             }
-            else if(Size() + count - 1 >= capacity)
+            else if(oldSize + count > capacity)
             {
-                SetCapacity(Size() * 2 + count);
+                SetCapacity(oldSize * 2 + count);
             }
         }
         
