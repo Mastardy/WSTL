@@ -170,7 +170,7 @@ namespace WSTL
 
                 auto pSuccessorChild = pSuccessor->pRight;
                 InternalTransplant(pSuccessor, pSuccessorChild);
-                pDelete->pRight->pParent = pSuccessor;
+                if(pDelete->pRight != nullptr) pDelete->pRight->pParent = pSuccessor;
                 pSuccessor->pRight = pDelete->pRight;
 
                 InternalTransplant(pDelete, pSuccessor);
