@@ -174,8 +174,9 @@ namespace WSTL
                 pSuccessor->pRight = pDelete->pRight;
 
                 InternalTransplant(pDelete, pSuccessor);
+                if(pDelete->pLeft != nullptr) pDelete->pLeft->pParent = pSuccessor;
                 pSuccessor->pLeft = pDelete->pLeft;
-
+                
                 InternalCheckViolationDelete(pSuccessorChild, isBlack);
             }
             else if(pDelete->pRight != nullptr)
