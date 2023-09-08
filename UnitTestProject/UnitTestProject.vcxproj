@@ -44,6 +44,7 @@
   <ItemGroup>
     <ClCompile Include="MapTest.cpp" />
     <ClCompile Include="RBTreeTest.cpp" />
+    <ClCompile Include="SetTest.cpp" />
     <ClCompile Include="StackTest.cpp" />
     <ClCompile Include="UniquePointerTest.cpp" />
     <ClCompile Include="VectorTest.cpp" />
