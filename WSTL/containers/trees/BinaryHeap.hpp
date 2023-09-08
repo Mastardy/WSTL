@@ -4,6 +4,7 @@
 
 #include "Types.hpp"
 #include "Utility.hpp"
+#include "memory/Memory.hpp"
 
 namespace WSTL
 {
@@ -87,7 +88,7 @@ namespace WSTL
         /**
          * \brief Copy constructor
          */
-        BinaryHeap(const Self& other) : pRoot(Node(*other.pRoot)) { }
+        BinaryHeap(const Self& other) : pRoot(new Node(*other.pRoot)) { }
 
         /**
          * \brief Move constructor
@@ -138,6 +139,7 @@ namespace WSTL
         void Clear()
         {
             InternalClear(pRoot);
+            pRoot = nullptr;
         }
 
         /**
@@ -177,6 +179,14 @@ namespace WSTL
             return InternalSize(pRoot);
         }
 
+        /**
+         * \brief Returns whether the heap is empty
+         */
+        bool IsEmpty()
+        {
+            return pRoot == nullptr;
+        }
+
     protected:
         /**
          * \brief Clears the heap by deleting all nodes
@@ -184,8 +194,8 @@ namespace WSTL
         void InternalClear(Node* pTemp)
         {
             if(pTemp == nullptr) return;
-            InternalClear(pTemp->pLeft);
-            InternalClear(pTemp->pRight);
+            if(pTemp->pLeft != nullptr) InternalClear(pTemp->pLeft);
+            if(pTemp->pRight != nullptr) InternalClear(pTemp->pRight);
             Free(&pTemp);
         }
 

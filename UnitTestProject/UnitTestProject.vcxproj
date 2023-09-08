@@ -42,6 +42,7 @@
     <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)\WSTL\</ExternalIncludePath>
   </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="BinaryHeap.cpp" />
     <ClCompile Include="MapTest.cpp" />
     <ClCompile Include="RBTreeTest.cpp" />
     <ClCompile Include="SetTest.cpp" />
