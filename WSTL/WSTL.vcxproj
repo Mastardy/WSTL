@@ -168,6 +168,7 @@
     <ClInclude Include="containers\Queue.hpp" />
     <ClInclude Include="containers\Set.hpp" />
     <ClInclude Include="containers\Stack.hpp" />
+    <ClInclude Include="containers\trees\BinaryHeap.hpp" />
     <ClInclude Include="containers\trees\RBTree.hpp" />
     <ClInclude Include="containers\Vector.hpp" />
     <ClInclude Include="memory\Memory.hpp" />
