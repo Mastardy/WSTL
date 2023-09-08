@@ -134,7 +134,7 @@ namespace WSTL
         /**
          * \brief Returns the size of the Binary Heap
          */
-        ::Size Size() const
+        ::Size Size()
         {
             return tree.Size();
         }
@@ -142,9 +142,17 @@ namespace WSTL
         /**
          * \brief Returns whether the Binary Heap is empty
          */
-        bool IsEmpty() const
+        bool IsEmpty()
         {
             return tree.IsEmpty();
+        }
+
+        /**
+         * \brief Clears the Binary Heap
+         */
+        void Clear()
+        {
+            tree.Clear();
         }
 
     private:
