@@ -1,8 +1,8 @@
 #include "containers/Containers.hpp"
-#include "containers/PriorityQueue.hpp"
 
 int main()
 {
+    WSTL::Deque<int> deque;
     
     return 0;
 }

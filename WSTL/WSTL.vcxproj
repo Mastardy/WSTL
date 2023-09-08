@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="containers\Array.hpp" />
     <ClInclude Include="containers\Containers.hpp" />
+    <ClInclude Include="containers\Deque.hpp" />
     <ClInclude Include="containers\fixed\FixedVector.hpp" />
     <ClInclude Include="containers\List.hpp" />
     <ClInclude Include="containers\Map.hpp" />
