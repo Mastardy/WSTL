@@ -157,6 +157,29 @@ namespace WSTL
         }
 
         /**
+         * \brief Inserts a new value into the heap by moving it
+         */
+        void Insert(Value&& data)
+        {
+            if(pRoot == nullptr)
+            {
+                pRoot = new Node(std::move(data));
+                return;
+            }
+
+            InternalHeapifyUp(InternalInsert(pRoot, std::move(data)));
+        }
+
+        /**
+         * \brief Returns the top value from the heap
+         */
+        Value Top()
+        {
+            if(pRoot == nullptr) throw std::exception("Heap is empty");
+            return pRoot->data;
+        }
+        
+        /**
          * \brief Extracts the top value from the heap
          */
         Value Extract()
@@ -229,6 +252,40 @@ namespace WSTL
                 else
                 {
                     return InternalInsert(pTemp->pRight, data);
+                }
+            }
+        }
+
+        /** 
+         * \brief Inserts a new value into the heap by moving it
+         */
+        Node* InternalInsert(Node* pTemp, Value&& data)
+        {
+            if(pTemp == nullptr) return nullptr;
+            
+            if(pTemp->pLeft == nullptr)
+            {
+                pTemp->pLeft = new Node(std::move(data));
+                pTemp->pLeft->pParent = pTemp;
+                return pTemp->pLeft;
+            }
+            else if(pTemp->pRight == nullptr)
+            {
+                pTemp->pRight = new Node(std::move(data));
+                pTemp->pRight->pParent = pTemp;
+                return pTemp->pRight;
+            }
+            else
+            {
+                const ::Size leftSize = InternalSize(pTemp->pLeft);
+                const ::Size rightSize = InternalSize(pTemp->pRight);
+                if(leftSize <= rightSize)
+                {
+                    return InternalInsert(pTemp->pLeft, std::move(data));
+                }
+                else
+                {
+                    return InternalInsert(pTemp->pRight, std::move(data));
                 }
             }
         }
