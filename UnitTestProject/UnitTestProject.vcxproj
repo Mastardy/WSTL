@@ -48,6 +48,7 @@
     <ClCompile Include="PriorityQueueTest.cpp" />
     <ClCompile Include="RBTreeTest.cpp" />
     <ClCompile Include="SetTest.cpp" />
+    <ClCompile Include="SListTest.cpp" />
     <ClCompile Include="StackTest.cpp" />
     <ClCompile Include="UniquePointerTest.cpp" />
     <ClCompile Include="VectorTest.cpp" />

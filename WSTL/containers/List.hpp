@@ -404,7 +404,7 @@ namespace WSTL
          */
         T& Front()
         {
-            if(IsEmpty()) throw std::runtime_error("List is empty");
+            if(IsEmpty()) throw std::out_of_range("List is empty");
             return pHead->value;
         }
 
@@ -413,7 +413,7 @@ namespace WSTL
          */
         const T& Front() const
         {
-            if(IsEmpty()) throw std::runtime_error("List is empty");
+            if(IsEmpty()) throw std::out_of_range("List is empty");
             return pHead->value;
         }
 
@@ -422,7 +422,7 @@ namespace WSTL
          */
         T& Back()
         {
-            if(IsEmpty()) throw std::runtime_error("List is empty");
+            if(IsEmpty()) throw std::out_of_range("List is empty");
             return pTail->value;
         }
 
@@ -431,7 +431,7 @@ namespace WSTL
          */
         const T& Back() const
         {
-            if(IsEmpty()) throw std::runtime_error("List is empty");
+            if(IsEmpty()) throw std::out_of_range("List is empty");
             return pTail->value;
         }
 

@@ -284,6 +284,7 @@ namespace WSTL
             delete pTemp->pNext;
             pTail = pTemp;
             pTail->pNext = nullptr;
+            --size;
         }
 
         void PopFront()
@@ -327,6 +328,7 @@ namespace WSTL
         {
             if(index >= size || index < 0) throw std::out_of_range("Index out of range");
             if(index == 0) PopFront();
+            else if(index == size - 1) PopBack();
             else
             {
                 NodeAt(index - 1)->Remove();
@@ -336,19 +338,25 @@ namespace WSTL
 
         T& Front()
         {
-            if(IsEmpty()) throw std::runtime_error("List is empty.");
+            if(IsEmpty()) throw std::out_of_range("List is empty.");
             return pHead->value;
         }
 
         const T& Front() const
         {
-            if(IsEmpty()) throw std::runtime_error("List is empty.");
+            if(IsEmpty()) throw std::out_of_range("List is empty.");
             return pHead->value;
         }
 
         T& Back()
         {
-            if(IsEmpty()) throw std::runtime_error("List is empty.");
+            if(IsEmpty()) throw std::out_of_range("List is empty.");
+            return pTail->value;
+        }
+
+        const T& Back() const
+        {
+            if(IsEmpty()) throw std::out_of_range("List is empty.");
             return pTail->value;
         }
 

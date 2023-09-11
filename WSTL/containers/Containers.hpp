@@ -4,6 +4,7 @@
 #include "Vector.hpp"
 #include "Pair.hpp"
 #include "List.hpp"
+#include "SList.hpp"
 #include "Stack.hpp"
 #include "Queue.hpp"
 #include "Map.hpp"
