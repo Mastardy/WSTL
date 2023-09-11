@@ -146,10 +146,13 @@ namespace WSTL
 
     public:
         /**
-         * \brief Default constructor.
+         * \brief Default constructor
          */
         SList() : size(0), pHead(nullptr), pTail(nullptr) {}
 
+        /**
+         * \brief Constructs a list with a given amount of elements
+         */
         SList(Size amount, const T& value) : size(0), pHead(nullptr), pTail(nullptr)
         {
             for(::Size i = 0; i < amount; ++i)
@@ -158,6 +161,9 @@ namespace WSTL
             }
         }
 
+        /**
+         * \brief Copy constructor
+         */
         SList(const Self& other) : size(0), pHead(nullptr), pTail(nullptr)
         {
             for(auto element : other)
@@ -166,6 +172,9 @@ namespace WSTL
             }
         }
 
+        /**
+         * \brief Move constructor
+         */
         SList(Self&& other) noexcept : size(other.size), pHead(other.pHead), pTail(other.pTail)
         {
             other.size = 0;
@@ -173,6 +182,9 @@ namespace WSTL
             other.pTail = nullptr;
         }
 
+        /**
+         * \brief Copy assignment operator
+         */
         Self& operator=(const Self& other)
         {
             if(this == &other) return *this;
@@ -187,6 +199,9 @@ namespace WSTL
             return *this;
         }
 
+        /**
+         * \brief Move assignment operator
+         */
         Self& operator=(Self&& other) noexcept
         {
             if(this == &other) return *this;
@@ -204,21 +219,33 @@ namespace WSTL
             return *this;
         }
 
+        /**
+         * \brief Destructor
+         */
         ~SList()
         {
             Clear();
         }
 
+        /**
+         * \brief Returns the value at the given index
+         */
         T& operator[](Size index)
         {
             return NodeAt(index)->value;
         }
 
+        /**
+         * \brief Returns the value at the given index as a const
+         */
         const T& operator[](Size index) const
         {
             return NodeAt(index)->value;
         }
 
+        /**
+         * \brief Inserts a value at the given index
+         */
         void Assign(Size index, const T& value)
         {
             if(index > size || index < 0) throw std::out_of_range("Index out of range.");
@@ -227,6 +254,9 @@ namespace WSTL
             else NodeAt(index)->Insert(new Node(value));
         }
 
+        /**
+         * \brief Inserts a value at the end of the list
+         */
         void PushBack(const T& value)
         {
             auto pNewNode = new Node(value);
@@ -244,6 +274,9 @@ namespace WSTL
             ++size;
         }
 
+        /**
+         * \brief Inserts a value at the front of the list
+         */
         void PushFront(const T& value)
         {
             auto pNewNode = new Node(value);
@@ -262,6 +295,9 @@ namespace WSTL
             ++size;
         }
 
+        /**
+         * \brief Deletes the last element of the list
+         */
         void PopBack()
         {
             if(IsEmpty()) return;
@@ -287,6 +323,9 @@ namespace WSTL
             --size;
         }
 
+        /**
+         * \brief Deletes the first element of the list
+         */
         void PopFront()
         {
             if(IsEmpty()) return;
@@ -306,6 +345,9 @@ namespace WSTL
             --size;
         }
 
+        /**
+         * \brief Clears the list by deleting all elements
+         */
         void Clear()
         {
             if(IsEmpty()) return;
@@ -324,6 +366,9 @@ namespace WSTL
             size = 0;
         }
 
+        /**
+         * \brief Removes the element at the given index
+         */
         void Remove(Size index)
         {
             if(index >= size || index < 0) throw std::out_of_range("Index out of range");
@@ -336,35 +381,53 @@ namespace WSTL
             }
         }
 
+        /**
+         * \brief Returns the value at the front
+         */
         T& Front()
         {
             if(IsEmpty()) throw std::out_of_range("List is empty.");
             return pHead->value;
         }
 
+        /**
+         * \brief Returns the value at the front as a const
+         */
         const T& Front() const
         {
             if(IsEmpty()) throw std::out_of_range("List is empty.");
             return pHead->value;
         }
 
+        /**
+         * \brief Returns the value at the back
+         */
         T& Back()
         {
             if(IsEmpty()) throw std::out_of_range("List is empty.");
             return pTail->value;
         }
 
+        /**
+         * \brief Returns the value at the back as a const
+         */
         const T& Back() const
         {
             if(IsEmpty()) throw std::out_of_range("List is empty.");
             return pTail->value;
         }
 
+        /**
+         * \brief Returns whether the list is empty or not
+         */
         bool IsEmpty() const noexcept
         {
             return size == 0;
         }
 
+        /**
+         * \brief Returns the size of the list
+         */
         Size Size() const noexcept
         {
             return size;
@@ -391,6 +454,9 @@ namespace WSTL
         }
 
     protected:
+        /**
+         * \brief Returns the node at the given index
+         */
         Node* NodeAt(::Size index)
         {
             if(index >= size || index < 0) throw std::out_of_range("Index out of range.");
@@ -404,6 +470,9 @@ namespace WSTL
             return pCurrent;
         }
 
+        /**
+         * \brief Returns the node at the given index as a const
+         */
         const Node* NodeAt(::Size index) const
         {
             if(index >= size || index < 0) throw std::out_of_range("Index out of range.");

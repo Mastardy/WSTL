@@ -9,12 +9,18 @@ namespace WSTL
     {
         typedef Deque<T, SubArraySize> Self;
     public:
+        /**
+         * \brief Default constructor
+         */
         Deque()
         {
             container.PushBack(FixedVector<T, SubArraySize>(SubArraySize, T()));
             container.PushBack(FixedVector<T, SubArraySize>(SubArraySize, T()));
         }
 
+        /**
+         * \brief Copy constructor
+         */
         Deque(const Self& other)
         {
             container = other.container;
@@ -22,6 +28,9 @@ namespace WSTL
             backIndex = other.backIndex;
         }
 
+        /**
+         * \brief Move constructor
+         */
         Deque(Self&& other) noexcept
         {
             container = std::move(other.container);
@@ -34,11 +43,17 @@ namespace WSTL
             other.backIndex = 0;           
         }
 
+        /**
+         * \brief Destructor
+         */
         ~Deque()
         {
             container.Clear();
         }
 
+        /**
+         * \brief Copy assignment operator
+         */
         Self& operator=(const Self& other)
         {
             if(this == &other) return *this;
@@ -48,6 +63,9 @@ namespace WSTL
             return *this;
         }
 
+        /**
+         * \brief Move assignment operator
+         */
         Self& operator=(Self&& other) noexcept
         {
             if(this == &other) return *this;
@@ -60,12 +78,18 @@ namespace WSTL
             
             return *this;
         }
-        
+
+        /**
+         * \brief Returns the size of the deque
+         */
         ::Size Size() const
         {
             return container.Size() * SubArraySize - (frontIndex + 1) - (SubArraySize - backIndex);
         }
 
+        /**
+         * \brief Returns if the deque is empty
+         */
         bool IsEmpty() const
         {
             if(container.Size() == 2) return frontIndex == SubArraySize - 1 && backIndex == 0;
@@ -73,27 +97,76 @@ namespace WSTL
             return false;
         }
 
+        /**
+         * \brief Returns the element at the specified index
+         */
         T& operator[](::Size index)
         {
             const ::Size convertedIndex = index + frontIndex + 1;
             return container[convertedIndex / SubArraySize][convertedIndex % SubArraySize];
         }
 
+        /**
+         * \brief Returns the element at the specified index as a const
+         */
+        const T& operator[](::Size index) const
+        {
+            const ::Size convertedIndex = index + frontIndex + 1;
+            return container[convertedIndex / SubArraySize][convertedIndex % SubArraySize];
+        }
+
+        /**
+         * \brief Returns the element at the specified index
+         */
         T& At(::Size index)
         {
             return (*this)[index];
         }
 
+        /**
+         * \brief Returns the element at the specified index as a const
+         */
+        const T& At(::Size index) const
+        {
+            return (*this)[index];
+        }
+        
+        /**
+         * \brief Returns the element at the front of the deque
+         */
         T& Front()
         {
             return (*this)[0];
         }
 
+        /**
+         * \brief Returns the element at the front of the deque as a const
+         */
+        const T& Front() const
+        {
+            return (*this)[0];
+        }
+        
+        /**
+         * \brief Returns the element at the back of the deque
+         */
         T& Back()
         {
             return (*this)[Size() - 1];
         }
 
+        /**
+         * \brief Returns the element at the back of the deque as a const
+         */
+        const T& Back() const
+        {
+            return (*this)[Size() - 1];
+        }
+        
+        
+        /**
+         * \brief Assigns x amount of value to deque
+         */
         void Assign(::Size amount, const T& value)
         {
             Clear();
@@ -102,7 +175,10 @@ namespace WSTL
                 PushBack(value);
             }
         }
-        
+
+        /**
+         * \brief Inserts an element at the back of the deque
+         */
         void PushBack(T value)
         {
             container[container.Size() - 1][backIndex] = value;
@@ -118,6 +194,9 @@ namespace WSTL
             }
         }
 
+        /**
+         * \brief Inserts an element at the front of the deque
+         */
         void PushFront(T value)
         {
             container[0][frontIndex] = value;
@@ -133,6 +212,9 @@ namespace WSTL
             }
         }
 
+        /**
+         * \brief Inserts an element at the specified index
+         */
         void Insert(::Size index, T value)
         {
             const ::Size size = Size();
@@ -163,7 +245,10 @@ namespace WSTL
                 backIndex = (backIndex + 1) % SubArraySize;
             }
         }
-        
+
+        /**
+         * \brief Deletes the last element of the deque
+         */
         void PopBack()
         {
             const ::Size size = Size();
@@ -185,6 +270,9 @@ namespace WSTL
             }
         }
 
+        /**
+         * \brief Deletes the first element of the deque
+         */
         void PopFront()
         {
             const ::Size size = Size();
@@ -206,6 +294,9 @@ namespace WSTL
             }
         }
 
+        /**
+         * \brief Deletes the element at the specified index
+         */
         void Erase(::Size index)
         {
             const ::Size size = Size();
@@ -240,6 +331,9 @@ namespace WSTL
             }
         }
 
+        /**
+         * \brief Deletes all elements of the deque
+         */
         void Clear()
         {
             container.Clear();
@@ -249,6 +343,9 @@ namespace WSTL
             backIndex = 0;
         }
 
+        /**
+         * \brief Swaps the contents of two deques
+         */
         void Swap(Self& other)
         {
             container.Swap(other.container);
