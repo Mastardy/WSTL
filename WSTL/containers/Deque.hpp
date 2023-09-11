@@ -133,90 +133,34 @@ namespace WSTL
             }
         }
 
-        template<class... Args>
-        void EmplaceBack(Args&&... args)
-        {
-            if (backIndex == SubArraySize - 1)
-            {
-                container.PushBack(FixedVector<T, SubArraySize>(SubArraySize, T()));
-                backIndex = 0;
-            }
-            else
-            {
-                ++backIndex;
-            }
-
-            container[container.Size() - 1][backIndex] = T(std::forward<Args>(args)...);
-        }
-
-        template<class... Args>
-        void EmplaceFront(Args&&... args)
-        {
-            if (frontIndex == 0)
-            {
-                container.PushFront(FixedVector<T, SubArraySize>(SubArraySize, T()));
-                frontIndex = SubArraySize - 1;
-            }
-            else
-            {
-                --frontIndex;
-            }
-
-            container[0][frontIndex] = T(std::forward<Args>(args)...);
-        }
-
-        template<class... Args>
-        void Emplace(::Size index, Args&&... args)
-        {
-            if (index == 0)
-            {
-                EmplaceFront(std::forward<Args>(args)...);
-            }
-            else if (index == Size())
-            {
-                EmplaceBack(std::forward<Args>(args)...);
-            }
-            else
-            {
-                const ::Size convertedIndex = index + frontIndex + 1;
-
-                for (::Size i = Size(); i >= convertedIndex; --i)
-                {
-                    if (i % SubArraySize == 0)
-                    {
-                        container.PushBack(FixedVector<T, SubArraySize>(SubArraySize, T()));
-                    }
-                    container[i / SubArraySize][i % SubArraySize] = container[(i + 1) / SubArraySize][(i + 1) % SubArraySize];
-                }
-
-                container[convertedIndex / SubArraySize][convertedIndex % SubArraySize] = T(std::forward<Args>(args)...);
-            }
-        }
-
         void Insert(::Size index, T value)
         {
+            const ::Size size = Size();
+            
             if(index == 0)
             {
                 PushFront(value);
             }
-            else if(index == Size())
+            else if(index == size)
             {
                 PushBack(value);
             }
             else
             {
                 const ::Size convertedIndex = index + frontIndex + 1;
-
-                for(::Size i = Size(); i >= convertedIndex; --i)
+                const ::Size convertedSize = size + frontIndex + 1;
+                
+                for(::Size i = convertedSize; i >= convertedIndex; --i)
                 {
-                    if(i % SubArraySize == 0)
+                    if(i % SubArraySize == 0 && i / SubArraySize == container.Size())
                     {
                         container.PushBack(FixedVector<T, SubArraySize>(SubArraySize, T()));
+                        backIndex = 0;
                     }
-                    container[i / SubArraySize][i % SubArraySize] = container[(i + 1) / SubArraySize][(i + 1) % SubArraySize];
+                    container[(i + 1) / SubArraySize][(i + 1) % SubArraySize] = container[i / SubArraySize][i % SubArraySize];
                 }
-
                 container[convertedIndex / SubArraySize][convertedIndex % SubArraySize] = value;
+                backIndex = (backIndex + 1) % SubArraySize;
             }
         }
         
@@ -283,21 +227,16 @@ namespace WSTL
             else
             {
                 const ::Size convertedIndex = index + frontIndex + 1;
+                const ::Size convertedSize = size + frontIndex + 1;
 
-                for(::Size i = convertedIndex; i < Size(); ++i)
+                for(::Size i = convertedIndex; i < convertedSize; ++i)
                 {
                     container[i / SubArraySize][i % SubArraySize] = container[(i + 1) / SubArraySize][(i + 1) % SubArraySize];
                 }
 
-                if(backIndex == 0)
-                {
-                    container.PopBack();
-                    backIndex = SubArraySize - 1;
-                }
-                else
-                {
-                    --backIndex;
-                }
+                --backIndex;
+
+                if(backIndex == SubArraySize - 1) container.PopBack();
             }
         }
 
