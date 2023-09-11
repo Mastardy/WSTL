@@ -6,16 +6,20 @@ namespace WSTL
     template <typename T>
     struct ListNode
     {
-        T value;
-        ListNode* pNext;
-        ListNode* pPrev;
+    private:
+        typedef ListNode<T> Self;
 
-        ListNode(const T& value) : value(value), pNext(nullptr), pPrev(nullptr) {}
+    public:
+        T value;
+        Self* pNext;
+        Self* pPrev;
+
+        ListNode(T value) : value(std::move(value)), pNext(nullptr), pPrev(nullptr) {}
         
         /**
          * \brief Insert a node after this one
          */
-        void Insert(ListNode* pNode)
+        void Insert(Self* pNode)
         {
             if(this->pNext != nullptr)
             {
@@ -51,13 +55,13 @@ namespace WSTL
         /**
          * \brief Swap two nodes
          */
-        static void Swap(ListNode& a, ListNode& b)
+        static void Swap(Self& a, Self& b)
         {
-            ListNode* pNextTemp = a.pNext;
+            Self* pNextTemp = a.pNext;
             a.pNext = b.pNext;
             b.pNext = pNextTemp;
 
-            ListNode* pTempPrev = a.pPrev;
+            Self* pTempPrev = a.pPrev;
             a.pPrev = b.pPrev;
             b.pPrev = pTempPrev;
         }
@@ -65,7 +69,7 @@ namespace WSTL
         /**
          * \brief Insert a range of nodes after this one
          */
-        void InsertRange(ListNode* pFirst, ListNode* pLast)
+        void InsertRange(Self* pFirst, Self* pLast)
         {
             pLast->pNext = this->pNext;
             this->pNext->pPrev = pLast;
@@ -86,7 +90,7 @@ namespace WSTL
 
         ListIterator() noexcept : pNode(nullptr) {}
         ListIterator(const Node* pNode) noexcept : pNode(const_cast<Node*>(pNode)) {} 
-        ListIterator(const ListIterator& other) noexcept : pNode(const_cast<Node*>(other.pNode)) {}
+        ListIterator(const Self& other) noexcept : pNode(const_cast<Node*>(other.pNode)) {}
 
         Self& operator=(const Self& other) noexcept
         {
