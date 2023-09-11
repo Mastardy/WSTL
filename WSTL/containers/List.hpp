@@ -71,6 +71,8 @@ namespace WSTL
          */
         void InsertRange(Self* pFirst, Self* pLast)
         {
+            if(pFirst == nullptr || pLast == nullptr) return;
+            
             pLast->pNext = this->pNext;
             this->pNext->pPrev = pLast;
             
@@ -167,6 +169,7 @@ namespace WSTL
         typedef ListNode<T> Node;
         typedef ListIterator<T, T*, T&> Iterator;
         typedef ListIterator<T, const T*, const T&> ConstIterator;
+        typedef List<T> Self;
         
     public:
         /**
@@ -188,7 +191,7 @@ namespace WSTL
         /**
          * \brief Copy Constructor
          */
-        List(const List<T>& other) : size(0), pHead(nullptr), pTail(nullptr)
+        List(const Self& other) : size(0), pHead(nullptr), pTail(nullptr)
         {
             for(auto element : other)
             {
@@ -199,7 +202,7 @@ namespace WSTL
         /**
          * \brief Move Constructor
          */
-        List(List<T>&& other) noexcept : size(other.size), pHead(other.pHead), pTail(other.pTail)
+        List(Self&& other) noexcept : size(other.size), pHead(other.pHead), pTail(other.pTail)
         {
             other.size = 0;
             other.pHead = nullptr;
@@ -209,7 +212,7 @@ namespace WSTL
         /**
          * \brief Copy Assignment
          */
-        List<T>& operator=(const List<T>& other)
+        Self& operator=(const Self& other)
         {
             if(this == &other) return *this;
             
@@ -226,7 +229,7 @@ namespace WSTL
         /**
          * \brief Move Assignment
          */
-        List<T>& operator=(List<T>&& other) noexcept
+        Self& operator=(Self&& other) noexcept
         {
             if(this == &other) return *this;
 
@@ -291,7 +294,7 @@ namespace WSTL
                 pTail = pNewNode;
             }
             
-            size++;
+            ++size;
         }
 
         /**
@@ -334,7 +337,7 @@ namespace WSTL
             pTail = pTail->pPrev;
             delete pTail->pNext;
             pTail->pNext = nullptr;
-            size--;
+            --size;
         }
 
         /**
@@ -346,7 +349,7 @@ namespace WSTL
 
             if(size == 1)
             {
-                delete pTail;
+                delete pHead;
                 pHead = nullptr;
                 pTail = nullptr;
                 size--;
@@ -356,7 +359,7 @@ namespace WSTL
             pHead = pHead->pNext;
             delete pHead->pPrev;
             pHead->pPrev = nullptr;
-            size--;
+            --size;
         }
 
         /**
@@ -401,7 +404,7 @@ namespace WSTL
          */
         T& Front()
         {
-            if(IsEmpty()) throw std::out_of_range("List is empty");
+            if(IsEmpty()) throw std::runtime_error("List is empty");
             return pHead->value;
         }
 
@@ -410,7 +413,7 @@ namespace WSTL
          */
         const T& Front() const
         {
-            if(IsEmpty()) throw std::out_of_range("List is empty");
+            if(IsEmpty()) throw std::runtime_error("List is empty");
             return pHead->value;
         }
 
@@ -419,7 +422,7 @@ namespace WSTL
          */
         T& Back()
         {
-            if(IsEmpty()) throw std::out_of_range("List is empty");
+            if(IsEmpty()) throw std::runtime_error("List is empty");
             return pTail->value;
         }
 
@@ -428,7 +431,7 @@ namespace WSTL
          */
         const T& Back() const
         {
-            if(IsEmpty()) throw std::out_of_range("List is empty");
+            if(IsEmpty()) throw std::runtime_error("List is empty");
             return pTail->value;
         }
 
@@ -486,7 +489,7 @@ namespace WSTL
          */
         Node* NodeAt(::Size index)
         {
-            if(index >= size) throw std::out_of_range("Index out of range");
+            if(index >= size || index < 0) throw std::out_of_range("Index out of range.");
             
             auto pCurrent = pHead;
 
