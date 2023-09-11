@@ -8,5 +8,6 @@
 #include "Queue.hpp"
 #include "Map.hpp"
 #include "Set.hpp"
+#include "Deque.hpp"
 
 #include "fixed/FixedVector.hpp"

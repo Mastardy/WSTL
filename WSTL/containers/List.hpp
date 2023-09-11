@@ -193,9 +193,19 @@ namespace WSTL
         }
 
         /**
+         * \brief Move Constructor
+         */
+        List(List<T>&& other) noexcept : size(other.size), pHead(other.pHead), pTail(other.pTail)
+        {
+            other.size = 0;
+            other.pHead = nullptr;
+            other.pTail = nullptr;
+        }
+        
+        /**
          * \brief Copy Assignment
          */
-        List& operator=(const List<T>& other)
+        List<T>& operator=(const List<T>& other)
         {
             if(this == &other) return *this;
             
@@ -210,6 +220,26 @@ namespace WSTL
         }
 
         /**
+         * \brief Move Assignment
+         */
+        List<T>& operator=(List<T>&& other) noexcept
+        {
+            if(this == &other) return *this;
+
+            Clear();
+
+            size = other.size;
+            pHead = other.pHead;
+            pTail = other.pTail;
+
+            other.size = 0;
+            other.pHead = nullptr;
+            other.pTail = nullptr;
+            
+            return *this;
+        }
+        
+        /**
          * \brief Default Destructor
          */
         ~List()
@@ -217,6 +247,16 @@ namespace WSTL
             Clear();
         }
 
+        T& operator[](Size index)
+        {
+            return NodeAt(index)->value;
+        }
+
+        const T& operator[](Size index) const
+        {
+            return NodeAt(index)->value;
+        }
+        
         /**
          * \brief Assigns a value to the element at the specified index
          */
@@ -436,14 +476,25 @@ namespace WSTL
             return ConstIterator(nullptr);
         }
 
-        List& operator=(List&& other) = delete;
-        List(List&& other) = delete;
-
     protected:
         /**
          * \brief Get Node at the specified index
          */
         Node* NodeAt(::Size index)
+        {
+            if(index >= size) throw std::out_of_range("Index out of range");
+            
+            auto pCurrent = pHead;
+
+            for(::Size i = 0; i < index; i++)
+            {
+                pCurrent = pCurrent->pNext;
+            }
+                        
+            return pCurrent;
+        }
+
+        const Node* NodeAt(::Size index) const
         {
             if(index >= size) throw std::out_of_range("Index out of range");
             

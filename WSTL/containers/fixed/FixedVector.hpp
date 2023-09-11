@@ -31,6 +31,8 @@ namespace WSTL
             {
                 pBegin[i] = value;
             }
+
+            pEnd = pBegin + count;
         }
 
         /**
@@ -42,6 +44,7 @@ namespace WSTL
             {
                 pBegin[i] = other.pBegin[i];
             }
+            pEnd = pBegin + other.Size();
         }
 
         /**
