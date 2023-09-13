@@ -75,7 +75,7 @@ namespace WSTL
         /**
          * \brief Allows access to owned pointer through *
          */
-        std::add_lvalue_reference_t<T> operator*() const
+        T& operator*() const
         {
             return *pValue;
         }
