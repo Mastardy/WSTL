@@ -240,7 +240,7 @@ namespace WSTL
         /**
          * \brief Swaps pointer between this UniquePointer and the provided one
          */
-        void Swap(UniquePointer<T[]> other) noexcept
+        void Swap(UniquePointer<T[]>& other) noexcept
         {
             T* const pTemp = pValue;
             pValue = other.pValue;
