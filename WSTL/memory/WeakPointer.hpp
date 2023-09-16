@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "Utility.hpp"
 #include "SharedPointer.hpp"
 
 namespace WSTL
@@ -21,6 +22,7 @@ namespace WSTL
         WeakPointer()
         {
             pRefCounter = nullptr;
+            pValue = nullptr;
         }
 
         /** 
@@ -29,6 +31,7 @@ namespace WSTL
         WeakPointer(const SharedPointer<T>& sharedPointer)
         {
             pRefCounter = sharedPointer.pRefCounter;
+            pValue = sharedPointer.pValue;
             if(pRefCounter != nullptr) pRefCounter->IncrementWeakRefCount();
         }
 
@@ -38,7 +41,8 @@ namespace WSTL
         WeakPointer(const Self& other)
         {
             pRefCounter = other.pRefCounter;
-            pRefCounter->IncrementWeakRefCount();
+            pValue = other.pValue;
+            if(pRefCounter != nullptr) pRefCounter->IncrementWeakRefCount();
         }
 
         /**
@@ -47,7 +51,9 @@ namespace WSTL
         WeakPointer(Self&& other) noexcept
         {
             pRefCounter = other.pRefCounter;
+            pValue = other.pValue;
             other.pRefCounter = nullptr;
+            other.pValue = nullptr;
         }
 
         /**
@@ -64,6 +70,7 @@ namespace WSTL
                     pRefCounter = nullptr;
                 }
             }
+            pValue = nullptr;
         }
 
         /**
@@ -75,18 +82,20 @@ namespace WSTL
 
             pRefCounter = other.pRefCounter;
             pRefCounter->IncrementWeakRefCount();
+            pValue = other.pValue;
             
             return *this;
         }
 
         /**
-         * \brief Move assignment operator
+         * \brief Copy assignment operator from SharedPointer
          */
         Self& operator=(const SharedPointer<T>& sharedPointer)
         {
             pRefCounter = sharedPointer.pRefCounter;
             pRefCounter->IncrementWeakRefCount();
-
+            pValue = sharedPointer.pValue;
+            
             return *this;
         }
 
@@ -98,8 +107,10 @@ namespace WSTL
             if(this == &other) return *this;
 
             pRefCounter = other.pRefCounter;
+            pValue = other.pValue;
             other.pRefCounter = nullptr;
-
+            other.pValue = nullptr;
+            
             return *this;
         }
 
@@ -110,14 +121,19 @@ namespace WSTL
         {
             pRefCounter->DecrementWeakRefCount();
             pRefCounter = nullptr;
+            pValue = nullptr;
         }
 
         /**
          * \brief Swap the WeakPointer with another WeakPointer
          */
-        void Swap(const Self& other) noexcept
+        void Swap(Self& other) noexcept
         {
-            std::swap(pRefCounter, other.pRefCounter);
+            auto temp = pRefCounter;
+            pRefCounter = other.pRefCounter;
+            other.pRefCounter = temp;
+
+            WSTL::Swap(pValue, other.pValue);
         }
 
         /**
@@ -130,10 +146,20 @@ namespace WSTL
         }
 
         /**
+         * \brief Get the number of WeakPointer that point to the same object
+         */
+        Size WeakUseCount() const noexcept
+        {
+            if(pRefCounter == nullptr) return 0;
+            return pRefCounter->WeakRefCount();
+        }
+
+        /**
          * \brief Check if the WeakPointer is expired
          */
         bool Expired() const noexcept
         {
+            if(pRefCounter == nullptr) return true;
             return pRefCounter->RefCount() == 0;
         }
 
@@ -148,5 +174,6 @@ namespace WSTL
         
     private:
         RefCounter* pRefCounter;
+        T* pValue;
     };
 }

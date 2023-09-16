@@ -53,6 +53,7 @@
     <ClCompile Include="StackTest.cpp" />
     <ClCompile Include="UniquePointerTest.cpp" />
     <ClCompile Include="VectorTest.cpp" />
+    <ClCompile Include="WeakPointerTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
