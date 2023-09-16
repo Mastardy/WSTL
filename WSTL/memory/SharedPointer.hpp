@@ -89,6 +89,9 @@ namespace WSTL
          */
         explicit SharedPointer(T* pValue) noexcept : pValue(pValue), pRefCounter(new RefCounter()) {}
 
+        /**
+         * \brief Constructs a SharedPointer and a RefCounter that owns pValue
+         */
         SharedPointer(const WeakPointer<T>& weakPointer)
         {
             pValue = weakPointer.pValue;
@@ -332,7 +335,7 @@ namespace WSTL
          * \brief Constructs a SharedPointer and a RefCounter that owns pValue
          */
         explicit SharedPointer(T* pValue) noexcept : pValue(pValue), pRefCounter(new RefCounter()) {}
-
+        
         /**
          * \brief Copy Constructor
          */
