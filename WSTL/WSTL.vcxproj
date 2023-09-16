@@ -177,6 +177,7 @@
     <ClInclude Include="memory\SharedPointer.hpp" />
     <ClInclude Include="memory\SmartPointers.hpp" />
     <ClInclude Include="memory\UniquePointer.hpp" />
+    <ClInclude Include="memory\WeakPointer.hpp" />
     <ClInclude Include="Types.hpp" />
     <ClInclude Include="Utility.hpp" />
     <ClInclude Include="WSTL.hpp" />

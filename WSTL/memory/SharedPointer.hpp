@@ -64,34 +64,46 @@ namespace WSTL
         Size weakRefCount;
     };
     
+    template <typename T>
+    class WeakPointer;
+    
     template<typename T>
     class SharedPointer
     {
         typedef SharedPointer<T> Self;
+        friend class WeakPointer<T>;
+        
     public:
         /**
          * \brief Constructs a SharedPointer that owns nothing
          */
-        SharedPointer() noexcept : pValue(nullptr), pRefCount(nullptr) {}
+        SharedPointer() noexcept : pValue(nullptr), pRefCounter(nullptr) {}
 
         /**
          * \brief Constructs a SharedPointer that owns nothing
          */
-        constexpr SharedPointer(decltype(nullptr)) noexcept : pValue(nullptr), pRefCount(nullptr) {}
+        constexpr SharedPointer(decltype(nullptr)) noexcept : pValue(nullptr), pRefCounter(nullptr) {}
 
         /**
          * \brief Constructs a SharedPointer and a RefCounter that owns pValue
          */
-        explicit SharedPointer(T* pValue) noexcept : pValue(pValue), pRefCount(new RefCounter()) {}
+        explicit SharedPointer(T* pValue) noexcept : pValue(pValue), pRefCounter(new RefCounter()) {}
 
+        SharedPointer(const WeakPointer<T>& weakPointer)
+        {
+            pValue = weakPointer.pValue;
+            pRefCounter = weakPointer.pRefCounter;
+            if(pRefCounter != nullptr) pRefCounter->IncrementRefCount();
+        }
+        
         /**
          * \brief Copy Constructor
          */
         SharedPointer(const Self& other)
         {
             pValue = other.pValue;
-            pRefCount = other.pRefCount;
-            pRefCount->IncrementRefCount();
+            pRefCounter = other.pRefCounter;
+            pRefCounter->IncrementRefCount();
         }
 
         /**
@@ -100,9 +112,9 @@ namespace WSTL
         SharedPointer(Self&& other) noexcept
         {
             pValue = other.pValue;
-            pRefCount = other.pRefCount;
+            pRefCounter = other.pRefCounter;
             other.pValue = nullptr;
-            other.pRefCount = nullptr;
+            other.pRefCounter = nullptr;
         }
 
         /**
@@ -110,18 +122,18 @@ namespace WSTL
          */
         ~SharedPointer()
         {
-            if(pRefCount == nullptr) return;
+            if(pRefCounter == nullptr) return;
             
-            pRefCount->DecrementRefCount();
+            pRefCounter->DecrementRefCount();
             
-            if(pRefCount->RefCount() == 0)
+            if(pRefCounter->RefCount() == 0)
             {
                 delete pValue;
-                delete pRefCount;
+                if(pRefCounter->WeakRefCount() == 0) delete pRefCounter;
             }
 
             pValue = nullptr;
-            pRefCount = nullptr;
+            pRefCounter = nullptr;
         }
 
         /**
@@ -132,8 +144,8 @@ namespace WSTL
             if(this == &other) return *this;
             
             pValue = other.pValue;
-            pRefCount = other.pRefCount;
-            pRefCount->IncrementRefCount();
+            pRefCounter = other.pRefCounter;
+            pRefCounter->IncrementRefCount();
             
             return *this;
         }
@@ -154,7 +166,7 @@ namespace WSTL
         {
             this->~SharedPointer();
             this->pValue = pValue;
-            this->pRefCount = new RefCounter();
+            this->pRefCounter = new RefCounter();
             return *this;
         }
 
@@ -166,9 +178,9 @@ namespace WSTL
             if(this == &other) return *this;
 
             pValue = other.pValue;
-            pRefCount = other.pRefCount;
+            pRefCounter = other.pRefCounter;
             other.pValue = nullptr;
-            other.pRefCount = nullptr;
+            other.pRefCounter = nullptr;
 
             return *this;
         }
@@ -252,7 +264,7 @@ namespace WSTL
         {
             this->~SharedPointer();
             this->pValue = pValue;
-            this->pRefCount = new RefCounter();
+            this->pRefCounter = new RefCounter();
         }
 
         /**
@@ -262,8 +274,8 @@ namespace WSTL
         {
             this->~SharedPointer();
             this->pValue = other.pValue;
-            this->pRefCount = other.pRefCount;
-            this->pRefCount->IncrementRefCount();
+            this->pRefCounter = other.pRefCounter;
+            this->pRefCounter->IncrementRefCount();
         }
         
         /**
@@ -283,8 +295,8 @@ namespace WSTL
          */
         Size UseCount() const noexcept
         {
-            if(pRefCount == nullptr) return 0;
-            return pRefCount->RefCount();
+            if(pRefCounter == nullptr) return 0;
+            return pRefCounter->RefCount();
         }
 
         /**
@@ -292,13 +304,13 @@ namespace WSTL
          */
         bool IsUnique() const noexcept
         {
-            if(pRefCount == nullptr) return false;
-            return pRefCount->RefCount() == 1;
+            if(pRefCounter == nullptr) return false;
+            return pRefCounter->RefCount() == 1;
         }
         
     private:
         T* pValue;
-        RefCounter* pRefCount;
+        RefCounter* pRefCounter;
     };
 
     template<class T>
@@ -309,17 +321,17 @@ namespace WSTL
         /**
          * \brief Constructs a SharedPointer that owns nothing
          */
-        SharedPointer() noexcept : pValue(nullptr), pRefCount(nullptr) {}
+        SharedPointer() noexcept : pValue(nullptr), pRefCounter(nullptr) {}
 
         /**
          * \brief Constructs a SharedPointer that owns nothing
          */
-        constexpr SharedPointer(decltype(nullptr)) noexcept : pValue(nullptr), pRefCount(nullptr) {}
+        constexpr SharedPointer(decltype(nullptr)) noexcept : pValue(nullptr), pRefCounter(nullptr) {}
 
         /**
          * \brief Constructs a SharedPointer and a RefCounter that owns pValue
          */
-        explicit SharedPointer(T* pValue) noexcept : pValue(pValue), pRefCount(new RefCounter()) {}
+        explicit SharedPointer(T* pValue) noexcept : pValue(pValue), pRefCounter(new RefCounter()) {}
 
         /**
          * \brief Copy Constructor
@@ -327,8 +339,8 @@ namespace WSTL
         SharedPointer(const Self& other)
         {
             pValue = other.pValue;
-            pRefCount = other.pRefCount;
-            pRefCount->IncrementRefCount();
+            pRefCounter = other.pRefCounter;
+            pRefCounter->IncrementRefCount();
         }
 
         /**
@@ -339,9 +351,9 @@ namespace WSTL
             if(this == &other) return *this;
             
             pValue = other.pValue;
-            pRefCount = other.pRefCount;
+            pRefCounter = other.pRefCounter;
             other.pValue = nullptr;
-            other.pRefCount = nullptr;
+            other.pRefCounter = nullptr;
             
             return *this;
         }
@@ -351,18 +363,18 @@ namespace WSTL
          */
         ~SharedPointer()
         {
-            if(pRefCount == nullptr) return;
+            if(pRefCounter == nullptr) return;
             
-            pRefCount->DecrementRefCount();
+            pRefCounter->DecrementRefCount();
             
-            if(pRefCount->RefCount() == 0)
+            if(pRefCounter->RefCount() == 0)
             {
                 delete[] pValue;
-                delete pRefCount;
+                delete pRefCounter;
             }
 
             pValue = nullptr;
-            pRefCount = nullptr;
+            pRefCounter = nullptr;
         }
 
         /**
@@ -373,8 +385,8 @@ namespace WSTL
             if(this == &other) return *this;
             
             pValue = other.pValue;
-            pRefCount = other.pRefCount;
-            pRefCount->IncrementRefCount();
+            pRefCounter = other.pRefCounter;
+            pRefCounter->IncrementRefCount();
             
             return *this;
         }
@@ -387,9 +399,9 @@ namespace WSTL
             if(this == &other) return *this;
 
             pValue = other.pValue;
-            pRefCount = other.pRefCount;
+            pRefCounter = other.pRefCounter;
             other.pValue = nullptr;
-            other.pRefCount = nullptr;
+            other.pRefCounter = nullptr;
 
             return *this;
         }
@@ -410,7 +422,7 @@ namespace WSTL
         {
             this->~SharedPointer();
             this->pValue = pValue;
-            this->pRefCount = new RefCounter();
+            this->pRefCounter = new RefCounter();
             return *this;
         }
         
@@ -493,7 +505,7 @@ namespace WSTL
         {
             this->~SharedPointer();
             this->pValue = pValue;
-            this->pRefCount = new RefCounter();
+            this->pRefCounter = new RefCounter();
         }
 
         /**
@@ -503,8 +515,8 @@ namespace WSTL
         {
             this->~SharedPointer();
             this->pValue = other.pValue;
-            this->pRefCount = other.pRefCount;
-            this->pRefCount->IncrementRefCount();
+            this->pRefCounter = other.pRefCounter;
+            this->pRefCounter->IncrementRefCount();
         }
         
         /**
@@ -524,8 +536,8 @@ namespace WSTL
          */
         Size UseCount() const noexcept
         {
-            if(pRefCount == nullptr) return 0;
-            return pRefCount->RefCount();
+            if(pRefCounter == nullptr) return 0;
+            return pRefCounter->RefCount();
         }
 
         /**
@@ -533,13 +545,13 @@ namespace WSTL
          */
         bool IsUnique() const noexcept
         {
-            if(pRefCount == nullptr) return false;
-            return pRefCount->RefCount() == 1;
+            if(pRefCounter == nullptr) return false;
+            return pRefCounter->RefCount() == 1;
         }
         
     private:
         T* pValue;
-        RefCounter* pRefCount;
+        RefCounter* pRefCounter;
     };
 
     template<typename T, class... Args>
