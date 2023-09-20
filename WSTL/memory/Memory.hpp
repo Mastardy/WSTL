@@ -1,11 +1,9 @@
 ﻿#pragma once
 
-#include "SmartPointers.hpp"
-
 namespace WSTL
 {
     template<typename T>
-     void Destruct(T* first, T* last)
+    void Destruct(T* first, T* last)
     {
         for (; first != last; ++first)
         {
@@ -17,7 +15,7 @@ namespace WSTL
     }
 
     template<typename T>
-     void Destruct(T* ptr)
+    void Destruct(T* ptr)
     {
         if(std::is_trivial_v<T> == false)
         {
@@ -26,7 +24,7 @@ namespace WSTL
     }
 
     template<typename T>
-     void Free(T** ptr)
+    void Free(T** ptr)
     {
         if(*ptr != nullptr)
         {
@@ -36,7 +34,7 @@ namespace WSTL
     }
 
     template<typename T>
-     void FreeArray(T** ptr)
+    void FreeArray(T** ptr)
     {
         if(*ptr != nullptr)
         {

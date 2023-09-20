@@ -180,6 +180,7 @@
     <ClInclude Include="memory\WeakPointer.hpp" />
     <ClInclude Include="Types.hpp" />
     <ClInclude Include="Utility.hpp" />
+    <ClInclude Include="utility\Utility.hpp" />
     <ClInclude Include="WSTL.hpp" />
   </ItemGroup>
   <ItemGroup>

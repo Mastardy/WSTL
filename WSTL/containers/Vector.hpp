@@ -1,5 +1,6 @@
 #pragma once
 #include "memory/Memory.hpp"
+#include "Types.hpp"
 #include <stdexcept>
 
 namespace WSTL

@@ -1,6 +1,6 @@
 ﻿#include <gtest/gtest.h>
 
-#include "memory/Memory.hpp"
+#include "memory/SharedPointer.hpp"
 
 TEST(SharedPointerTest, DefaultConstructor)
 {

@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "Utility.hpp"
+#include "utility/Utility.hpp"
 #include "SharedPointer.hpp"
 
 namespace WSTL
