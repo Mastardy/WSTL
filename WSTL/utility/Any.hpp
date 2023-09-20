@@ -116,6 +116,17 @@ namespace WSTL
         }
 
         /**
+         * \brief Get the data as a specific type as const
+         */
+        template<typename T>
+        const T& Cast() const
+        {
+            auto* derived = dynamic_cast<Derived<T>*>(data);
+            if(derived == nullptr) throw std::bad_cast();
+            return derived->data;
+        }
+        
+        /**
          * \brief Returns whether the data is empty
          */
         bool IsEmpty() const
