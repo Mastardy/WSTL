@@ -1,25 +1,24 @@
-#include "memory/Memory.hpp"
+#include <iostream>
+
+#include "utility/Optional.hpp"
+
+using namespace WSTL;
 
 int main()
 {
-    WSTL::SharedPointer<int> sp1(new int(5));
-    WSTL::WeakPointer<int> wp1(sp1);
+    Optional<float> opt1;
 
-    if(!wp1.Expired())
-    {
-        auto temp = wp1.Lock();
+    std::cout << "opt1.HasValue(): " << opt1.HasValue() << std::endl;
 
-        *temp = 10;
-    }
+    Optional<float> opt2(5.0f);
 
-    sp1.Reset();
+    std::cout << "opt2.HasValue(): " << opt2.HasValue() << std::endl;
 
-    if(!wp1.Expired())
-    {
-        auto temp = wp1.Lock();
+    std::cout << "opt2.Value(): " << opt2.Value() << std::endl;
 
-        *temp = 1;
-    }
+    Optional<float> opt3(opt2);
+
+    std::cout << "opt3.HasValue(): " << opt3.HasValue() << std::endl;
     
     return 0;
 }

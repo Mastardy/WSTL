@@ -179,7 +179,8 @@
     <ClInclude Include="memory\UniquePointer.hpp" />
     <ClInclude Include="memory\WeakPointer.hpp" />
     <ClInclude Include="Types.hpp" />
-    <ClInclude Include="Utility.hpp" />
+    <ClInclude Include="utility\Any.hpp" />
+    <ClInclude Include="utility\Optional.hpp" />
     <ClInclude Include="utility\Utility.hpp" />
     <ClInclude Include="WSTL.hpp" />
   </ItemGroup>
