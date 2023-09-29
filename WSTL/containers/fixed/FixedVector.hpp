@@ -3,8 +3,8 @@
 #include <filesystem>
 #include <stdexcept>
 
-#include "memory/Memory.hpp"
-#include "Types.hpp"
+#include "WSTL/memory/Memory.hpp"
+#include "WSTL/Types.hpp"
 
 namespace WSTL
 {

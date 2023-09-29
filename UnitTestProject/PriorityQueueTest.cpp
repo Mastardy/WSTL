@@ -1,6 +1,6 @@
 ﻿#include <gtest/gtest.h>
 
-#include "containers/PriorityQueue.hpp"
+#include "WSTL/containers/PriorityQueue.hpp"
 
 using namespace WSTL;
 

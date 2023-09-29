@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#include "Types.hpp"
-#include "utility/Utility.hpp"
-#include "containers/Containers.hpp"
-#include "memory/Memory.hpp"
-#include "memory/SmartPointers.hpp"
+#include "WSTL/Types.hpp"
+#include "WSTL/utility/Utility.hpp"
+#include "WSTL/containers/Containers.hpp"
+#include "WSTL/memory/Memory.hpp"
+#include "WSTL/memory/SmartPointers.hpp"

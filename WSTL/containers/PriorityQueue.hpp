@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include <algorithm>
-#include "trees/BinaryHeap.hpp"
+#include "WSTL/containers/trees/BinaryHeap.hpp"
 
 namespace WSTL
 {

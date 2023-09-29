@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#include "Vector.hpp"
-#include "trees/RBTree.hpp"
+#include "WSTL/containers/Vector.hpp"
+#include "WSTL/containers/trees/RBTree.hpp"
 
 namespace WSTL
 {

@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <type_traits>
-#include "memory/UniquePointer.hpp"
+#include "WSTL/memory/UniquePointer.hpp"
 
 using namespace WSTL;
 

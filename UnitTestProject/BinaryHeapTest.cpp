@@ -1,6 +1,6 @@
 ﻿#include <gtest/gtest.h>
 
-#include "containers/trees/BinaryHeap.hpp"
+#include "WSTL/containers/trees/BinaryHeap.hpp"
 
 using namespace WSTL;
 

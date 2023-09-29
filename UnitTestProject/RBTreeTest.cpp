@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "containers/trees/RBTree.hpp"
+#include "WSTL/containers/trees/RBTree.hpp"
 
 using namespace WSTL;
 

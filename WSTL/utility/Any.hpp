@@ -2,7 +2,7 @@
 #include <initializer_list>
 #include <typeinfo>
 
-#include "memory/Memory.hpp"
+#include "WSTL/memory/Memory.hpp"
 
 namespace WSTL
 {

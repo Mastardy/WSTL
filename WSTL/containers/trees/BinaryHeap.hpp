@@ -2,9 +2,9 @@
 
 #include <exception>
 
-#include "Types.hpp"
-#include "utility/Utility.hpp"
-#include "memory/Memory.hpp"
+#include "WSTL/Types.hpp"
+#include "WSTL/utility/Utility.hpp"
+#include "WSTL/memory/Memory.hpp"
 
 namespace WSTL
 {

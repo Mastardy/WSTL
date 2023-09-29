@@ -1,5 +1,5 @@
 ﻿#include <gtest/gtest.h>
-#include "../WSTL/WSTL.hpp"
+#include "WSTL/WSTL.hpp"
 
 using namespace WSTL;
 

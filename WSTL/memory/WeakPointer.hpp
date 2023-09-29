@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#include "utility/Utility.hpp"
-#include "SharedPointer.hpp"
+#include "WSTL/utility/Utility.hpp"
+#include "WSTL/memory/SharedPointer.hpp"
 
 namespace WSTL
 {

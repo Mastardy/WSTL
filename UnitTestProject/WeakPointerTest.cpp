@@ -1,6 +1,6 @@
 ﻿#include <gtest/gtest.h>
 
-#include "memory/WeakPointer.hpp"
+#include "WSTL/memory/WeakPointer.hpp"
 
 TEST(WeakPointerTest, Constructor)
 {

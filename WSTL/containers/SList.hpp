@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <stdexcept>
 
-#include "Types.hpp"
+#include "WSTL/Types.hpp"
 
 namespace WSTL
 {

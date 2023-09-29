@@ -1,5 +1,5 @@
 ﻿#include <gtest/gtest.h>
-#include "containers/Map.hpp"
+#include "WSTL/containers/Map.hpp"
 
 using namespace WSTL;
 

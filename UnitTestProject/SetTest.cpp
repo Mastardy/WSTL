@@ -1,6 +1,6 @@
 ﻿#include <gtest/gtest.h>
 
-#include "containers/Set.hpp"
+#include "WSTL/containers/Set.hpp"
 
 typedef WSTL::Set<int> SetType;
 

@@ -1,9 +1,9 @@
 #pragma once
 #include <algorithm>
 
-#include "containers/Pair.hpp"
-#include "containers/Vector.hpp"
-#include "memory/Memory.hpp"
+#include "WSTL/containers/Pair.hpp"
+#include "WSTL/containers/Vector.hpp"
+#include "WSTL/memory/Memory.hpp"
 
 namespace WSTL
 {

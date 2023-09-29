@@ -1,5 +1,5 @@
 ﻿#pragma once
 
-#include "UniquePointer.hpp"
-#include "SharedPointer.hpp"
-#include "WeakPointer.hpp"
+#include "WSTL/memory/UniquePointer.hpp"
+#include "WSTL/memory/SharedPointer.hpp"
+#include "WSTL/memory/WeakPointer.hpp"
