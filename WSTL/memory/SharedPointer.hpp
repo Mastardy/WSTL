@@ -567,15 +567,9 @@ namespace WSTL
         return SharedPointer<T>(pValue);
     }
 
-    template<typename T, class... Args>
-    inline std::enable_if_t<std::is_unbounded_array_v<T>, SharedPointer<T>> MakeShared(Args&&... args)
-    {
-        return SharedPointer<T>(new std::remove_extent_t<T>[args]);
-    }
-
     template<typename T>
-    inline std::enable_if_t<std::is_unbounded_array_v<T>, SharedPointer<T>> MakeShared(T* pValue)
+    inline std::enable_if_t<std::is_array_v<T>, SharedPointer<T>> MakeShared(Size n)
     {
-        return SharedPointer<T>(pValue);
+        return SharedPointer<T>(new std::remove_extent_t<T>[n]);
     }
 }
