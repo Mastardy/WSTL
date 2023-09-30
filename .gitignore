@@ -14,12 +14,6 @@ riderModule.iml
 *.exe
 *.CopyComplete
 
-UnitTestProject/x64/Debug/UnitTestProject.vcxproj.FileListAbsolute.txt
-
-UnitTestProject/x64/Debug/UnitTestProject.Build.CppClean.log
-
-Sandbox/x64/
-
-UnitTestProject/x64/
+x64/
 
 WSTL.sln.DotSettings.user
