@@ -173,6 +173,7 @@
     <ClInclude Include="containers\trees\BinaryHeap.hpp" />
     <ClInclude Include="containers\trees\RBTree.hpp" />
     <ClInclude Include="containers\Vector.hpp" />
+    <ClInclude Include="memory\Allocator.hpp" />
     <ClInclude Include="memory\Memory.hpp" />
     <ClInclude Include="memory\SharedPointer.hpp" />
     <ClInclude Include="memory\SmartPointers.hpp" />
