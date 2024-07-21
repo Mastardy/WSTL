@@ -611,5 +611,5 @@ namespace WSTL
     };
 
     template<typename Key, typename Value>
-    using RedBlackTree = RBTree<Key, Value>;
+    typedef RBTNode<Key, Value> RBNode;
 }

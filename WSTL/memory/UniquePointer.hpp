@@ -1,10 +1,10 @@
-﻿#pragma once
+#pragma once
 #include "WSTL/Types.hpp"
 #include "WSTL/utility/TypeTraits.hpp"
 
 namespace WSTL
 {
-    template<class T>
+    template <class T>
     class UniquePointer
     {
     public:
@@ -19,11 +19,11 @@ namespace WSTL
         /**
          * \brief Default Constructor
          */
-        constexpr UniquePointer(decltype(nullptr)) 
+        constexpr UniquePointer(decltype(nullptr))
         {
             pValue = nullptr;
         }
-        
+
         /**
          * \brief Explicit constructor for creating an Unique Pointer
          */
@@ -32,7 +32,7 @@ namespace WSTL
         /**
          * \brief Move Constructor for converting an UniquePointer of a derived class to an UniquePointer of a base class 
          */
-        template<typename U>
+        template <typename U>
         UniquePointer(UniquePointer<U>&& other) noexcept : pValue(other.Release()) { }
         
         /**
@@ -42,7 +42,7 @@ namespace WSTL
         {
             pValue = other.Release();
         }
-        
+
         /**
          * \brief Destructor to safely delete the pointer
          */
@@ -50,16 +50,16 @@ namespace WSTL
         {
             delete pValue;
         }
-        
+
         /**
          * \brief Move assignment
          */
         UniquePointer& operator=(UniquePointer<T>&& other) noexcept
         {
-            if(this == &other) return *this;
-            
+            if (this == &other) return *this;
+
             Reset(other.Release());
-            
+
             return *this;
         }
 
@@ -71,7 +71,7 @@ namespace WSTL
             Reset();
             return *this;
         }
-        
+
         /**
          * \brief Allows access to owned pointer through *
          */
@@ -79,7 +79,7 @@ namespace WSTL
         {
             return *pValue;
         }
-        
+
         /**
          * \brief Allows access to owned pointer through ->
          */
@@ -87,13 +87,13 @@ namespace WSTL
         {
             return pValue;
         }
-        
+
         /**
          * \brief Allows the use of an UniquePointer as a boolean
          */
         explicit operator bool() const
         {
-            return pValue != nullptr; 
+            return pValue != nullptr;
         }
 
         /**
@@ -109,7 +109,7 @@ namespace WSTL
          */
         void Reset(T* pNewValue = nullptr) noexcept
         {
-            if(pValue == pNewValue) return;
+            if (pValue == pNewValue) return;
 
             delete pValue;
             pValue = pNewValue;
@@ -134,20 +134,20 @@ namespace WSTL
             pValue = other.pValue;
             other.pValue = pTemp;
         }
-        
+
         // Delete these functions because copying is dangerous as it might leave to dangling pointers!
         UniquePointer(const UniquePointer&) = delete;
         UniquePointer& operator=(const UniquePointer&) = delete;
         UniquePointer& operator=(T* pValue) = delete;
-        
+
     private:
         T* pValue;
     };
-    
+
     /**
      * \brief Specialization for unbounded arrays
      */
-    template<class T>
+    template <class T>
     class UniquePointer<T[]>
     {
     public:
@@ -222,7 +222,7 @@ namespace WSTL
          */
         void Reset(T* pArray = new T[0]) noexcept
         {
-            if(pArray == pValue) return;
+            if (pArray == pValue) return;
             delete[] pValue;
             pValue = pArray;
         }
@@ -252,14 +252,14 @@ namespace WSTL
          */
         T* Get() const noexcept
         {
-           return pValue; 
+            return pValue;
         }
 
         // Delete these functions because copying is dangerous as it might leave to dangling pointers!
         UniquePointer(const UniquePointer<T[]>&) = delete;
         UniquePointer& operator=(const UniquePointer<T[]>&) = delete;
         UniquePointer& operator=(T* pValue) = delete;
-        
+
     private:
         T* pValue;
     };
@@ -267,7 +267,7 @@ namespace WSTL
     /**
      * \brief Makes an Unique Pointer
      */
-    template<typename T, typename... Args>
+    template <typename T, typename... Args>
     inline EnableIfT<!IsArrayV<T>, UniquePointer<T>> MakeUnique(Args&&... args)
     {
         return UniquePointer<T>(new T(std::forward<Args>(args)...));
@@ -276,7 +276,7 @@ namespace WSTL
     /**
      * \brief Makes an Unique Pointer for Unbounded Arrays
      */
-    template<typename T>
+    template <typename T>
     inline EnableIfT<IsArrayV<T>, UniquePointer<T>> MakeUnique(Size n)
     {
         typedef std::remove_extent_t<T> U; // Get the type without the array extent

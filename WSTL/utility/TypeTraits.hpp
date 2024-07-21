@@ -39,6 +39,9 @@ namespace WSTL
         typedef Type2 type;
     };
 
+    /**
+     * @brief Returns Type1 if Test is true, otherwise returns Type2
+     */
     template <bool Test, class Type1, class Type2>
     typedef typename Conditional<Test, Type1, Type2>::type ConditionalT;
 
@@ -55,17 +58,23 @@ namespace WSTL
         typedef Type type;
     };
 
+    /**
+     * @brief Enable Type if Test is true
+     */
     template <bool Test, class Type = void>
-    using EnableIfT = typename EnableIf<Test, Type>::type;
+    typedef typename EnableIf<Test, Type>::type EnableIfT;
 
 #pragma endregion
 
 #pragma region Is Type
-
+    
     template <class>
     inline constexpr bool IsArrayV = false;
     template <class Type, Size Num>
     inline constexpr bool IsArrayV<Type[Num]> = true;
+    /**
+     * @brief Checks if given Type is an Array
+     */
     template <class Type>
     inline constexpr bool IsArrayV<Type[]> = true;
     template <class Type>

@@ -7,7 +7,7 @@ namespace WSTL
     {
         for (; first != last; ++first)
         {
-            if(std::is_trivial_v<T> == false)
+            if(IsTrivial<T> == false)
             {
                 first->~T();
             }
@@ -17,7 +17,7 @@ namespace WSTL
     template<typename T>
     void Destruct(T* ptr)
     {
-        if(std::is_trivial_v<T> == false)
+        if(IsTrivial<T> == false)
         {
             ptr->~T();
         }
