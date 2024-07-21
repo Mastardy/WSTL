@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "WSTL/Types.hpp"
-#include <type_traits>
+#include "WSTL/utility/TypeTraits.hpp"
 
 namespace WSTL
 {
@@ -268,7 +268,7 @@ namespace WSTL
      * \brief Makes an Unique Pointer
      */
     template<typename T, typename... Args>
-    inline std::enable_if_t<!std::is_array_v<T>, UniquePointer<T>> MakeUnique(Args&&... args)
+    inline EnableIfT<!IsArrayV<T>, UniquePointer<T>> MakeUnique(Args&&... args)
     {
         return UniquePointer<T>(new T(std::forward<Args>(args)...));
     }
@@ -277,7 +277,7 @@ namespace WSTL
      * \brief Makes an Unique Pointer for Unbounded Arrays
      */
     template<typename T>
-    inline std::enable_if_t<std::is_array_v<T>, UniquePointer<T>> MakeUnique(Size n)
+    inline EnableIfT<IsArrayV<T>, UniquePointer<T>> MakeUnique(Size n)
     {
         typedef std::remove_extent_t<T> U; // Get the type without the array extent
         return UniquePointer<T>(new U[n]);

@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "WSTL/Types.hpp"
-#include <type_traits>
+#include "WSTL/utility/TypeTraits.hpp"
 
 namespace WSTL
 {
@@ -557,19 +557,19 @@ namespace WSTL
     };
 
     template<typename T, class... Args>
-    inline std::enable_if_t<!std::is_array_v<T>, SharedPointer<T>> MakeShared(Args&&... args)
+    inline EnableIfT<!IsArrayV<T>, SharedPointer<T>> MakeShared(Args&&... args)
     {
         return SharedPointer<T>(new T(std::forward<Args>(args)...));
     }
 
     template<typename T>
-    inline std::enable_if_t<!std::is_array_v<T>, SharedPointer<T>> MakeShared(T* pValue)
+    inline EnableIfT<!IsArrayV<T>, SharedPointer<T>> MakeShared(T* pValue)
     {
         return SharedPointer<T>(pValue);
     }
 
     template<typename T>
-    inline std::enable_if_t<std::is_array_v<T>, SharedPointer<T>> MakeShared(Size n)
+    inline EnableIfT<IsArrayV<T>, SharedPointer<T>> MakeShared(Size n)
     {
         return SharedPointer<T>(new std::remove_extent_t<T>[n]);
     }

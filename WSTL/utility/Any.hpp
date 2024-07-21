@@ -1,7 +1,4 @@
 ﻿#pragma once
-#include <initializer_list>
-#include <typeinfo>
-
 #include "WSTL/memory/Memory.hpp"
 
 namespace WSTL

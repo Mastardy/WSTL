@@ -182,6 +182,7 @@
     <ClInclude Include="Types.hpp" />
     <ClInclude Include="utility\Any.hpp" />
     <ClInclude Include="utility\Optional.hpp" />
+    <ClInclude Include="utility\TypeTraits.hpp" />
     <ClInclude Include="utility\Utility.hpp" />
     <ClInclude Include="WSTL.hpp" />
   </ItemGroup>
