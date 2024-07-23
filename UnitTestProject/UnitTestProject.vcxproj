@@ -43,6 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="BinaryHeapTest.cpp" />
+    <ClCompile Include="BitSetTest.cpp" />
     <ClCompile Include="DequeTest.cpp" />
     <ClCompile Include="MapTest.cpp" />
     <ClCompile Include="PriorityQueueTest.cpp" />

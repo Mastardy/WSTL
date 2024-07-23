@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="containers\Array.hpp" />
+    <ClInclude Include="containers\BitSet.hpp" />
     <ClInclude Include="containers\Containers.hpp" />
     <ClInclude Include="containers\Deque.hpp" />
     <ClInclude Include="containers\fixed\FixedVector.hpp" />

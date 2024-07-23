@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include "WSTL/utility/TypeTraits.hpp"
+
 namespace WSTL
 {
     template<typename T>
@@ -7,7 +9,7 @@ namespace WSTL
     {
         for (; first != last; ++first)
         {
-            if(IsTrivial<T> == false)
+            if(IsTrivialV<T> == false)
             {
                 first->~T();
             }
@@ -17,7 +19,7 @@ namespace WSTL
     template<typename T>
     void Destruct(T* ptr)
     {
-        if(IsTrivial<T> == false)
+        if(IsTrivialV<T> == false)
         {
             ptr->~T();
         }
