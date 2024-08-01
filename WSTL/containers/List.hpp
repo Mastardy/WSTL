@@ -96,8 +96,8 @@ namespace WSTL
 
         Self& operator=(const Self& other) noexcept
         {
-            if(this == &other) return *this;
-            
+            if (this == &other) return *this;
+
             pNode = other.pNode;
             return *this;
         }

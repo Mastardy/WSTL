@@ -152,7 +152,7 @@ namespace WSTL
          * \brief Emplaces a new entry into the container
          */
         template<class... Args>
-        void Emplace(const Key& key, Args&&... args)
+        void Emplace(const Key& key, Args&&... args)  // NOLINT(cppcoreguidelines-missing-std-forward)
         {
             tree.Insert(key, Entry(key, Value(std::forward<Args>(args)...)));
         }

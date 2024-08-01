@@ -611,5 +611,5 @@ namespace WSTL
     };
 
     template<typename Key, typename Value>
-    typedef RBTNode<Key, Value> RBNode;
+    using RBNode = RBTNode<Key, Value>;
 }

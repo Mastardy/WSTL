@@ -35,6 +35,7 @@ namespace WSTL
 
             constexpr BitReference& operator=(const BitReference& other) noexcept
             {
+                if(this == &other) return *this;
                 *this = static_cast<bool>(other);
                 return *this;
             }
@@ -129,7 +130,7 @@ namespace WSTL
                 bits[wordPos] = 0;
             }
         }
-        
+
         /**
          * @brief Default Constructor that generates a bitset from a string
          */
@@ -194,7 +195,7 @@ namespace WSTL
          */
         constexpr BitSet& operator |=(const BitSet& other) noexcept
         {
-            for(::Size i = 0; i < Words; i++) bits[i] |= other.bits[i];
+            for(::Size i = 0; i <= Words; i++) bits[i] |= other.bits[i];
             return *this;
         }
 
@@ -203,7 +204,7 @@ namespace WSTL
          */
         constexpr BitSet& operator ^=(const BitSet& other) noexcept
         {
-            for(::Size i = 0; i < Words; i++) bits[i] ^= other.bits[i];
+            for(::Size i = 0; i <= Words; i++) bits[i] ^= other.bits[i];
             return *this;
         }
 
@@ -270,6 +271,31 @@ namespace WSTL
             return tmp;
         }
 
+        [[nodiscard]]
+        constexpr BitSet operator&(const BitSet& other) noexcept
+        {
+            auto tmp = *this;
+            tmp &= other;
+            return tmp;
+        }
+
+        [[nodiscard]]
+        constexpr BitSet operator|(const BitSet& other) const
+        {
+            auto tmp = *this;
+            tmp |= other;
+            return tmp;
+        }
+
+        [[nodiscard]]
+        constexpr BitSet operator^(const BitSet& other) const
+        {
+            auto tmp = *this;
+            tmp ^= other;
+            return tmp;
+        }
+        
+        [[nodiscard]]
         constexpr BitSet operator<<(const ::Size shift) const noexcept
         {
             auto tmp = *this;
@@ -277,6 +303,7 @@ namespace WSTL
             return tmp;
         }
 
+        [[nodiscard]]
         constexpr BitSet operator>>(const ::Size shift) const noexcept
         {
             auto tmp = *this;
@@ -287,7 +314,7 @@ namespace WSTL
         [[nodiscard]]
         constexpr bool operator==(const BitSet& other) const noexcept
         {
-            if consteval
+            if (__builtin_is_constant_evaluated())
             {
                 for(::Size i = 0; i < Words; i++)
                 {
@@ -306,7 +333,7 @@ namespace WSTL
          */
         constexpr BitSet& Set() noexcept
         {
-            if consteval
+            if (__builtin_is_constant_evaluated())
             {
                 for(auto& bit : bits) bit = static_cast<ArrayType>(-1);
             }
@@ -333,7 +360,7 @@ namespace WSTL
          */
         constexpr BitSet& Reset() noexcept
         {
-            if consteval
+            if (__builtin_is_constant_evaluated())
             {
                 for(auto& bit : bits) bit = 0;
             }
@@ -441,7 +468,7 @@ namespace WSTL
         /**
          * @brief Validates the index. Throws std::out_of_range if index is out of range
          */
-        static constexpr void Validate(const ::Size pos) noexcept
+        static constexpr void Validate(const ::Size pos)
         {
             if(pos >= BitAmount)
                 throw std::out_of_range("BitSet<BitAmount>::Validate: Index out of range");
@@ -453,6 +480,72 @@ namespace WSTL
         constexpr bool Subscript(::Size pos) const
         {
             return (bits[pos / BitsPerWord] & (ArrayType{1} << (pos % BitsPerWord))) != 0;
+        }
+
+        /**
+         * @brief Returns the word at the specified position
+         */
+        [[nodiscard]]
+        constexpr ArrayType GetWord(::Size pos) const
+        {
+            return bits[pos];
+        }
+
+        [[nodiscard]]
+        constexpr UL ToULong() const noexcept(BitAmount < 32)
+        {
+            if constexpr (BitAmount == 0)
+            {
+                return 0;
+            }
+            else if constexpr (BitAmount < 32)
+            {
+                return static_cast<unsigned long>(bits[0]);
+            }
+            else
+            {
+                if constexpr (BitAmount > 32)
+                {
+                    for(::Size i = 1; i <= Words; i++)
+                    {
+                        if(bits[i] != 0) throw std::overflow_error("BitSet<BitAmount>::ToULong: Overflow");
+                    }
+                }
+
+                if(bits[0] > ULONG_MAX) throw std::overflow_error("BitSet<BitAmount>::ToULong: Overflow");
+
+                return static_cast<unsigned long>(bits[0]);
+            }
+        }
+
+        [[nodiscard]]
+        constexpr ULL ToULLong() const noexcept(BitAmount < 64)
+        {
+            if constexpr(BitAmount == 0) return 0;
+            else
+            {
+                for(::Size i = 1; i <= Words; i++)
+                {
+                    if(bits[i] != 0) throw std::overflow_error("BitSet<BitAmount>::ToULLong: Overflow");
+                }
+            }
+            
+            return bits[0];
+        }
+        
+        /**
+         * @brief Returns the string representation of the BitSet
+         */
+        [[nodiscard]]
+        std::string ToString() const
+        {
+            std::string str;
+            str.reserve(BitAmount);
+            for(::Size i = 0; i < BitAmount; i++)
+            {
+                str.push_back(Subscript(i) ? '1' : '0');
+            }
+            return str;
         }
         
     private:

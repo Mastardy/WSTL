@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include "WSTL/Types.hpp"
+
 namespace WSTL
 {
 #pragma region Bool Constant
@@ -18,7 +20,7 @@ namespace WSTL
     };
 
     template <bool Value>
-    typedef IntegralConstant<bool, Value> BoolConstant;
+    using BoolConstant = IntegralConstant<bool, Value>;
 
     typedef BoolConstant<true> TrueType;
     typedef BoolConstant<false> FalseType;
@@ -43,7 +45,7 @@ namespace WSTL
      * @brief Returns Type1 if Test is true, otherwise returns Type2
      */
     template <bool Test, class Type1, class Type2>
-    typedef typename Conditional<Test, Type1, Type2>::type ConditionalT;
+    using ConditionalT = typename Conditional<Test, Type1, Type2>::type;
 
 #pragma endregion
 
@@ -55,15 +57,15 @@ namespace WSTL
     template <class Type>
     struct EnableIf<true, Type>
     {
-        typedef Type type;
+        using type = Type;
     };
-
+    
     /**
      * @brief Enable Type if Test is true
      */
     template <bool Test, class Type = void>
-    typedef typename EnableIf<Test, Type>::type EnableIfT;
-
+    using EnableIfT = typename EnableIf<Test, Type>::type;
+    
 #pragma endregion
 
 #pragma region Is Type

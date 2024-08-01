@@ -17,3 +17,5 @@ riderModule.iml
 x64/
 
 WSTL.sln.DotSettings.user
+
+*.user
