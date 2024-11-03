@@ -1,8 +1,10 @@
 #pragma once
 
-#include <WSTL/utility/Hash.hpp>
+#include "WSTL/Defines.hpp"
+#include "WSTL/utility/Hash.hpp"
 
 #include "Vector.hpp"
+#include "WSTL.hpp"
 
 namespace WSTL
 {
@@ -80,19 +82,61 @@ namespace WSTL
 
         Value& operator[](const Key& key)
         {
-            
+            return Get(key);
         }
 
         const Value& operator[](const Key& key) const
         {
-            
+            return Get(key);
         }
 
+        Value& At(const Key& key)
+        {
+            return Get(key);
+        }
+
+        const Value& At(const Key& key) const
+        {
+            return Get(key);
+        }
+
+        Value& Get(const Key& key)
+        {
+            var hash = Hash(&key, sizeof(Key));
+            var index = hash % pBuckets.Size();
+            var pNode = pBuckets[index];
+
+            while(pNode)
+            {
+                if(pNode->key == key)
+                    return pNode->value;
+                pNode = pNode->pNext;
+            }
+            
+            throw std::out_of_range("Key not found");
+        }
+
+        const Value& Get(const Key& key) const
+        {
+            var hash = Hash(&key, sizeof(Key));
+            var index = hash % pBuckets.Size();
+            var pNode = pBuckets[index];
+
+            while(pNode)
+            {
+                if(pNode->key == key)
+                    return pNode->value;
+                pNode = pNode->pNext;
+            }
+            
+            throw std::out_of_range("Key not found");
+        }
+        
         void Clear()
         {
-            for(auto i = pBuckets.Size() - 1; i >= 0; i--)
+            for(var i = pBuckets.Size() - 1; i >= 0; i--)
             {
-                auto p = pBuckets.Erase(i);
+                var p = pBuckets.Erase(i);
                 delete p;
             }
         }

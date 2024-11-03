@@ -1,20 +1,24 @@
 #pragma once
+
+#include "WSTL/Defines.hpp"
 #include "WSTL/Types.hpp"
-#include "WSTL/memory/Allocator.hpp"
 
 namespace WSTL
 {
-    static UI32 Scramble(UI32 key)
+    /**
+     * This function returns an Hash using the MurmurHash3 algorithm.
+     */
+    static inline UI32 Hash(const void* data, UI32 length)
     {
-        key *= 0xcc9e2d51;
-        key = (key << 15) | (key >> 17);
-        key *= 0x1b873593;
-        return key;
-    }
-
-    inline UI32 Hash(const void* data, UI32 length)
-    {
-        auto key = static_cast<const UI8*>(data);
+        var Scramble = [](UI32 key)
+        {
+            key *= 0xcc9e2d51;
+            key = (key << 15) | (key >> 17);
+            key *= 0x1b873593;
+            return key;
+        };
+        
+        var key = static_cast<const UI8*>(data);
         UI32 seed = 0;
         UI32 k = 0;
 

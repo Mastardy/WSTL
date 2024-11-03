@@ -139,7 +139,7 @@ TEST(VectorTest, PushBack)
     b = 3;
     EXPECT_EQ(a[2], 3);
 
-    const auto c = static_cast<int*>(a.PushBackUninitialized());
+    const var c = static_cast<int*>(a.PushBackUninitialized());
     EXPECT_EQ(a.Size(), 4);
     *c = 4;
     EXPECT_EQ(a[3], 4);

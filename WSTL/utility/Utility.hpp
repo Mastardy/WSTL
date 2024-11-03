@@ -2,6 +2,7 @@
 
 #include "WSTL/utility/Any.hpp"
 #include "WSTL/utility/Optional.hpp"
+#include "WSTL/utility/Hash.hpp"
 
 namespace WSTL
 {

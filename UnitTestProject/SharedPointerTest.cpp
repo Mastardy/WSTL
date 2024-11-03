@@ -16,14 +16,14 @@ TEST(SharedPointerTest, ConstructorWithNullptr)
 
 TEST(SharedPointerTest, ConstructorWithPointer)
 {
-    auto const pInt = new int(5);
+    var const pInt = new int(5);
     WSTL::SharedPointer<int> ptr(pInt);
     EXPECT_EQ(ptr.Get(), pInt);
 }
 
 TEST(SharedPointerTest, CopyConstructor)
 {
-    auto const pInt = new int(5);
+    var const pInt = new int(5);
     WSTL::SharedPointer<int> ptr(pInt);
     WSTL::SharedPointer<int> ptr2(ptr);
     EXPECT_EQ(ptr.Get(), ptr2.Get());
@@ -31,7 +31,7 @@ TEST(SharedPointerTest, CopyConstructor)
 
 TEST(SharedPointerTest, MoveConstructor)
 {
-    auto const pInt = new int(5);
+    var const pInt = new int(5);
     WSTL::SharedPointer<int> ptr(pInt);
     WSTL::SharedPointer<int> ptr2(std::move(ptr));
     EXPECT_EQ(ptr.Get(), nullptr);
@@ -41,7 +41,7 @@ TEST(SharedPointerTest, MoveConstructor)
 
 TEST(SharedPointerTest, CopyAssignment)
 {
-    auto const pInt = new int(5);
+    var const pInt = new int(5);
     WSTL::SharedPointer<int> ptr(pInt);
     WSTL::SharedPointer<int> ptr2 = ptr;
     EXPECT_EQ(ptr.Get(), ptr2.Get());
@@ -49,7 +49,7 @@ TEST(SharedPointerTest, CopyAssignment)
 
 TEST(SharedPointerTest, MoveAssignment)
 {
-    auto const pInt = new int(5);
+    var const pInt = new int(5);
     WSTL::SharedPointer<int> ptr(pInt);
     WSTL::SharedPointer<int> ptr2 = std::move(ptr);
     EXPECT_EQ(ptr.Get(), nullptr);
@@ -59,7 +59,7 @@ TEST(SharedPointerTest, MoveAssignment)
 
 TEST(SharedPointerTest, Destructor)
 {
-    auto const pInt = new int(5);
+    var const pInt = new int(5);
     WSTL::SharedPointer<int> ptr(pInt);
     {
         WSTL::SharedPointer<int> ptr2(ptr);
@@ -72,7 +72,7 @@ TEST(SharedPointerTest, Destructor)
 
 TEST(SharedPointerTest, DereferenceOperator)
 {
-    auto const pInt = new int(5);
+    var const pInt = new int(5);
     WSTL::SharedPointer<int> const ptr(pInt);
     EXPECT_EQ(*ptr, 5);
 }
@@ -85,7 +85,7 @@ TEST(SharedPointerTest, ArrowOperator)
         int b;
     };
 
-    auto const pTest = new Test{ 5, 10 };
+    var const pTest = new Test{ 5, 10 };
     WSTL::SharedPointer<Test> const ptr(pTest);
 
     EXPECT_EQ(ptr->a, 5);
@@ -103,14 +103,14 @@ TEST(SharedPointerTest, Bool)
 
 TEST(SharedPointerTest, Get)
 {
-    auto const pInt = new int(5);
+    var const pInt = new int(5);
     WSTL::SharedPointer<int> const ptr(pInt);
     EXPECT_EQ(ptr.Get(), pInt);
 }
 
 TEST(SharedPointerTest, UseCount)
 {
-    auto const pInt = new int(5);
+    var const pInt = new int(5);
     WSTL::SharedPointer<int> const ptr(pInt);
     EXPECT_EQ(ptr.UseCount(), 1);
 
@@ -125,7 +125,7 @@ TEST(SharedPointerTest, UseCount)
 
 TEST(SharedPointerTest, Reset)
 {
-    auto const pInt = new int(5);
+    var const pInt = new int(5);
     WSTL::SharedPointer<int> ptr(pInt);
     EXPECT_EQ(ptr.UseCount(), 1);
 
@@ -150,7 +150,7 @@ TEST(SharedPointerTest, Reset)
 
 TEST(SharedPointerTest, Swap)
 {
-    auto const pInt = new int(5);
+    var const pInt = new int(5);
     WSTL::SharedPointer<int> ptr(pInt);
     WSTL::SharedPointer<int> ptr2(new int(10));
 
@@ -166,7 +166,7 @@ TEST(SharedPointerTest, Swap)
 
 TEST(SharedPointerTest, IsUnique)
 {
-    auto const pInt = new int(5);
+    var const pInt = new int(5);
     WSTL::SharedPointer<int> const ptr(pInt);
     EXPECT_TRUE(ptr.IsUnique());
 
@@ -181,7 +181,7 @@ TEST(SharedPointerTest, IsUnique)
 
 TEST(SharedPointerTest, MakeShared)
 {
-    auto pInt = new int(5);
+    var pInt = new int(5);
     WSTL::SharedPointer<int> ptr = WSTL::MakeShared<int>(5);
     EXPECT_EQ(ptr.UseCount(), 1);
     EXPECT_EQ(*ptr, 5);
@@ -193,7 +193,7 @@ TEST(SharedPointerTest, MakeShared)
 
 TEST(SharedPointerTest, Arrays)
 {
-    auto const pInt = new int[5]{ 1, 2, 3, 4, 5 };
+    var const pInt = new int[5]{ 1, 2, 3, 4, 5 };
     WSTL::SharedPointer<int[]> ptr(pInt);
     EXPECT_EQ(ptr.UseCount(), 1);
     EXPECT_EQ(ptr[0], 1);

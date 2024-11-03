@@ -1,6 +1,9 @@
 #pragma once
 #include <stdexcept>
 
+#include "WSTL/Defines.hpp"
+#include "WSTL/Types.hpp"
+
 namespace WSTL
 {
     template <typename T>
@@ -193,7 +196,7 @@ namespace WSTL
          */
         List(const Self& other) : size(0), pHead(nullptr), pTail(nullptr)
         {
-            for(auto element : other)
+            for(var element : other)
             {
                 PushBack(element);
             }
@@ -280,7 +283,7 @@ namespace WSTL
          */
         void PushBack(const T& value)
         {
-            auto pNewNode = new Node(value);
+            var pNewNode = new Node(value);
 
             if(IsEmpty())
             {
@@ -302,7 +305,7 @@ namespace WSTL
          */
         void PushFront(const T& value)
         {
-            auto pNewNode = new Node(value);
+            var pNewNode = new Node(value);
 
             if(IsEmpty())
             {
@@ -491,7 +494,7 @@ namespace WSTL
         {
             if(index >= size || index < 0) throw std::out_of_range("Index out of range.");
             
-            auto pCurrent = pHead;
+            var pCurrent = pHead;
 
             for(::Size i = 0; i < index; i++)
             {
@@ -505,7 +508,7 @@ namespace WSTL
         {
             if(index >= size) throw std::out_of_range("Index out of range");
             
-            auto pCurrent = pHead;
+            var pCurrent = pHead;
 
             for(::Size i = 0; i < index; i++)
             {

@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "stdexcept"
+#include "WSTL/Defines.hpp"
 #include "WSTL/Types.hpp"
 #include "WSTL/utility/TypeTraits.hpp"
 
@@ -88,7 +89,7 @@ namespace WSTL
             {
                 for(::Size i = BitAmount; i < count; i++)
                 {
-                    const auto c = ptr[i];
+                    const var c = ptr[i];
                     if(!Traits::eq(one, c) && !Traits::eq(zero, c)) throw std::invalid_argument("Invalid Bitset Character");
                 }
                 
@@ -99,13 +100,13 @@ namespace WSTL
             if(count != 0)
             {
                 ::Size bitsInWord = 0;
-                auto last = ptr + count;
+                var last = ptr + count;
                 ArrayType thisWord = 0;
 
                 do
                 {
                     last--;
-                    const auto c = *last;
+                    const var c = *last;
                     thisWord |= static_cast<ArrayType>(Traits::eq(one, c)) << bitsInWord;
                     if(!Traits::eq(one, c) && !Traits::eq(zero, c)) throw std::invalid_argument("Invalid Bitset Character");
 
@@ -213,10 +214,10 @@ namespace WSTL
          */
         constexpr BitSet& operator<<=(::Size shift) noexcept
         {
-            const auto wordShift = static_cast<PtrDiff>(shift / BitsPerWord);
+            const var wordShift = static_cast<PtrDiff>(shift / BitsPerWord);
             if(wordShift != 0)
             {
-                for(auto i = Words; 0 <= i; i--)
+                for(var i = Words; 0 <= i; i--)
                 {
                     bits[i] = wordShift <= i ? bits[i - wordShift] : 0;
                 }
@@ -224,7 +225,7 @@ namespace WSTL
 
             if((shift %= BitsPerWord) != 0)
             {
-                for(auto i = Words; 0 < i; i--)
+                for(var i = Words; 0 < i; i--)
                 {
                     bits[i] = (bits[i] << shift) | bits[i - 1] >> (BitsPerWord - shift);
                 }
@@ -241,7 +242,7 @@ namespace WSTL
          */
         constexpr BitSet& operator>>=(::Size shift) noexcept
         {
-            const auto wordShift = static_cast<PtrDiff>(shift / BitsPerWord);
+            const var wordShift = static_cast<PtrDiff>(shift / BitsPerWord);
             if(wordShift != 0)
             {
                 for(PtrDiff i = 0; i <= Words; i++)
@@ -266,7 +267,7 @@ namespace WSTL
         [[nodiscard]]
         constexpr BitSet operator~() const noexcept
         {
-            auto tmp = *this;
+            var tmp = *this;
             tmp.Flip();
             return tmp;
         }
@@ -274,7 +275,7 @@ namespace WSTL
         [[nodiscard]]
         constexpr BitSet operator&(const BitSet& other) noexcept
         {
-            auto tmp = *this;
+            var tmp = *this;
             tmp &= other;
             return tmp;
         }
@@ -282,7 +283,7 @@ namespace WSTL
         [[nodiscard]]
         constexpr BitSet operator|(const BitSet& other) const
         {
-            auto tmp = *this;
+            var tmp = *this;
             tmp |= other;
             return tmp;
         }
@@ -290,7 +291,7 @@ namespace WSTL
         [[nodiscard]]
         constexpr BitSet operator^(const BitSet& other) const
         {
-            auto tmp = *this;
+            var tmp = *this;
             tmp ^= other;
             return tmp;
         }
@@ -298,7 +299,7 @@ namespace WSTL
         [[nodiscard]]
         constexpr BitSet operator<<(const ::Size shift) const noexcept
         {
-            auto tmp = *this;
+            var tmp = *this;
             tmp <<= shift;
             return tmp;
         }
@@ -306,7 +307,7 @@ namespace WSTL
         [[nodiscard]]
         constexpr BitSet operator>>(const ::Size shift) const noexcept
         {
-            auto tmp = *this;
+            var tmp = *this;
             tmp >>= shift;
             return tmp;
         }
@@ -335,7 +336,7 @@ namespace WSTL
         {
             if (__builtin_is_constant_evaluated())
             {
-                for(auto& bit : bits) bit = static_cast<ArrayType>(-1);
+                for(var& bit : bits) bit = static_cast<ArrayType>(-1);
             }
             else
             {
@@ -362,7 +363,7 @@ namespace WSTL
         {
             if (__builtin_is_constant_evaluated())
             {
-                for(auto& bit : bits) bit = 0;
+                for(var& bit : bits) bit = 0;
             }
             else
             {
@@ -560,8 +561,8 @@ namespace WSTL
         
         constexpr BitSet& SetUnchecked(const ::Size pos, const bool val) noexcept
         {
-            auto& SelectedWord = bits[pos / BitsPerWord];
-            const auto bit = ArrayType{1} << (pos % BitsPerWord);
+            var& SelectedWord = bits[pos / BitsPerWord];
+            const var bit = ArrayType{1} << (pos % BitsPerWord);
             
             if(val) SelectedWord |= bit;
             else SelectedWord &= ~bit;

@@ -72,7 +72,7 @@ TEST(WeakPointerTest, Lock)
     EXPECT_EQ(wp1.WeakUseCount(), 1);
     EXPECT_EQ(sp1.UseCount(), wp1.UseCount());
 
-    auto temp = wp1.Lock();
+    var temp = wp1.Lock();
 
     EXPECT_EQ(wp1.WeakUseCount(), 1);
     EXPECT_EQ(sp1.UseCount(), wp1.UseCount());

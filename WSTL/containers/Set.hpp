@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "WSTL/Defines.hpp"
 #include "WSTL/containers/trees/RBTree.hpp"
 
 namespace WSTL
@@ -94,7 +95,7 @@ namespace WSTL
         [[nodiscard]]
         Value& operator[](::Size index)
         {
-            auto pNode = tree.LeftToRight(index);
+            var pNode = tree.LeftToRight(index);
             if(pNode == nullptr) throw std::out_of_range("Index out of range");
             return pNode->key;
         }

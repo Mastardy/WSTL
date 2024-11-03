@@ -11,7 +11,7 @@ TEST(BitSetTest, Construction)
     EXPECT_EQ(a.Size(), 8);
     EXPECT_EQ(a.Count(), 0);
 
-    auto bstr = "10101010";
+    var bstr = "10101010";
     BitSet<8> b(bstr);
 
     EXPECT_EQ(b.Size(), 8);

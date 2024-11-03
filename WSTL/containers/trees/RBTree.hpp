@@ -1,6 +1,7 @@
 #pragma once
 #include <algorithm>
 
+#include "WSTL/Defines.hpp"
 #include "WSTL/containers/Pair.hpp"
 #include "WSTL/containers/Vector.hpp"
 #include "WSTL/memory/Memory.hpp"
@@ -114,7 +115,7 @@ namespace WSTL
                 pRoot = new Node(key, value);
                 return pRoot;
             }
-            auto pTemp = InternalInsert(pRoot, key, value);
+            var pTemp = InternalInsert(pRoot, key, value);
             if(pTemp == nullptr) return nullptr;
             InternalCheckViolation(pTemp);
             return pTemp;
@@ -160,15 +161,15 @@ namespace WSTL
          */
         void Delete(const Key& key)
         {
-            auto pDelete = InternalSearch(pRoot, key);
+            var pDelete = InternalSearch(pRoot, key);
             if(pDelete == nullptr) return;
             bool isBlack = pDelete->isBlack;
             if(pDelete->pRight != nullptr && pDelete->pLeft != nullptr)
             {
-                auto pSuccessor = InternalFindMin(pDelete->pRight);
+                var pSuccessor = InternalFindMin(pDelete->pRight);
                 isBlack = pSuccessor->isBlack;
 
-                auto pSuccessorChild = pSuccessor->pRight;
+                var pSuccessorChild = pSuccessor->pRight;
                 InternalTransplant(pSuccessor, pSuccessorChild);
                 if(pDelete->pRight != nullptr) pDelete->pRight->pParent = pSuccessor;
                 pSuccessor->pRight = pDelete->pRight;
@@ -358,8 +359,8 @@ namespace WSTL
                 Node* pGrandParent = pParent->pParent;
                 if(pGrandParent == nullptr) break;
 
-                auto isUncleLeft = pParent != pGrandParent->pLeft;
-                auto pUncle =  isUncleLeft ? pGrandParent->pLeft : pGrandParent->pRight;
+                var isUncleLeft = pParent != pGrandParent->pLeft;
+                var pUncle =  isUncleLeft ? pGrandParent->pLeft : pGrandParent->pRight;
                 if(pUncle == nullptr) pUncle = new Node(Key(), Value(), true);
 
                 if(!pUncle->isBlack)
@@ -593,14 +594,14 @@ namespace WSTL
             if(pTemp == nullptr) return nullptr;
             if(pTemp->pLeft != nullptr)
             {
-                auto pResult = InternalLeftToRight(pTemp->pLeft, index, current);
+                var pResult = InternalLeftToRight(pTemp->pLeft, index, current);
                 if(pResult != nullptr) return pResult;
             }
             if(current == index) return pTemp;
             current++;
             if(pTemp->pRight != nullptr)
             {
-                auto pResult = InternalLeftToRight(pTemp->pRight, index, current);
+                var pResult = InternalLeftToRight(pTemp->pRight, index, current);
                 if(pResult != nullptr) return pResult;
             }
             return nullptr;

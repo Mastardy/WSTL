@@ -156,7 +156,7 @@ TEST(MapTest, GetKeys)
     a.Insert(2, 'b');
     a.Insert(3, 'c');
 
-    auto keys = a.GetKeys();
+    var keys = a.GetKeys();
 
     EXPECT_EQ(keys.Size(), 3);
     EXPECT_EQ(keys[0], 1);
@@ -171,7 +171,7 @@ TEST(MapTest, GetValues)
     a.Insert(2, 'b');
     a.Insert(3, 'c');
 
-    auto values = a.GetValues();
+    var values = a.GetValues();
 
     EXPECT_EQ(values.Size(), 3);
     EXPECT_EQ(values[0], 'a');
