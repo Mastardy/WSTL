@@ -11,5 +11,6 @@
 #include "WSTL/containers/Set.hpp"
 #include "WSTL/containers/Deque.hpp"
 #include "WSTL/containers/BitSet.hpp"
+#include "WSTL/containers/HashMap.hpp"
 
 #include "WSTL/containers/fixed/FixedVector.hpp"

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <cstddef>
+#include <string>
 
 typedef size_t Size;
 typedef ptrdiff_t PtrDiff;
@@ -13,3 +14,5 @@ typedef unsigned long long UI64;
 
 typedef unsigned long UL;
 typedef unsigned long long ULL;
+
+typedef std::string string;

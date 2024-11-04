@@ -1,55 +1,41 @@
-#include <WSTL/utility/Hash.hpp>
+#include <iostream>
 
 #include "WSTL/WSTL.hpp"
 
 using namespace WSTL;
 
-#include <print>
+struct TestStruct
+{
+    int a;
+    std::string b;
+
+    bool operator==(const TestStruct& other) const
+    {
+        return a == other.a && b == other.b;
+    }
+
+    ::Size Hash() const
+    {
+        var hashA = WSTL::Hash(&a, sizeof(int));
+        var hashB = WSTL::Hash(b.data(), static_cast<::Size>(b.size()));
+        return hashA ^ (hashB + 0x9e3779b9 + (hashA << 6) + (hashA >> 2));
+    }
+};
 
 int main()
 {    
-    auto a = "Hello, World!";
-    auto ah = Hash(a, strlen(a));
-    std::println("(Hex) A: {:#010x}", ah);
-    std::println("(Bin) A: {:#034b}", ah);
+    var map = HashMap<TestStruct, string>();
 
-    auto b = 512;
-    auto bh = Hash(&b, sizeof(b));
-    std::println("(Hex) B: {:#010x}", bh);
-    std::println("(Bin) B: {:#034b}", bh);
-
-    auto c = 3.14159f;
-    auto ch = Hash(&c, sizeof(c));
-    std::println("(Hex) C: {:#010x}", ch);
-    std::println("(Bin) C: {:#034b}", ch);
-
-    auto d = 2.71828;
-    auto dh = Hash(&d, sizeof(d));
-    std::println("(Hex) D: {:#010x}", dh);
-    std::println("(Bin) D: {:#034b}", dh);
-
-    auto e = true;
-    auto eh = Hash(&e, sizeof(e));
-    std::println("(Hex) E: {:#010x}", eh);
-    std::println("(Bin) E: {:#034b}", eh);
-
-    auto f = 'A';
-    auto fh = Hash(&f, sizeof(f));
-    std::println("(Hex) F: {:#010x}", fh);
-    std::println("(Bin) F: {:#034b}", fh);
+    std::cout << HasCustomHash<TestStruct>::value << '\n';
     
-    struct G
-    {
-        int a;
-        float b;
-        double c;
-        bool d;
-        char e;
-    };
-    auto g = G{ 1, 2.0f, 3.0, true, 'A' };
-    auto gh = Hash(&g, sizeof(g));
-    std::println("(Hex) G: {:#010x}", gh);
-    std::println("(Bin) G: {:#034b}", gh);
+    var a = TestStruct{1, "key1"};
+    var b = TestStruct{1, "key1"};
+    
+    map.Insert(a, "value1");
+    std::cout << map.Get(b) << '\n';
+    
+    map.Get(a) = "value2";
+    std::cout << map.Get(b) << '\n';
     
     return 0;
 }

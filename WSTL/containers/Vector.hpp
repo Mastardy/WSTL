@@ -60,7 +60,7 @@ namespace WSTL
          */
         Vector(std::initializer_list<T> init) : Vector(init.size())
         {
-            for(::Size i = 0; i < init.size(); i++)
+            for (::Size i = 0; i < init.size(); i++)
             {
                 pBegin[i] = *(init.begin() + i);
             }
@@ -79,16 +79,16 @@ namespace WSTL
          */
         Vector<T>& operator=(const Vector<T>& other)
         {
-            if(this == &other) return *this;
+            if (this == &other) return *this;
 
-            Destroy();            
+            Destroy();
             Initialize(other.Size());
 
-            for(::Size i = 0; i < other.Size(); i++)
+            for (::Size i = 0; i < other.Size(); i++)
             {
                 pBegin[i] = other[i];
             }
-            
+
             return *this;
         }
 
@@ -97,7 +97,7 @@ namespace WSTL
          */
         Vector<T>& operator=(Vector<T>&& other) noexcept
         {
-            if(this == &other) return *this;
+            if (this == &other) return *this;
 
             Destruct(pBegin, pEnd);
             Destroy();
@@ -121,7 +121,7 @@ namespace WSTL
             Destroy();
             Initialize(init.size());
 
-            for(::Size i = 0; i < init.size(); i++)
+            for (::Size i = 0; i < init.size(); i++)
             {
                 pBegin[i] = *(init.begin() + i);
             }
@@ -136,7 +136,7 @@ namespace WSTL
         {
             Destroy();
             Initialize(count);
-            for(::Size i = 0; i < count; i++)
+            for (::Size i = 0; i < count; i++)
             {
                 pBegin[i] = value;
             }
@@ -148,9 +148,9 @@ namespace WSTL
         void Assign(T* first, T* last, const T& value)
         {
             CheckRangeOutOfRange(first, last);
-            if(first == last) return;
+            if (first == last) return;
 
-            while(first != last && first != pEnd)
+            while (first != last && first != pEnd)
             {
                 *first = value;
                 ++first;
@@ -165,7 +165,7 @@ namespace WSTL
             Destroy();
             Initialize(init.size());
 
-            for(::Size i = 0; i < init.size(); i++)
+            for (::Size i = 0; i < init.size(); i++)
             {
                 pBegin[i] = *(init.begin() + i);
             }
@@ -226,7 +226,7 @@ namespace WSTL
         /**
          * \brief Returns the first element of the vector
          */
-         T& Front()
+        T& Front()
         {
             return operator[](0);
         }
@@ -234,7 +234,7 @@ namespace WSTL
         /**
          * \brief Returns the first element of the vector as const
          */
-         const T& Front() const
+        const T& Front() const
         {
             return operator[](0);
         }
@@ -242,7 +242,7 @@ namespace WSTL
         /**
          * \brief Returns the last element of the vector
          */
-         T& Back()
+        T& Back()
         {
             return operator[](Size() - 1);
         }
@@ -250,7 +250,7 @@ namespace WSTL
         /**
          * \brief Returns the last element of the vector as const
          */
-         const T& Back() const
+        const T& Back() const
         {
             return operator[](Size() - 1);
         }
@@ -303,14 +303,14 @@ namespace WSTL
          */
         void PopBack()
         {
-            if(pEnd == pBegin) return;
+            if (pEnd == pBegin) return;
             Destruct(pEnd--);
         }
 
         /**
          * \brief Adds a new element at the end of the vector by constructing it in-place using the provided arguments
          */
-        template<class... Args> 
+        template <class... Args>
         T& EmplaceBack(Args&&... args)
         {
             CheckForCapacity();
@@ -324,7 +324,7 @@ namespace WSTL
          * \brief Adds a new element in the specified position of the vector by constructing it in-place using the
          * provided arguments
          */
-        template<class... Args>
+        template <class... Args>
         T* Emplace(Size index, Args&&... args)
         {
             CheckIndexOutOfRange(index);
@@ -349,7 +349,7 @@ namespace WSTL
             MoveContentsForward(insertPos);
             *insertPos = value;
             ++pEnd;
-            return insertPos;            
+            return insertPos;
         }
 
         /**
@@ -378,7 +378,7 @@ namespace WSTL
             var insertPos = pBegin + index;
             MoveContentsForward(insertPos, count);
             pEnd += count;
-            for(; insertPos != pBegin + index + count; ++insertPos)
+            for (; insertPos != pBegin + index + count; ++insertPos)
             {
                 *insertPos = value;
             }
@@ -391,14 +391,14 @@ namespace WSTL
         T* Insert(Size index, std::initializer_list<T> init)
         {
             ::Size count = init.size();
-            
+
             CheckIndexOutOfRange(index);
             CheckForCapacity(count);
 
             var insertPos = pBegin + index;
             MoveContentsForward(insertPos, count);
             pEnd += count;
-            for(::Size i = 0; i < count; i++)
+            for (::Size i = 0; i < count; i++)
             {
                 *insertPos = *(init.begin() + i);
                 ++insertPos;
@@ -412,7 +412,7 @@ namespace WSTL
         T* Erase(Size index)
         {
             CheckIndexOutOfRange(index);
-
+            
             MoveContentsBackward(pBegin + index);
             Destruct(pEnd - 1);
             --pEnd;
@@ -427,7 +427,7 @@ namespace WSTL
             CheckRangeOutOfRange(first, last);
 
             ::Size count = last - first;
-                        
+
             MoveContentsBackward(first, count);
             Destruct(pEnd - count, pEnd);
             pEnd -= count;
@@ -460,8 +460,8 @@ namespace WSTL
         void Resize(Size count)
         {
             const var oldSize = Size();
-            if(count == oldSize) return;
-            else if(count < oldSize)
+            if (count == oldSize) return;
+            else if (count < oldSize)
             {
                 Destruct(pBegin + count, pEnd);
                 pEnd = pBegin + count;
@@ -469,7 +469,7 @@ namespace WSTL
             else
             {
                 CheckForCapacity(count);
-                for(::Size i = oldSize; i < count; ++i)
+                for (::Size i = oldSize; i < count; ++i)
                 {
                     pBegin[i] = T();
                 }
@@ -483,8 +483,8 @@ namespace WSTL
         void Resize(Size count, const T& value)
         {
             var oldSize = Size();
-            if(count == oldSize) return;
-            else if(count < oldSize)
+            if (count == oldSize) return;
+            else if (count < oldSize)
             {
                 Destruct(pBegin + count, pEnd);
                 pEnd = pBegin + count;
@@ -492,9 +492,9 @@ namespace WSTL
             else
             {
                 CheckForCapacity(count);
-                for(::Size i = oldSize; i < count; ++i)
+                for (::Size i = oldSize; i < count; ++i)
                 {
-                    pBegin[i] = value; 
+                    pBegin[i] = value;
                 }
                 pEnd = pBegin + count;
             }
@@ -508,7 +508,7 @@ namespace WSTL
             T* const newBegin = new T[count];
             T* newEnd = newBegin + Size();
 
-            for(::Size i = 0; i < Size(); i++)
+            for (::Size i = 0; i < Size(); i++)
             {
                 newBegin[i] = pBegin[i];
             }
@@ -532,7 +532,7 @@ namespace WSTL
         /**
          * \brief Returns whether the vector is empty
          */
-         bool IsEmpty() const noexcept
+        bool IsEmpty() const noexcept
         {
             return Size() == 0;
         }
@@ -540,7 +540,7 @@ namespace WSTL
         /**
          * \brief Returns the number of elements in the vector
          */
-         Size Size() const noexcept
+        ::Size Size() const noexcept
         {
             return pEnd - pBegin;
         }
@@ -548,7 +548,7 @@ namespace WSTL
         /**
          * \brief Returns the current capacity of the vector
          */
-         ::Size Capacity() const noexcept
+        ::Size Capacity() const noexcept
         {
             return capacity;
         }
@@ -591,14 +591,14 @@ namespace WSTL
          */
         void Initialize(::Size count = 0)
         {
-            if(count == 0)
+            if (count == 0)
             {
                 pBegin = nullptr;
                 pEnd = nullptr;
                 capacity = 0;
                 return;
             }
-            
+
             pBegin = new T[count]();
             pEnd = pBegin + count;
             capacity = count;
@@ -621,31 +621,31 @@ namespace WSTL
         void CheckForCapacity(::Size count = 1)
         {
             const var oldSize = Size();
-            if(capacity == 0)
+            if (capacity == 0)
             {
                 SetCapacity(1);
             }
-            else if(oldSize + count - 1 >= capacity)
+            else if (oldSize + count - 1 >= capacity)
             {
                 SetCapacity(oldSize * 2 + count);
             }
         }
-        
+
         /**
          * \brief Checks if the specified index is out of range
          */
-         void CheckIndexOutOfRange(::Size index) const
+        void CheckIndexOutOfRange(::Size index) const
         {
-            if(index < 0 || index >= Size()) throw std::out_of_range("Index out of Range");
+            if (index < 0 || index >= Size()) throw std::out_of_range("Index out of Range");
         }
 
         /**
          * \brief Checks if the specified range is out of vector range
          */
-         void CheckRangeOutOfRange(const T* first, const T* last) const
+        void CheckRangeOutOfRange(const T* first, const T* last) const
         {
-            if(first > last) throw std::invalid_argument("`first` is greater than `last`");
-            if(first < pBegin || first > pEnd || last > pEnd ) throw std::out_of_range("Index out of Range");
+            if (first > last) throw std::invalid_argument("`first` is greater than `last`");
+            if (first < pBegin || first > pEnd || last > pEnd) throw std::out_of_range("Index out of Range");
         }
 
         /**
@@ -653,18 +653,18 @@ namespace WSTL
          */
         void MoveContentsBackward(const T* pos, ::Size count = 1)
         {
-            for(T* mover = pBegin + (pos - pBegin); mover != pEnd - count; ++mover)
+            for (T* mover = pBegin + (pos - pBegin); mover != pEnd - count; ++mover)
             {
                 *mover = *(mover + count);
             }
         }
-        
+
         /**
          * \brief Moves the contents of the vector forward, starting from the specified position
          */
         void MoveContentsForward(const T* pos, ::Size count = 1)
         {
-            for(var mover = pEnd + count - 1; mover != pos; --mover)
+            for (var mover = pEnd + count - 1; mover != pos; --mover)
             {
                 *mover = *(mover - count);
             }

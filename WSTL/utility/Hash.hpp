@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string.h>
+
 #include "WSTL/Defines.hpp"
 #include "WSTL/Types.hpp"
 
