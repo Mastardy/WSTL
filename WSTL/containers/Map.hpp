@@ -9,7 +9,7 @@ namespace WSTL
     template<typename Key, typename Value>
     class Map
     {
-        typedef Map<Key, Value> Self;
+        using Self = Map<Key, Value>;
         
     public:
         /**
@@ -79,7 +79,7 @@ namespace WSTL
         }
 
         /**
-         * \brief Returns the value associated with the given key
+         * \brief Returns the value associated with the given key. If the key doesn't exist, it will be created
          */
         Value& operator[](const Key& key)
         {
@@ -87,6 +87,14 @@ namespace WSTL
             if(pTemp != nullptr) return pTemp->value;
             var pNew = tree.Insert(key);
             return pNew->value;
+        }
+
+        /**
+         * \brief Returns the value associated with the given key as const
+         */
+        const Value& operator[](const Key& key) const
+        {
+            return tree.Search(key)->value;
         }
 
         /**

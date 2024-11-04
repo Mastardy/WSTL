@@ -12,14 +12,48 @@ namespace WSTL
     class HashMap
     {
     private:
+        using Self = HashMap<Key, Value>;
+        
         struct Node
         {
+        private:
+            using Self = Node<Key, Value>;
+            
+        public:
             Key key;
             Value value;
-            Node* pNext;
+            Self* pNext;
 
-            Node(const Key& key, const Value& value, Node* pNext = nullptr)
+            Node(const Key& key, const Value& value, Self* pNext = nullptr)
                 : key(key), value(value), pNext(pNext) {}
+
+            void Insert(const Key& key, const Value& value)
+            {
+                while(pNext)
+                {
+                    pNext = pNext->pNext;
+                }
+
+                pNext = new Self(key, value);
+            }
+
+            void Remove(const Key& key)
+            {
+                var pNode = this;
+                
+                while(pNode->pNext)
+                {
+                    if(pNode->pNext->key == key)
+                    {
+                        var p = pNode->pNext;
+                        pNode->pNext = pNode->pNext->pNext;
+                        delete p;
+                        return;
+                    }
+                    
+                    pNode = pNode->pNext;
+                }
+            }
         };
 
     public:
@@ -32,12 +66,12 @@ namespace WSTL
         /**
          * @brief Copy Constructor
          */
-        HashMap(const HashMap& other) : pBuckets(other.pBuckets), nElements(other.nElements), loadFactor(other.loadFactor) {}
+        HashMap(const Self& other) : pBuckets(other.pBuckets), nElements(other.nElements), loadFactor(other.loadFactor) {}
 
         /**
          * @brief Move Constructor
          */
-        HashMap(HashMap&& other) noexcept : pBuckets(std::move(other.pBuckets)), nElements(std::move(other.nElements)), loadFactor(std::move(other.loadFactor)) {}
+        HashMap(Self&& other) noexcept : pBuckets(std::move(other.pBuckets)), nElements(std::move(other.nElements)), loadFactor(std::move(other.loadFactor)) {}
 
         /**
          * @brief Destructor
@@ -50,7 +84,7 @@ namespace WSTL
         /**
          * @brief Copy Assignment Operator
          */
-        HashMap& operator=(const HashMap& other)
+        Self& operator=(const Self& other)
         {
             if(this == &other) return *this;
 
@@ -65,7 +99,7 @@ namespace WSTL
         /**
          * @brief Move Assignment Operator
          */
-        HashMap& operator=(HashMap&& other) noexcept
+        Self& operator=(Self&& other) noexcept
         {
             if(this == &other) return *this;
 
@@ -78,8 +112,28 @@ namespace WSTL
         }
 
         // Delete comparison operators because they don't have a purpose for this container
-        bool operator<=>(const HashMap& other) const = delete;
+        bool operator<=>(const Self& other) const = delete;
 
+        Size Size() const
+        {
+            var totalSize = 0;
+            for(var i = 0; i < pBuckets.Size(); i++)
+            {
+                var pNode = pBuckets[i];
+                while(pNode)
+                {
+                    totalSize++;
+                    pNode = pNode->pNext;
+                }
+            }
+            return totalSize;
+        }
+
+        bool IsEmpty() const
+        {
+            return Size() == 0;
+        }
+        
         Value& operator[](const Key& key)
         {
             return Get(key);
@@ -130,6 +184,16 @@ namespace WSTL
             }
             
             throw std::out_of_range("Key not found");
+        }
+
+        void Insert(const Key& key, const Value& value)
+        {
+            
+        }
+
+        void Insert(const Key& key, Value&& value)
+        {
+            
         }
         
         void Clear()
