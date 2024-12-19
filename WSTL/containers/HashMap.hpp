@@ -36,6 +36,9 @@ namespace WSTL
             Node(K&& key, V&& value, Self* pNext = nullptr)
                 : key(std::move(key)), value(std::move(value)), pNext(pNext) {}
 
+            /**
+             * @brief Insert a new node at the end of the linked list 
+             */
             void Insert(const K& key, const V& value)
             {
                 while (pNext)
@@ -46,6 +49,9 @@ namespace WSTL
                 pNext = new Self(key, value);
             }
 
+            /**
+             * @brief Removes the node with the given key from the linked list
+             */
             void Remove(const K& key)
             {
                 var pNode = this;
@@ -126,36 +132,60 @@ namespace WSTL
         // Delete comparison operators because they don't have a purpose for this container
         bool operator<=>(const Self& other) const = delete;
 
+        /**
+         * @brief Returns the number of elements in the HashMap
+         */
         Size Size() const
         {
             return nElements;
         }
 
+        /**
+         * @brief Returns whether the HashMap is empty or not
+         */
         bool IsEmpty() const
         {
             return nElements == 0;
         }
 
+        /**
+         * @brief Overloaded subscript operator
+         */
         Value& operator[](const Key& key)
         {
+            if (!Contains(key)) Insert(key, Value());
             return Get(key);
         }
 
+        /**
+         * @brief Overloaded const subscript operator
+         */
         const Value& operator[](const Key& key) const
         {
+            if (!Contains(key)) Insert(key, Value());
             return Get(key);
         }
 
+        /**
+         * @brief Returns the value associated with the given key
+         */
         Value& At(const Key& key)
         {
             return Get(key);
         }
-
+        
+        /**
+         * @brief Returns the value, as const, associated with the given key
+         */
         const Value& At(const Key& key) const
         {
             return Get(key);
         }
 
+        
+        /**
+         * @brief Returns the value associated with the given key
+         */
         Value& Get(const Key& key)
         {
             var index = GetIndex(key);
@@ -172,6 +202,9 @@ namespace WSTL
             throw std::out_of_range("Key not found");
         }
 
+        /**
+         * @brief Returns the value, as const, associated with the given key
+         */
         const Value& Get(const Key& key) const
         {
             var index = GetIndex(key);
@@ -187,6 +220,9 @@ namespace WSTL
             throw std::out_of_range("Key not found");
         }
 
+        /**
+         * @brief Inserts a new key-value pair into the HashMap
+         */
         void Insert(const Key& key, const Value& value)
         {
             var index = GetIndex(key);
@@ -222,6 +258,9 @@ namespace WSTL
             VerifyVectorSize();
         }
 
+        /**
+         * @brief Inserts a new key-value pair into the HashMap using move semantics
+         */
         void Insert(const Key& key, Value&& value)
         {
             var index = GetIndex(key);
@@ -258,16 +297,25 @@ namespace WSTL
             VerifyVectorSize();
         }
 
+        /**
+         * @brief Inserts a new key-value pair into the HashMap 
+         */
         void Add(const Key& key, const Value& value)
         {
             Insert(key, value);
         }
 
+        /**
+         * @brief Inserts a new key-value pair into the HashMap using move semantics
+         */
         void Add(const Key& key, Value&& value)
         {
             Insert(key, std::move(value));
         }
 
+        /**
+         * @brief Removes the key-value pair with the given key from the HashMap
+         */
         void Delete(const Key& key)
         {
             var hash = Hash(&key, sizeof(Key));
@@ -300,11 +348,17 @@ namespace WSTL
             }
         }
 
+        /**
+         * @brief Removes the key-value pair with the given key from the HashMap
+         */
         void Erase(const Key& key)
         {
             Delete(key);
         }
 
+        /**
+         * @brief Removes the key-value pair with the given key from the HashMap
+         */
         void Remove(const Key& key)
         {
             Delete(key);
@@ -326,8 +380,7 @@ namespace WSTL
 
         bool Contains(const Key& key)
         {
-            var hash = Hash(&key, sizeof(Key));
-            var index = hash % pBuckets.Size();
+            var index = GetIndex(key);
 
             if (pBuckets[index] == nullptr) return false;
 

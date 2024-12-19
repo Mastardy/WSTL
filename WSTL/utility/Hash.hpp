@@ -8,7 +8,7 @@
 namespace WSTL
 {
     /**
-     * This function returns an Hash using the MurmurHash3 algorithm.
+     * @brief This function returns an Hash using the MurmurHash3 algorithm.
      */
     static inline UI32 Hash(const void* data, UI32 length)
     {
