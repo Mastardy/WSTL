@@ -4,38 +4,29 @@
 
 using namespace WSTL;
 
-struct TestStruct
-{
-    int a;
-    std::string b;
+struct PlayerId {
+    UI32   region;
+    string tag;
 
-    bool operator==(const TestStruct& other) const
-    {
-        return a == other.a && b == other.b;
+    bool operator==(const PlayerId& o) const {
+        return region == o.region && tag == o.tag;
     }
 
-    ::Size Hash() const
-    {
-        var hashA = WSTL::Hash(&a, sizeof(int));
-        var hashB = WSTL::Hash(b.data(), static_cast<::Size>(b.size()));
-        return hashA ^ (hashB + 0x9e3779b9 + (hashA << 6) + (hashA >> 2));
+    Size Hash() const {
+        Size h1 = WSTL::Hash(&region, sizeof(UI32));
+        Size h2 = WSTL::Hash(tag.data(), static_cast<Size>(tag.size()));
+        return h1 ^ (h2 + 0x9e3779b9 + (h1 << 6) + (h1 >> 2));
     }
 };
 
-int main()
-{    
-    var map = HashMap<TestStruct, string>();
+int main() {
+    static_assert(HasCustomHash<PlayerId>::value);
 
-    std::cout << HasCustomHash<TestStruct>::value << '\n';
-    
-    var a = TestStruct{1, "key1"};
-    var b = TestStruct{1, "key1"};
-    
-    map.Insert(a, "value1");
-    std::cout << map.Get(b) << '\n';
-    
-    map.Get(a) = "value2";
-    std::cout << map.Get(b) << '\n';
-    
-    return 0;
+    HashMap<PlayerId, SharedPointer<Vector<string>>> world;
+    PlayerId hero{ 1, "ace" };
+
+    world.Insert(hero, MakeShared<Vector<string>>());
+    world.Get(hero)->PushBack("torch");
+
+    std::cout << world.Get(hero)->Size() << " item(s)\n";
 }

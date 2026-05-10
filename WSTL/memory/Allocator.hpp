@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include "WSTL/Defines.hpp"
 #include "WSTL/Types.hpp"
 
 constexpr unsigned SystemAllocatorMinAlignment = alignof(max_align_t);
@@ -24,13 +23,13 @@ namespace WSTL
 
             void* p = new char[amount + adjustedAlignment + SystemPointerSize];
             
-            var pAddress = reinterpret_cast<uintptr_t>(p);
-            var pPlusPointerSize = pAddress + SystemPointerSize;
-            var pAlignedAddress = (pPlusPointerSize + adjustedAlignment - 1) & ~(adjustedAlignment - 1);
+            auto pAddress = reinterpret_cast<uintptr_t>(p);
+            auto pPlusPointerSize = pAddress + SystemPointerSize;
+            auto pAlignedAddress = (pPlusPointerSize + adjustedAlignment - 1) & ~(adjustedAlignment - 1);
             
-            var pAligned = reinterpret_cast<void*>(pAlignedAddress);
+            auto pAligned = reinterpret_cast<void*>(pAlignedAddress);
 
-            var pStoredPointer = static_cast<void**>(pAligned) - 1;
+            auto pStoredPointer = static_cast<void**>(pAligned) - 1;
             *pStoredPointer = p;
             
             return static_cast<T*>(pAligned);

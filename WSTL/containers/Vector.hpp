@@ -1,7 +1,6 @@
 #pragma once
 
 #include "WSTL/memory/Memory.hpp"
-#include "WSTL/Defines.hpp"
 #include "WSTL/Types.hpp"
 #include <stdexcept>
 
@@ -316,7 +315,7 @@ namespace WSTL
             CheckForCapacity();
 
             *pEnd = T(std::forward<Args>(args)...);
-            var emplacePos = pEnd++;
+            auto emplacePos = pEnd++;
             return *emplacePos;
         }
 
@@ -330,7 +329,7 @@ namespace WSTL
             CheckIndexOutOfRange(index);
             CheckForCapacity();
 
-            var emplacePos = pBegin + index;
+            auto emplacePos = pBegin + index;
             MoveContentsForward(emplacePos);
             *emplacePos = T(std::forward<Args>(args)...);
             ++pEnd;
@@ -345,7 +344,7 @@ namespace WSTL
             CheckIndexOutOfRange(index);
             CheckForCapacity();
 
-            var insertPos = pBegin + index;
+            auto insertPos = pBegin + index;
             MoveContentsForward(insertPos);
             *insertPos = value;
             ++pEnd;
@@ -360,7 +359,7 @@ namespace WSTL
             CheckIndexOutOfRange(index);
             CheckForCapacity();
 
-            var insertPos = pBegin + index;
+            auto insertPos = pBegin + index;
             MoveContentsForward(insertPos);
             ++pEnd;
             *insertPos = std::move(value);
@@ -375,7 +374,7 @@ namespace WSTL
             CheckIndexOutOfRange(index);
             CheckForCapacity(count);
 
-            var insertPos = pBegin + index;
+            auto insertPos = pBegin + index;
             MoveContentsForward(insertPos, count);
             pEnd += count;
             for (; insertPos != pBegin + index + count; ++insertPos)
@@ -395,7 +394,7 @@ namespace WSTL
             CheckIndexOutOfRange(index);
             CheckForCapacity(count);
 
-            var insertPos = pBegin + index;
+            auto insertPos = pBegin + index;
             MoveContentsForward(insertPos, count);
             pEnd += count;
             for (::Size i = 0; i < count; i++)
@@ -459,7 +458,7 @@ namespace WSTL
          */
         void Resize(Size count)
         {
-            const var oldSize = Size();
+            const auto oldSize = Size();
             if (count == oldSize) return;
             else if (count < oldSize)
             {
@@ -482,7 +481,7 @@ namespace WSTL
          */
         void Resize(Size count, const T& value)
         {
-            var oldSize = Size();
+            auto oldSize = Size();
             if (count == oldSize) return;
             else if (count < oldSize)
             {
@@ -620,7 +619,7 @@ namespace WSTL
          */
         void CheckForCapacity(::Size count = 1)
         {
-            const var oldSize = Size();
+            const auto oldSize = Size();
             if (capacity == 0)
             {
                 SetCapacity(1);
@@ -664,7 +663,7 @@ namespace WSTL
          */
         void MoveContentsForward(const T* pos, ::Size count = 1)
         {
-            for (var mover = pEnd + count - 1; mover != pos; --mover)
+            for (auto mover = pEnd + count - 1; mover != pos; --mover)
             {
                 *mover = *(mover - count);
             }

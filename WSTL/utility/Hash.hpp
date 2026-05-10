@@ -2,7 +2,6 @@
 
 #include <string.h>
 
-#include "WSTL/Defines.hpp"
 #include "WSTL/Types.hpp"
 
 namespace WSTL
@@ -12,7 +11,7 @@ namespace WSTL
      */
     static inline UI32 Hash(const void* data, UI32 length)
     {
-        var Scramble = [](UI32 key)
+        auto Scramble = [](UI32 key)
         {
             key *= 0xcc9e2d51;
             key = (key << 15) | (key >> 17);
@@ -20,7 +19,7 @@ namespace WSTL
             return key;
         };
         
-        var key = static_cast<const UI8*>(data);
+        auto key = static_cast<const UI8*>(data);
         UI32 seed = 0;
         UI32 k = 0;
 

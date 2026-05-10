@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include "WSTL/Defines.hpp"
 #include "WSTL/containers/Vector.hpp"
 #include "WSTL/containers/trees/RBTree.hpp"
 
@@ -83,9 +82,9 @@ namespace WSTL
          */
         Value& operator[](const Key& key)
         {
-            var pTemp = tree.Search(key);
+            auto pTemp = tree.Search(key);
             if(pTemp != nullptr) return pTemp->value;
-            var pNew = tree.Insert(key);
+            auto pNew = tree.Insert(key);
             return pNew->value;
         }
 
@@ -183,7 +182,7 @@ namespace WSTL
         */
         Value& Get(const Key& key)
         {
-            var pTemp = tree.Search(key);
+            auto pTemp = tree.Search(key);
             if(pTemp == nullptr) throw std::out_of_range("Key not found");
             return pTemp->value;
         }

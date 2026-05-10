@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include "WSTL/Defines.hpp"
 #include "WSTL/utility/Utility.hpp"
 #include "WSTL/memory/SharedPointer.hpp"
 
@@ -130,7 +129,7 @@ namespace WSTL
          */
         void Swap(Self& other) noexcept
         {
-            var temp = pRefCounter;
+            auto temp = pRefCounter;
             pRefCounter = other.pRefCounter;
             other.pRefCounter = temp;
 

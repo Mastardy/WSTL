@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include <algorithm>
-#include "WSTL/Defines.hpp"
 #include "WSTL/containers/trees/BinaryHeap.hpp"
 
 namespace WSTL
@@ -22,7 +21,7 @@ namespace WSTL
         template <class Container>
         PriorityQueue(const Container& container)
         {
-            for (var& value : container)
+            for (auto & value : container)
             {
                 tree.Insert(value);
             }
@@ -33,7 +32,7 @@ namespace WSTL
          */
         PriorityQueue(std::initializer_list<Value> list)
         {
-            for(var& value : list)
+            for(auto & value : list)
             {
                 tree.Insert(value);
             }
@@ -71,7 +70,7 @@ namespace WSTL
         PriorityQueue& operator=(const Container& container)
         {
             tree.Clear();
-            for (var& value : container)
+            for (auto & value : container)
             {
                 tree.Insert(value);
             }
@@ -84,7 +83,7 @@ namespace WSTL
         PriorityQueue& operator=(std::initializer_list<Value> list)
         {
             tree.Clear();
-            for (var& value : list)
+            for (auto & value : list)
             {
                 tree.Insert(value);
             }

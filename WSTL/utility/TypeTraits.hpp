@@ -45,7 +45,7 @@ namespace WSTL
      * @brief Returns Type1 if Test is true, otherwise returns Type2
      */
     template <bool Test, class Type1, class Type2>
-    using ConditionalT = typename Conditional<Test, Type1, Type2>::type;
+    using ConditionalT = Conditional<Test, Type1, Type2>::type;
 
 #pragma endregion
 
@@ -64,7 +64,7 @@ namespace WSTL
      * @brief Enable Type if Test is true
      */
     template <bool Test, class Type = void>
-    using EnableIfT = typename EnableIf<Test, Type>::type;
+    using EnableIfT = EnableIf<Test, Type>::type;
     
 #pragma endregion
 

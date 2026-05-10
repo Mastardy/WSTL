@@ -3,7 +3,6 @@
 #include <filesystem>
 #include <stdexcept>
 
-#include "WSTL/Defines.hpp"
 #include "WSTL/memory/Memory.hpp"
 #include "WSTL/Types.hpp"
 
@@ -290,7 +289,7 @@ namespace WSTL
             CheckIndexOutOfRange(index);
             CheckForCapacity();
 
-            var pEmplace = pBegin + index;
+            auto pEmplace = pBegin + index;
             MoveContentsForward(pEmplace);
             *pEmplace = T(std::forward<Args>(args)...);
             ++pEnd;
@@ -305,7 +304,7 @@ namespace WSTL
             CheckIndexOutOfRange(index);
             CheckForCapacity();
 
-            var pInsert = pBegin + index;
+            auto pInsert = pBegin + index;
             MoveContentsForward(pInsert);
             *pInsert = value;
             ++pEnd;
@@ -320,7 +319,7 @@ namespace WSTL
             CheckIndexOutOfRange(index);
             CheckForCapacity();
 
-            var pInsert = pBegin + index;
+            auto pInsert = pBegin + index;
             MoveContentsForward(pInsert);
             *pInsert = std::move(value);
             ++pEnd;
@@ -335,9 +334,9 @@ namespace WSTL
             CheckIndexOutOfRange(index);
             CheckForCapacity(count);
 
-            var insertPos = pBegin + index;
+            auto insertPos = pBegin + index;
             MoveContentsForward(insertPos, count);
-            for(var pTemp = insertPos; pTemp != pBegin + index + count; ++pTemp)
+            for(auto pTemp = insertPos; pTemp != pBegin + index + count; ++pTemp)
             {
                 *pTemp = value;
             }
@@ -350,12 +349,12 @@ namespace WSTL
          */
         T* Insert(Size index, std::initializer_list<T> init)
         {
-            var count = init.size();
+            auto count = init.size();
             
             CheckIndexOutOfRange(index);
             CheckForCapacity(count);
 
-            var insertPos = pBegin + index;
+            auto insertPos = pBegin + index;
             MoveContentsForward(insertPos, count);
             pEnd += count;
             for(::Size i = 0; i < count; i++)
@@ -386,7 +385,7 @@ namespace WSTL
         {
             CheckRangeOutOfRange(first, last);
 
-            var count = last - first;
+            auto count = last - first;
 
             MoveContentsBackward(first, count);
             Destruct(pEnd - count, pEnd);
@@ -528,7 +527,7 @@ namespace WSTL
          */
         void MoveContentsForward(const T* pos, ::Size count = 1)
         {
-            for(var mover = pEnd + count - 1; mover != pos; --mover)
+            for(auto mover = pEnd + count - 1; mover != pos; --mover)
             {
                 *mover = *(mover - count);
             }

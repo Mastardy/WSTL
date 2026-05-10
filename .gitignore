@@ -19,3 +19,5 @@ x64/
 WSTL.sln.DotSettings.user
 
 *.user
+
+vcpkg_installed/

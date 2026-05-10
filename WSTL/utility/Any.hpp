@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include <typeinfo>
 
-#include "WSTL/Defines.hpp"
 #include "WSTL/memory/Memory.hpp"
 
 namespace WSTL
@@ -110,7 +109,7 @@ namespace WSTL
         template<typename T>
         T& Cast()
         {
-            var* derived = dynamic_cast<Derived<T>*>(data);
+            auto* derived = dynamic_cast<Derived<T>*>(data);
             if(derived == nullptr) throw std::bad_cast();
             return derived->data;
         }
@@ -121,7 +120,7 @@ namespace WSTL
         template<typename T>
         const T& Cast() const
         {
-            var* derived = dynamic_cast<Derived<T>*>(data);
+            auto* derived = dynamic_cast<Derived<T>*>(data);
             if(derived == nullptr) throw std::bad_cast();
             return derived->data;
         }

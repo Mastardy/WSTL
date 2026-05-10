@@ -1,7 +1,5 @@
 ﻿#pragma once
 
-#include "WSTL/Defines.hpp"
-
 namespace WSTL
 {
     template<typename T1, typename T2>
@@ -68,7 +66,7 @@ namespace WSTL
         /**
          * \brief Spaceship Operator
          */
-        var operator<=>(const Pair& p2) const = default;
+        auto operator<=>(const Pair& p2) const = default;
         
         ~Pair() = default;
     };

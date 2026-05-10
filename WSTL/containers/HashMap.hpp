@@ -1,6 +1,5 @@
 #pragma once
 
-#include "WSTL/Defines.hpp"
 #include "WSTL/utility/Hash.hpp"
 
 #include "WSTL/containers/Vector.hpp"
@@ -54,13 +53,13 @@ namespace WSTL
              */
             void Remove(const K& key)
             {
-                var pNode = this;
+                auto pNode = this;
 
                 while (pNode->pNext)
                 {
                     if (pNode->pNext->key == key)
                     {
-                        var p = pNode->pNext;
+                        auto p = pNode->pNext;
                         pNode->pNext = pNode->pNext->pNext;
                         delete p;
                         return;
@@ -188,9 +187,9 @@ namespace WSTL
          */
         Value& Get(const Key& key)
         {
-            var index = GetIndex(key);
+            auto index = GetIndex(key);
             
-            var pNode = pBuckets[index];
+            auto pNode = pBuckets[index];
 
             while (pNode)
             {
@@ -207,8 +206,8 @@ namespace WSTL
          */
         const Value& Get(const Key& key) const
         {
-            var index = GetIndex(key);
-            var pNode = pBuckets[index];
+            auto index = GetIndex(key);
+            auto pNode = pBuckets[index];
 
             while (pNode)
             {
@@ -225,16 +224,16 @@ namespace WSTL
          */
         void Insert(const Key& key, const Value& value)
         {
-            var index = GetIndex(key);
+            auto index = GetIndex(key);
             
-            var pNode = pBuckets[index];
+            auto pNode = pBuckets[index];
             if (pNode == nullptr)
             {
                 pBuckets[index] = new Node(key, value);
                 return;
             }
 
-            var found = false;
+            auto found = false;
 
             while (pNode)
             {
@@ -263,9 +262,9 @@ namespace WSTL
          */
         void Insert(const Key& key, Value&& value)
         {
-            var index = GetIndex(key);
+            auto index = GetIndex(key);
             
-            var pNode = pBuckets[index];
+            auto pNode = pBuckets[index];
             
             if (pNode == nullptr)
             {
@@ -273,7 +272,7 @@ namespace WSTL
                 return;
             }
 
-            var found = false;
+            auto found = false;
 
             while (pNode)
             {
@@ -318,10 +317,10 @@ namespace WSTL
          */
         void Delete(const Key& key)
         {
-            var hash = Hash(&key, sizeof(Key));
-            var index = hash % pBuckets.Size();
+            auto hash = Hash(&key, sizeof(Key));
+            auto index = hash % pBuckets.Size();
 
-            var pNode = pBuckets[index];
+            auto pNode = pBuckets[index];
 
             if (pNode == nullptr) return;
 
@@ -337,7 +336,7 @@ namespace WSTL
                 {
                     if (pNode->pNext->key == key)
                     {
-                        var p = pNode->pNext;
+                        auto p = pNode->pNext;
                         pNode->pNext = pNode->pNext->pNext;
                         delete p;
                         nElements--;
@@ -380,11 +379,11 @@ namespace WSTL
 
         bool Contains(const Key& key)
         {
-            var index = GetIndex(key);
+            auto index = GetIndex(key);
 
             if (pBuckets[index] == nullptr) return false;
 
-            var pNode = pBuckets[index];
+            auto pNode = pBuckets[index];
             while (pNode)
             {
                 if (pNode->key == key)
@@ -403,9 +402,9 @@ namespace WSTL
         {
             Vector<const Key> keys;
 
-            for (var i = 0; i < pBuckets.Size(); i++)
+            for (auto i = 0; i < pBuckets.Size(); i++)
             {
-                var pNode = pBuckets[i];
+                auto pNode = pBuckets[i];
                 while (pNode)
                 {
                     keys.PushBack(pNode->key);
@@ -420,9 +419,9 @@ namespace WSTL
         {
             Vector<const Value> values;
 
-            for (var i = 0; i < pBuckets.Size(); i++)
+            for (auto i = 0; i < pBuckets.Size(); i++)
             {
-                var pNode = pBuckets[i];
+                auto pNode = pBuckets[i];
                 while (pNode)
                 {
                     values.PushBack(pNode->value);
@@ -462,19 +461,19 @@ namespace WSTL
         {
             if (Size() < static_cast<::Size>(static_cast<float>(pBuckets.Size()) * loadFactor)) return;
 
-            var newCapacity = pBuckets.Size() * 2;
+            auto newCapacity = pBuckets.Size() * 2;
             Vector<Node<Key, Value>*> newBuckets(newCapacity);
 
             for (::Size i = 0; i < pBuckets.Size(); i++)
             {
-                var pNode = pBuckets[i];
+                auto pNode = pBuckets[i];
 
                 while (pNode)
                 {
-                    var pNext = pNode->pNext;
+                    auto pNext = pNode->pNext;
                     pNode->pNext = nullptr;
 
-                    var newIndex = Hash(pNode->key) % newCapacity;
+                    auto newIndex = Hash(pNode->key) % newCapacity;
 
                     if (newBuckets[newIndex] == nullptr)
                     {
@@ -482,7 +481,7 @@ namespace WSTL
                     }
                     else
                     {
-                        var pTemp = newBuckets[newIndex];
+                        auto pTemp = newBuckets[newIndex];
                         while (pTemp->pNext)
                         {
                             pTemp = pTemp->pNext;
